@@ -1,0 +1,30 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamBuilder", "TeamBuilder\TeamBuilder.csproj", "{EDEEB37C-1D3D-46CC-3729-FCE9A2BDF8F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamBuilder.Core", "TeamBuilder.Core\TeamBuilder.Core.csproj", "{D7B8D419-E776-4BEF-ABBA-B1E2BC0E1713}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDEEB37C-1D3D-46CC-3729-FCE9A2BDF8F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEEB37C-1D3D-46CC-3729-FCE9A2BDF8F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDEEB37C-1D3D-46CC-3729-FCE9A2BDF8F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEEB37C-1D3D-46CC-3729-FCE9A2BDF8F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B8D419-E776-4BEF-ABBA-B1E2BC0E1713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7B8D419-E776-4BEF-ABBA-B1E2BC0E1713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7B8D419-E776-4BEF-ABBA-B1E2BC0E1713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7B8D419-E776-4BEF-ABBA-B1E2BC0E1713}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DF33AA4-E31B-4780-88B7-B79A2100DAF2}
+	EndGlobalSection
+EndGlobal
