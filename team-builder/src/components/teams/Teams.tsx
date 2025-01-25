@@ -14,7 +14,7 @@ export const Teams: FunctionComponent = () => {
         return <LoadingSpinner />
     }
 
-    const selectedPlayers = [...playerState.players
+    const selectedPlayers = [...playerState.players.items
         .filter(p => playerState.selected.find(s => p.id === s) !== undefined)];
 
     const shuffle = (array: Player[]) => {

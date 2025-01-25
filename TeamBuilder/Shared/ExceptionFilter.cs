@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using TeamBuilder.Core.Exceptions;
@@ -31,6 +32,18 @@ public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IActionFilter, I
             {
                 StatusCode = (int)HttpStatusCode.NotFound
             };
+            context.ExceptionHandled = true;
+        }
+
+        if (context.Exception is InvalidPaginationException
+            or IndexOutOfRangeException
+            or JsonException)
+        {
+            context.Result = new ObjectResult(context.Exception.Message)
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
+
             context.ExceptionHandled = true;
         }
 

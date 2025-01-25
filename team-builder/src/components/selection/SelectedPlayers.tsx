@@ -10,11 +10,11 @@ export const SelectedPlayers: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
 
     if (playerState.players === null) {
-        dispatch(loadPlayersRequest({group: null}));
+        dispatch(loadPlayersRequest({page: 1, count: 100, group: null}));
         return <LoadingSpinner/>
     }
 
-    const selectedPlayers = playerState.players
+    const selectedPlayers = playerState.players.items
         .filter(p => playerState.selected.find(s => p.id === s) !== undefined);
 
     const clearSelected = () => {

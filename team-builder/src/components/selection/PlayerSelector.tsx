@@ -11,7 +11,7 @@ export const PlayerSelector: FunctionComponent = () => {
         return <LoadingSpinner/>
     }
 
-    const availablePlayers = playerState.players
+    const availablePlayers = playerState.players.items
         .filter(p => playerState.selected.find(s => p.id === s) === undefined)
         .filter(p => filter === '' ? true : p.name.toLowerCase().includes(filter.toLowerCase()))
     

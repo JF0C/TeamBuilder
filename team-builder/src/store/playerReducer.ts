@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Player } from "../data/player";
 import { loadPlayersRequest } from "../thunks/playerThunk";
+import { PagedResult } from "../dtos/PagedResult";
 
 export interface PlayerState {
-    players: Player[] | null
+    players: PagedResult<Player> | null
     selected: number[]
     teamCount: number
 }

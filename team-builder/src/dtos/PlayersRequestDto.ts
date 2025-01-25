@@ -1,3 +1,5 @@
 export type PlayersRequestDto = {
-    group: string | null
+    page: number
+    count: number
+    group: number | null
 }
