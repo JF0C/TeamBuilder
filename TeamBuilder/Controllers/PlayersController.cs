@@ -15,6 +15,11 @@ public class PlayersController: BaseController
         {
             new()
             {
+                Id = 0,
+                Name = "Blabla"
+            },
+            new()
+            {
                 Id = 1,
                 Name = "Jan"
             },

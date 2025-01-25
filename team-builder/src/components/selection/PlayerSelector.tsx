@@ -1,10 +1,15 @@
 import { FunctionComponent, useState } from "react";
 import { useAppSelector } from "../../store/store";
 import { PlayerItem } from "./PlayerItem";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
 
 export const PlayerSelector: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const [filter, setFilter] = useState<string>('');
+
+    if (playerState.players === null) {
+        return <LoadingSpinner/>
+    }
 
     const availablePlayers = playerState.players
         .filter(p => playerState.selected.find(s => p.id === s) === undefined)

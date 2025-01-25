@@ -1,4 +1,4 @@
-namespace TourViewer.Extensions;
+namespace TeamBuilder.Extensions;
 
 public static class SpaExtensions
 {

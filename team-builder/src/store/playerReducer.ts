@@ -1,55 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Player } from "../data/player";
+import { loadPlayersRequest } from "../thunks/playerThunk";
 
 export interface PlayerState {
-    players: Player[]
+    players: Player[] | null
     selected: number[]
     teamCount: number
 }
 
 export const initialState: PlayerState = {
-    players: [
-        {
-            id: 1,
-            name: 'Jan'
-        },
-        {
-            id: 2,
-            name: 'Alex'
-        },
-        {
-            id: 3,
-            name: 'Maxi'
-        },
-        {
-            id: 4,
-            name: 'Dora'
-        },
-        {
-            id: 5,
-            name: 'Aileen'
-        },
-        {
-            id: 6,
-            name: 'Phil'
-        },
-        {
-            id: 7,
-            name: 'Michi'
-        },
-        {
-            id: 8,
-            name: 'Georg'
-        },
-        {
-            id: 9,
-            name: 'Marina'
-        },
-        {
-            id: 10,
-            name: 'Ari'
-        }
-    ],
+    players: null,
     selected: [],
     teamCount: 2
 }
@@ -66,12 +26,21 @@ export const playerSlice = createSlice({
         },
         deselectPlayer(state, action: PayloadAction<number>) {
             state.selected = state.selected.filter(x => x !== action.payload);
+        },
+        clearSelectedPlayers(state) {
+            state.selected = [];
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(loadPlayersRequest.fulfilled, (state, action) => {
+            state.players = action.payload;
+        })
     }
 })
 
 export const playerReducer = playerSlice.reducer;
 export const {
     selectPlayer,
-    deselectPlayer
+    deselectPlayer,
+    clearSelectedPlayers
 } = playerSlice.actions;

@@ -13,7 +13,7 @@ export const TeamView: FunctionComponent<TeamViewProps> = (props) => {
         <div>
             {props.name}
         </div>
-        <div className="flex flex-row flex-wrap gap-2">
+        <div className="flex flex-row flex-wrap gap-2 justify-center">
             {
                 props.players.map((p) => <PlayerItem key={`team-player-${p.id}`} player={p} />) 
             }
