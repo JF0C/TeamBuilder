@@ -1,10 +1,10 @@
 import { FunctionComponent } from "react";
-import { Player } from "../../data/player";
+import { PlayerDto } from "../../dtos/PlayerDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { deselectPlayer, selectPlayer } from "../../store/playerReducer";
 
 export type PlayerItemProps = {
-    player: Player
+    player: PlayerDto
 }
 
 export const PlayerItem: FunctionComponent<PlayerItemProps> = (props) => {

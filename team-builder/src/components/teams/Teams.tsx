@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import { useAppSelector } from "../../store/store";
-import { Player } from "../../data/player";
+import { PlayerDto } from "../../dtos/PlayerDto";
 import { TeamView } from "./TeamView";
 import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
@@ -8,16 +8,16 @@ import { LoadingSpinner } from "../shared/LoadingSpinner";
 
 export const Teams: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
-    const [teams, setTeams] = useState<Player[][] | null>(null)
+    const [teams, setTeams] = useState<PlayerDto[][] | null>(null)
 
-    if (playerState.players === null) {
+    if (playerState.players === null || playerState.loading) {
         return <LoadingSpinner />
     }
 
     const selectedPlayers = [...playerState.players.items
         .filter(p => playerState.selected.find(s => p.id === s) !== undefined)];
 
-    const shuffle = (array: Player[]) => {
+    const shuffle = (array: PlayerDto[]) => {
         let currentIndex = array.length;
 
         while (currentIndex != 0) {
@@ -29,10 +29,10 @@ export const Teams: FunctionComponent = () => {
         }
     }
 
-    const generateTeams = (selectedPlayers: Player[]): Player[][] => {
+    const generateTeams = (selectedPlayers: PlayerDto[]): PlayerDto[][] => {
         shuffle(selectedPlayers);
 
-        const teams: Player[][] = [];
+        const teams: PlayerDto[][] = [];
         const selectedCount = selectedPlayers.length;
         const teamSize = Math.ceil(selectedCount / playerState.teamCount);
         for (let k = 0; k < playerState.teamCount; k++) {
@@ -64,10 +64,8 @@ export const Teams: FunctionComponent = () => {
                         Back
                     </NavLink>
                 </div>
-                <div>
-                    <a onClick={() => setTeams(generateTeams(selectedPlayers))}>
-                        Again
-                    </a>
+                <div className="button" onClick={() => setTeams(generateTeams(selectedPlayers))}>
+                    Again
                 </div>
             </div>
         </div>

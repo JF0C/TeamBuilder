@@ -27,7 +27,7 @@ export const SelectedPlayers: FunctionComponent = () => {
                 Selected ({selectedPlayers.length.toString()})
             </div>
             <div className="w-full">
-                <div onClick={clearSelected}>
+                <div className="button" onClick={clearSelected}>
                     Clear
                 </div>
             </div>

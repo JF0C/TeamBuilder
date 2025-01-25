@@ -1,4 +1,4 @@
-export type Player = {
+export type PlayerDto = {
     id: number,
     name: string
 }

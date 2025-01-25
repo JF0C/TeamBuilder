@@ -1,10 +1,10 @@
 import { FunctionComponent } from "react";
-import { Player } from "../../data/player";
+import { PlayerDto } from "../../dtos/PlayerDto";
 import { PlayerItem } from "../selection/PlayerItem";
 
 export type TeamViewProps = {
     name: string
-    players: Player[]
+    players: PlayerDto[]
 }
 
 export const TeamView: FunctionComponent<TeamViewProps> = (props) => {
