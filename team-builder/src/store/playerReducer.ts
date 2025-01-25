@@ -41,6 +41,9 @@ export const playerSlice = createSlice({
         },
         setEditingPlayer(state, action: PayloadAction<PlayerDto|null>) {
             state.editingPlayer = action.payload;
+        },
+        setGroup(state, action: PayloadAction<GroupDto | null>) {
+            state.group = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -81,5 +84,6 @@ export const {
     selectPlayer,
     deselectPlayer,
     clearSelectedPlayers,
-    setEditingPlayer
+    setEditingPlayer,
+    setGroup
 } = playerSlice.actions;

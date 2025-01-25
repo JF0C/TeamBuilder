@@ -1,21 +1,20 @@
 import { FunctionComponent, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { createPlayerRequest, loadPlayersRequest } from "../../thunks/playerThunk";
+import { createGroupRequest, loadGroupsRequest } from "../../thunks/groupThunk";
 
-export const CreatePlayerItem: FunctionComponent = () => {
-    const dispatch = useAppDispatch();
-    const playerState = useAppSelector((state) => state.players);
+export const CreateGroupItem: FunctionComponent = () => {
+     const dispatch = useAppDispatch();
+    const groupState = useAppSelector((state) => state.groups);
     const [name, setName] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const createPlayer = () => {
-        dispatch(createPlayerRequest({name: name}))
+    const createGroup = () => {
+        dispatch(createGroupRequest({name: name}))
             .unwrap()
             .then(() => {
-                dispatch(loadPlayersRequest({
-                    page: playerState.players?.page ?? 1,
-                    count: playerState.players?.count ?? 100,
-                    group: null
+                dispatch(loadGroupsRequest({
+                    page: groupState.groups?.page ?? 1,
+                    count: groupState.groups?.count ?? 100
                 }));
                 if (inputRef.current) {
                     inputRef.current.value = '';
@@ -32,12 +31,12 @@ export const CreatePlayerItem: FunctionComponent = () => {
         if (e.keyCode !== 13) {
             return;
         }
-        createPlayer();
+        createGroup();
     }
 
     return <div className="flex flex-row gap-2 justify-center border-2 rounded-md px-2">
-        <input style={{width: '150px'}} ref={inputRef} 
-            placeholder="new player" onKeyDown={createOnEnter} onInput={onInput} />
-        <div className="button" onClick={createPlayer}>Create</div>
+        <input style={{width: '150px'}} ref={inputRef}
+            placeholder="new group" onKeyDown={createOnEnter} onInput={onInput} />
+        <div className="button" onClick={createGroup}>Create</div>
     </div>
 }

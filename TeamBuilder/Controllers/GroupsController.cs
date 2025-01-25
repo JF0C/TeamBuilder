@@ -20,7 +20,7 @@ public class GroupsController(IGroupsRepository groupsRepository, IMapper mapper
     }
 
     [HttpPost]
-    public async Task<ActionResult<long>> CreateGroup(string name)
+    public async Task<ActionResult<long>> CreateGroup([FromBody] string name)
     {
         return Ok(await groupsRepository.CreateAsync(name));
     }

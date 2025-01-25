@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { setEditingPlayer } from "../../store/playerReducer";
+import { deletePlayerRequest, loadPlayersRequest } from "../../thunks/playerThunk";
 
 export const EditPlayer: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -14,6 +15,19 @@ export const EditPlayer: FunctionComponent = () => {
         dispatch(setEditingPlayer(null));
     }
 
+    const deletePlayer = () => {
+        dispatch(deletePlayerRequest({id: editingPlayer.id}))
+            .unwrap()
+            .then(() => {
+                dispatch(loadPlayersRequest({
+                    page: playerState.players?.page ?? 1,
+                    count: playerState.players?.count ?? 100,
+                    group: playerState.group?.id ?? null
+                }))
+                dispatch(setEditingPlayer(null))
+            })
+    }
+
     return <div style={{minWidth: '200px'}} className="pb-4">
         <div className="flex flex-row justify-between">
             <div>{editingPlayer.id}</div>
@@ -21,7 +35,7 @@ export const EditPlayer: FunctionComponent = () => {
             <div onClick={deselectPlayer} className="button">X</div>
         </div>
         <div>
-            <div className="button">Delete</div>
+            <div className="button" onClick={deletePlayer}>Delete</div>
         </div>
     </div>
 }
