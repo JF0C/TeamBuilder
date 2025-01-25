@@ -8,12 +8,12 @@ export const PlayerManagement: FunctionComponent = () => {
     const editingPlayer = useAppSelector((state) => state.players.editingPlayer !== null);
 
     return <div className="flex flex-col w-full h-full p-4">
-        <div className="flex flex-row w-full flex-1 flex-wrap">
-            <div className="w-1/2">
-                <PlayerList />
-            </div>
-            <div className={`${editingPlayer ? 'w-1/2' : ''}`}>
+        <div className="flex flex-col w-full flex-1 flex-wrap md:flex-row-reverse">
+            <div className="md:w-1/2">
                 <EditPlayer />
+            </div>
+            <div className={`${editingPlayer ? 'md:w-1/2' : ''}`}>
+                <PlayerList />
             </div>
         </div>
         <div className="w-full">

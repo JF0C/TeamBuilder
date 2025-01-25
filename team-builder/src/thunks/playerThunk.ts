@@ -9,7 +9,10 @@ export const loadPlayersRequest = createGetThunk<PagedResult<PlayerDto>, Players
     (request) => `${ApiUrls.BaseUrl + ApiUrls.PlayersEndpoint}?page=${request.page}&count=${request.count}${
         request.group === null ? '' : '&group=' + request.group
     }`,
-    (response) => response.json()
+    async (response) => {
+        const result = await response.json();
+        return result;
+    }
 )
 
 export const createPlayerRequest = createPostThunk<number, {name: string}>(

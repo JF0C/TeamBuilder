@@ -12,7 +12,7 @@ export const PlayerListItem: FunctionComponent<{player: PlayerDto}> = ({player})
         dispatch(setEditingPlayer(player))
     }
 
-    return <div className={`${isSelected ? 'highlighted' : ''}`} onClick={selectPlayer}>
+    return <div className={`${isSelected ? 'highlighted' : ''} rounded-md`} onClick={selectPlayer}>
         {player.name}
     </div>
 }

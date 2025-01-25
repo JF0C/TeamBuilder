@@ -3,6 +3,7 @@ import { PlayerDto } from "../dtos/PlayerDto";
 import { createPlayerRequest, loadPlayersRequest } from "../thunks/playerThunk";
 import { PagedResult } from "../dtos/PagedResult";
 import { GroupDto } from "../dtos/GroupDto";
+import { enqueueSnackbar } from "notistack";
 
 export interface PlayerState {
     loading: boolean;
@@ -51,8 +52,15 @@ export const playerSlice = createSlice({
             state.players.count = action.meta.arg.count;
             state.loading = false;
         })
-        builder.addCase(loadPlayersRequest.rejected, (state) => {
+        builder.addCase(loadPlayersRequest.rejected, (state, action) => {
             state.loading = false;
+            state.players = {
+                page: action.meta.arg.page,
+                totalItems: 0,
+                totalPages: 0,
+                items: []
+            }
+            enqueueSnackbar(`failed to load players ${action.error.message}`, { variant: 'error' });
         })
 
         builder.addCase(createPlayerRequest.pending, (state) => {
@@ -63,6 +71,7 @@ export const playerSlice = createSlice({
         })
         builder.addCase(createPlayerRequest.rejected, (state) => {
             state.loading = false;
+            enqueueSnackbar(`failed to create player`, { variant: 'error' });
         })
     }
 })

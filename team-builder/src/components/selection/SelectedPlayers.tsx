@@ -3,14 +3,12 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { PlayerItem } from "./PlayerItem";
 import { clearSelectedPlayers } from "../../store/playerReducer";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
-import { loadPlayersRequest } from "../../thunks/playerThunk";
 
 export const SelectedPlayers: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
 
-    if (playerState.players === null) {
-        dispatch(loadPlayersRequest({page: 1, count: 100, group: null}));
+    if (playerState.loading || playerState.players === null) {
         return <LoadingSpinner/>
     }
 

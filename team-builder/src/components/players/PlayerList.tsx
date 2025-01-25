@@ -10,7 +10,9 @@ export const PlayerList: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
 
     if (playerState.players === null) {
-        dispatch(loadPlayersRequest({page: 1, count: 100, group: null}))
+        if (!playerState.loading) {
+            dispatch(loadPlayersRequest({page: 1, count: 100, group: null}))
+        }
         return <LoadingSpinner />
     }
 

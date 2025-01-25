@@ -14,7 +14,7 @@ export const EditPlayer: FunctionComponent = () => {
         dispatch(setEditingPlayer(null));
     }
 
-    return <div style={{minWidth: '200px'}}>
+    return <div style={{minWidth: '200px'}} className="pb-4">
         <div className="flex flex-row justify-between">
             <div>{editingPlayer.id}</div>
             <div>{editingPlayer.name}</div>

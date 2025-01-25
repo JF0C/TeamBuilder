@@ -15,7 +15,7 @@ public static class CorsExtensions
                         .AllowAnyMethod()
                         .AllowCredentials();
 
-                    policy.WithOrigins("http://localhost:5174")
+                    policy.WithOrigins("http://localhost:5173")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

@@ -7,7 +7,7 @@ export const PlayerSelector: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const [filter, setFilter] = useState<string>('');
 
-    if (playerState.players === null) {
+    if (playerState.players === null || playerState.loading) {
         return <LoadingSpinner/>
     }
 

@@ -5,10 +5,12 @@ import { PlayerSelection } from './components/selection/PlayerSelection'
 import { MainMenu } from './components/start/MainMenu'
 import { Teams } from './components/teams/Teams'
 import { PlayerManagement } from './components/players/PlayerManagement'
+import { CustomizedSnackbar } from './components/shared/CustomizedSnackbar'
 
 function App() {
   return (
-    <div className="flex flex-row h-svh w-full">
+    <div className="flex flex-row h-full w-full">
+      <CustomizedSnackbar />
       <Routes>
         <Route path={''} element={<MainMenu />} />
         <Route path={Paths.SelectionPath} element={<PlayerSelection />} />
