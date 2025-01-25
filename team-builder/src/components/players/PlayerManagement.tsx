@@ -9,7 +9,7 @@ export const PlayerManagement: FunctionComponent = () => {
 
     return <div className="flex flex-col w-full h-full p-4">
         <div className="flex flex-row w-full flex-1 flex-wrap">
-            <div className="flex-1">
+            <div className="w-1/2">
                 <PlayerList />
             </div>
             <div className={`${editingPlayer ? 'w-1/2' : ''}`}>

@@ -36,7 +36,7 @@ export const CreatePlayerItem: FunctionComponent = () => {
     }
 
     return <div className="flex flex-row gap-2">
-        <input style={{width: '200px'}} ref={inputRef} placeholder="new player" onKeyDown={createOnEnter} onInput={onInput} />
+        <input style={{width: '150px'}} ref={inputRef} placeholder="new player" onKeyDown={createOnEnter} onInput={onInput} />
         <div className="button" onClick={createPlayer}>Create</div>
     </div>
 }

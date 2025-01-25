@@ -14,11 +14,14 @@ export const EditPlayer: FunctionComponent = () => {
         dispatch(setEditingPlayer(null));
     }
 
-    return <div style={{minWidth: '250px'}}>
+    return <div style={{minWidth: '200px'}}>
         <div className="flex flex-row justify-between">
             <div>{editingPlayer.id}</div>
             <div>{editingPlayer.name}</div>
             <div onClick={deselectPlayer} className="button">X</div>
+        </div>
+        <div>
+            <div className="button">Delete</div>
         </div>
     </div>
 }
