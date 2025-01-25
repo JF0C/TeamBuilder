@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from "react";
 import { AppDispatch, useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { GroupListItem } from "./GroupListItem";
-import { setGroup } from "../../store/playerReducer";
+import { resetPlayers, setGroup } from "../../store/playerReducer";
 import { GroupDto } from "../../dtos/GroupDto";
 
 export const GroupFilter: FunctionComponent = () => {
@@ -16,6 +16,13 @@ export const GroupFilter: FunctionComponent = () => {
 
     const groupSelected = (group: GroupDto, dispatch: AppDispatch) => {
         dispatch(setGroup(group));
+        dispatch(resetPlayers());
+        setOpen(false);
+    }
+
+    const selectNoGroup = (_group: GroupDto, dispatch: AppDispatch) => {
+        dispatch(setGroup(null));
+        dispatch(resetPlayers());
         setOpen(false);
     }
 
@@ -28,10 +35,11 @@ export const GroupFilter: FunctionComponent = () => {
         {
             open ?
             <div className="absolute size-full left-0 top-0 flex flex-row justify-center items-center">
-                <div className="flex flex-row flex-wrap">
+                <div className="flex flex-row flex-wrap gap-2">
                     {
                         groupState.groups.items.map(g => <GroupListItem key={g.id} group={g} onSelected={groupSelected}/>)
                     }
+                    <GroupListItem group={{id: 0, name: '[none]'}} onSelected={selectNoGroup} />
                 </div>
             </div>
             :<></>

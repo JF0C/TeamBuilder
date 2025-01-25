@@ -44,6 +44,9 @@ export const playerSlice = createSlice({
         },
         setGroup(state, action: PayloadAction<GroupDto | null>) {
             state.group = action.payload;
+        },
+        resetPlayers(state) {
+            state.players = null;
         }
     },
     extraReducers: (builder) => {
@@ -85,5 +88,6 @@ export const {
     deselectPlayer,
     clearSelectedPlayers,
     setEditingPlayer,
-    setGroup
+    setGroup,
+    resetPlayers
 } = playerSlice.actions;

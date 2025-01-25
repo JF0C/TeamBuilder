@@ -15,6 +15,9 @@ export const GroupListItem: FunctionComponent<GroupListItemProps> = ({group, onS
     
         return <div className={`${isSelected ? 'highlighted' : ''} rounded-md border border-2 px-2`} 
             onClick={() => onSelected(group, dispatch)}>
-            {group.name}
+                <div className="button">
+                    {group.name}
+
+                </div>
         </div>
 }

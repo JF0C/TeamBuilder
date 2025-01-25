@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from "react";
 import { useAppSelector } from "../../store/store";
 import { PlayerItem } from "./PlayerItem";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { GroupFilter } from "../groups/GroupFilter";
 
 export const PlayerSelector: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
@@ -27,7 +28,7 @@ export const PlayerSelector: FunctionComponent = () => {
                 Available
             </div>
             <div className="w-full">
-                
+                <GroupFilter />
                 <input className="w-full" placeholder="filter" onInput={onFilterChange}/>
             </div>
             {
