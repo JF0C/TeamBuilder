@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Entities;
+using TeamBuilder.Data.EntityConfiguration;
 
 namespace TeamBuilder.Data;
 
 public class TeamBuilderDbContext(DbContextOptions<TeamBuilderDbContext> options): DbContext(options)
 {
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.ConfigurePlayerEntitiy();
+        builder.ConfigureGroupEntitiy();
+    }
 
     public DbSet<PlayerEntity> Players { get; set; }
     public DbSet<GroupEntity> Groups { get; set; }

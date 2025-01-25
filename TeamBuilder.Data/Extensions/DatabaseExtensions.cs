@@ -14,6 +14,7 @@ public static class DatabaseExtensions
         services.AddSingleton<TeamBuilderDbContextFactory>();
         services.AddSingleton<IDbInitializer, DbInitializer>();
         services.AddScoped<IPlayersRepository, PlayersRepository>();
+        services.AddScoped<IGroupsRepository, GroupsRepository>();
     }
     public static async Task EnsureMigration(this IApplicationBuilder app)
     {

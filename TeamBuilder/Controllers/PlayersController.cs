@@ -1,75 +1,41 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Entities;
+using TeamBuilder.Core.Extensions;
+using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Shared;
 
 namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PlayersController: BaseController
+public class PlayersController(IPlayersRepository playersRepository, IMapper mapper): BaseController
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<PlayerDto>>> GetPlayers()
+    public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null)
     {
-        var players = new List<PlayerDto>
-        {
-            new()
-            {
-                Id = 0,
-                Name = "Blabla"
-            },
-            new()
-            {
-                Id = 1,
-                Name = "Jan"
-            },
-            new()
-            {
-                Id = 2,
-                Name = "Alex"
-            },
-            new()
-            {
-                Id = 3,
-                Name = "Maxi"
-            },
-            new()
-            {
-                Id = 4,
-                Name = "Dora"
-            },
-            new()
-            {
-                Id = 5,
-                Name = "Aileen"
-            },
-            new()
-            {
-                Id = 6,
-                Name = "Phil"
-            },
-            new()
-            {
-                Id = 7,
-                Name = "Michi"
-            },
-            new()
-            {
-                Id = 8,
-                Name = "Georg"
-            },
-            new()
-            {
-                Id = 9,
-                Name = "Marina"
-            },
-            new()
-            {
-                Id = 10,
-                Name = "Ari"
-            }
-        };
+        var playerResult = await playersRepository.ListAsync(page, count, group);
+        return Ok(playerResult.MapTo<PlayerDto, PlayerEntity>(mapper));
+    }
 
-        return Ok(players);
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeletePlayer(long id)
+    {
+        await playersRepository.DeleteAsync(id);
+        return Ok();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<long>> CreatePlayer([FromBody] string name)
+    {
+        return Ok(await playersRepository.CreateAsync(name));
+    }
+
+    [HttpPut("{id}/Name/{name}")]
+    public async Task<ActionResult> RenamePlayer(long id, string name)
+    {
+        await playersRepository.RenameAsync(id, name);
+        return Ok();
     }
 }

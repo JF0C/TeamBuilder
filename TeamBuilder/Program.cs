@@ -2,11 +2,14 @@ using System.Text.Json.Serialization;
 using TeamBuilder.Shared;
 using TeamBuilder.Extensions;
 using TeamBuilder.Data.Extensions;
+using TeamBuilder.Core.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddTeamBuilderDbContext(builder.Configuration);
+
+builder.Services.AddMapper();
 
 builder.Services.AddCorsPolicies();
 

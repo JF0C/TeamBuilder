@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using TeamBuilder.Core.Exceptions;
 
 namespace TeamBuilder.Shared;
 
@@ -22,6 +23,15 @@ public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IActionFilter, I
                 context.ExceptionHandled = true;
                 return;
             }
+        }
+
+        if (context.Exception is ItemNotFoundException)
+        {
+            context.Result = new ObjectResult(context.Exception.Message)
+            {
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
+            context.ExceptionHandled = true;
         }
 
         if (context.Exception is not null)
