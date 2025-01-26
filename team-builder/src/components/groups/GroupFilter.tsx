@@ -26,6 +26,14 @@ export const GroupFilter: FunctionComponent = () => {
         setOpen(false);
     }
 
+    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const clickedOutside = (e: any) => {
+        if (e.target.className.includes('modal-background')) {
+            setOpen(false);
+        }
+    }
+
     return <>
         <div className="button" onClick={() => setOpen(true)}>
             {
@@ -34,8 +42,9 @@ export const GroupFilter: FunctionComponent = () => {
         </div>
         {
             open ?
-            <div className="absolute size-full left-0 top-0 flex flex-row justify-center items-center">
-                <div className="flex flex-row flex-wrap gap-2">
+            <div className="absolute size-full left-0 top-0 flex flex-row justify-center items-center modal-background"
+                onClick={clickedOutside}>
+                <div className="flex flex-row flex-wrap gap-2 modal-content p-4 rounded-md">
                     {
                         groupState.groups.items.map(g => <GroupListItem key={g.id} group={g} onSelected={groupSelected}/>)
                     }

@@ -9,13 +9,13 @@ export const PlayerSelector: FunctionComponent = () => {
     const [filter, setFilter] = useState<string>('');
 
     if (playerState.players === null || playerState.loading) {
-        return <LoadingSpinner/>
+        return <LoadingSpinner />
     }
 
     const availablePlayers = playerState.players.items
         .filter(p => playerState.selected.find(s => p.id === s) === undefined)
         .filter(p => filter === '' ? true : p.name.toLowerCase().includes(filter.toLowerCase()))
-    
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onFilterChange = (e: any) => {
         setFilter(e.target.value)
@@ -23,19 +23,18 @@ export const PlayerSelector: FunctionComponent = () => {
 
     return (
         <div className="border-r p-2 h-full">
-        <div className="flex flex-row flex-wrap gap-2">
-            <div className="w-full">
-                Available
+            <div className="flex flex-row flex-wrap gap-2">
+                <div className="w-full">
+                    Available
+                </div>
+                <div className="w-full">
+                    <GroupFilter />
+                    <input className="w-full" placeholder="filter" onInput={onFilterChange} />
+                </div>
+                {
+                    availablePlayers.map(p => <PlayerItem key={p.id} player={p} />)
+                }
             </div>
-            <div className="w-full">
-                <GroupFilter />
-                <input className="w-full" placeholder="filter" onInput={onFilterChange}/>
-            </div>
-            {
-                availablePlayers.map(p => <PlayerItem key={p.id} player={p}/>)
-            }
-        </div>
-
         </div>
     )
 }

@@ -8,6 +8,7 @@ import { PlayerManagement } from './components/players/PlayerManagement'
 import { CustomizedSnackbar } from './components/shared/CustomizedSnackbar'
 import { DataLoader } from './components/shared/DataLoader'
 import { GroupManager } from './components/groups/GroupManager'
+import { GroupMembers } from './components/groups/GroupMembers'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path={Paths.TeamResultPath} element={<Teams />} />
         <Route path={Paths.PlayerManagementPath} element={<PlayerManagement />} />
         <Route path={Paths.GroupManagementPath} element={<GroupManager />} />
+        <Route path={Paths.GroupMembersPath} element={<GroupMembers />} />
       </Routes>
     </div>
   )
