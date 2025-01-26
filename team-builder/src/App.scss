@@ -1,4 +1,4 @@
-$celadon: #9ae19dff;
+$celadon: rgb(110, 173, 115);
 $linkColor: #646cff;
 
 #root {
@@ -11,6 +11,7 @@ $linkColor: #646cff;
 }
 
 .button {
+  font-weight: 500;
   color: $linkColor;
   cursor: pointer;
 }
@@ -37,11 +38,12 @@ $linkColor: #646cff;
 }
 
 .modal-background {
-  background-color: rgba(80, 80, 80, 0.5);
+  background-color: rgba(30, 30, 30, 0.7);
 }
 
 .modal-content {
-  background-color: rgb(80, 80, 80);
+  background-color: rgb(56, 49, 10);
+  max-width: 90vw;
 }
 
 @keyframes logo-spin {

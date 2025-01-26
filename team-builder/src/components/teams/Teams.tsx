@@ -8,6 +8,7 @@ import { LoadingSpinner } from "../shared/LoadingSpinner";
 
 export const Teams: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
+    const teamConfig = useAppSelector((state) => state.teamConfig);
     const [teams, setTeams] = useState<PlayerDto[][] | null>(null)
 
     if (playerState.players === null || playerState.loading) {
@@ -34,8 +35,8 @@ export const Teams: FunctionComponent = () => {
 
         const teams: PlayerDto[][] = [];
         const selectedCount = selectedPlayers.length;
-        const teamSize = Math.ceil(selectedCount / playerState.teamCount);
-        for (let k = 0; k < playerState.teamCount; k++) {
+        const teamSize = Math.ceil(selectedCount / teamConfig.teamsCount);
+        for (let k = 0; k < teamConfig.teamsCount; k++) {
             teams.push(selectedPlayers.slice(k * teamSize, Math.min((k + 1) * teamSize, selectedCount)));
         }
         return teams;

@@ -10,7 +10,6 @@ export interface PlayerState {
     group: GroupDto | null
     players: PagedResult<PlayerDto> | null
     selected: number[]
-    teamCount: number
     editingPlayer: PlayerDto | null
 }
 
@@ -19,7 +18,6 @@ export const initialState: PlayerState = {
     group: null,
     players: null,
     selected: [],
-    teamCount: 2,
     editingPlayer: null
 }
 

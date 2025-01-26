@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { playerReducer } from './playerReducer';
 import { groupReducer } from './groupReducer';
+import { teamConfigurationReducer } from './teamConfigurationReducer';
 
 export const store = configureStore({
     reducer: {
         players: playerReducer,
-        groups: groupReducer
+        groups: groupReducer,
+        teamConfig: teamConfigurationReducer
     }
 });
 

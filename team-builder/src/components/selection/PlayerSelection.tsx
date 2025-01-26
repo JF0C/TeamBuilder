@@ -5,6 +5,7 @@ import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
 import { useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { TeamConfiguration } from "./TeamConfiguration";
 
 export const PlayerSelection: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
@@ -26,8 +27,9 @@ export const PlayerSelection: FunctionComponent = () => {
             <NavLink to={'/'}>
                 Back
             </NavLink>
+            <TeamConfiguration/>
             <NavLink to={Paths.TeamResultPath}>
-                Generate Teams
+                Generate
             </NavLink>
         </div>
     </div>
