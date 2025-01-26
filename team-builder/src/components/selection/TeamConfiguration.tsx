@@ -34,31 +34,37 @@ export const TeamConfiguration: FunctionComponent = () => {
     }
 
     return <Modal buttonContent='Configure'>
-        <div className="w-full text-center font-bold">
-            Team Configuration
-        </div>
-        <div className="flex flex-row items-center">
-            <div className="text-left" style={{width: '100px'}}>
-                Count
+        <div className="flex flex-col max-w-xs gap-2">
+            <div className="text-center font-bold">
+                Team Configuration
             </div>
-            <div className="flex-1">
-                <RadioGroup items={teamCounts} selectedId={teamConfig.teamsCount}
-                    onSelectionChanged={changeTeamCount} />
+            <div className="flex flex-row items-center">
+                <div className="text-left" style={{ width: '100px' }}>
+                    Count
+                </div>
+                <div className="flex-1">
+                    <RadioGroup items={teamCounts} selectedId={teamConfig.teamsCount}
+                        onSelectionChanged={changeTeamCount} />
+                </div>
             </div>
-        </div>
-        <div className="flex flex-row items-center">
-            <div className="text-left" style={{width: '100px'}}>
-                Names
+            <div className="flex flex-row items-center">
+                <div className="text-left" style={{ width: '100px' }}>
+                    Names
+                </div>
+                <div className="flex-1">
+                    {
+                        [...Array(teamConfig.teamsCount)].map((_, i) =>
+                            <input defaultValue={teamConfig.teamNames[i]}
+                                onInput={(e) => teamNameChange(i, e)}
+                                className="w-full"
+                                key={`team-name-${i}`}
+                                placeholder={`Team ${i + 1}`} />
+                        )
+                    }
+                </div>
             </div>
-            <div className="flex-1">
-                {
-                    [...Array(teamConfig.teamsCount)].map((_, i) =>
-                        <input onInput={(e) => teamNameChange(i, e)}
-                            className="w-full"
-                            key={`team-name-${i}`}
-                            placeholder={`Team ${i+1}`}/>
-                    )
-                }
+            <div className="button closes-modal">
+                Close
             </div>
         </div>
     </Modal>

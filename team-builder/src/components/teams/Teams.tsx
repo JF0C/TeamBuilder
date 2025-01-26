@@ -6,10 +6,15 @@ import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 
+type Team = {
+    players: PlayerDto[]
+    name: string
+}
+
 export const Teams: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const teamConfig = useAppSelector((state) => state.teamConfig);
-    const [teams, setTeams] = useState<PlayerDto[][] | null>(null)
+    const [teams, setTeams] = useState<Team[] | null>(null)
 
     if (playerState.players === null || playerState.loading) {
         return <LoadingSpinner />
@@ -30,14 +35,22 @@ export const Teams: FunctionComponent = () => {
         }
     }
 
-    const generateTeams = (selectedPlayers: PlayerDto[]): PlayerDto[][] => {
+    const generateTeams = (selectedPlayers: PlayerDto[]): Team[] => {
         shuffle(selectedPlayers);
 
-        const teams: PlayerDto[][] = [];
+        const teams: Team[] = [];
         const selectedCount = selectedPlayers.length;
         const teamSize = Math.ceil(selectedCount / teamConfig.teamsCount);
         for (let k = 0; k < teamConfig.teamsCount; k++) {
-            teams.push(selectedPlayers.slice(k * teamSize, Math.min((k + 1) * teamSize, selectedCount)));
+            const players = selectedPlayers.slice(k * teamSize, Math.min((k + 1) * teamSize, selectedCount));
+            let teamName = teamConfig.teamNames[k]
+            if (teamName === '') {
+                teamName = 'Team ' + (k+1)
+            }
+            teams.push({
+                players: players,
+                name: teamName
+            });
         }
         return teams;
     }
@@ -55,7 +68,7 @@ export const Teams: FunctionComponent = () => {
             <div className="flex-1">
                 {
                     teams.map((team, index) =>
-                        <TeamView key={`team-${index}`} name={`Team ${index + 1}`} players={team} />
+                        <TeamView key={`team-${index}`} name={team.name} players={team.players} />
                     )
                 }
             </div>
