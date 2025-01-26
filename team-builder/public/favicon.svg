@@ -1,0 +1,14 @@
+<svg width="256" height="256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left circles -->
+  <circle cx="48" cy="48" r="32" fill="blue" />
+  <circle cx="48" cy="128" r="32" fill="blue" />
+  <circle cx="48" cy="208" r="32" fill="blue" />
+
+
+  <circle cx="128" cy="128" r="32" fill="grey" />
+
+  <!-- Right circles -->
+  <circle cx="208" cy="48" r="32" fill="red" />
+  <circle cx="208" cy="128" r="32" fill="red" />
+  <circle cx="208" cy="208" r="32" fill="red" />
+</svg>

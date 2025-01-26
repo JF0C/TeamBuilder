@@ -1,10 +1,12 @@
 import { FunctionComponent, useState } from "react";
-import { useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { PlayerItem } from "./PlayerItem";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { GroupFilter } from "../groups/GroupFilter";
+import { selectPlayer } from "../../store/playerReducer";
 
 export const PlayerSelector: FunctionComponent = () => {
+    const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
     const [filter, setFilter] = useState<string>('');
 
@@ -21,14 +23,21 @@ export const PlayerSelector: FunctionComponent = () => {
         setFilter(e.target.value)
     }
 
+    const addAll = () => {
+        for (const p of availablePlayers) {
+            dispatch(selectPlayer(p));
+        }
+    }
+
     return (
         <div className="border-r p-2 h-full">
             <div className="flex flex-row flex-wrap gap-2">
                 <div className="w-full">
                     Available
                 </div>
-                <div className="w-full">
+                <div className="w-full flex flex-row flex-wrap gap-2">
                     <GroupFilter />
+                    <div className="button" onClick={addAll}>Add All</div>
                     <input className="w-full" placeholder="filter" onInput={onFilterChange} />
                 </div>
                 {
