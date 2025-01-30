@@ -1,0 +1,44 @@
+using Microsoft.AspNetCore.Mvc;
+using TeamBuilder.Core.Dtos;
+using TeamBuilder.Data.Interfaces;
+using TeamBuilder.Shared;
+
+namespace TeamBuilder.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class MatchController(IMatchRepository matchRepository): BaseController
+{
+    [HttpGet]
+    public async Task<ActionResult<PagedResult<MatchDto>>> ListMatches(int page, int count, long? player, Core.Entities.MatchType? type, DateTime? from, DateTime? to)
+    {
+        var filter = new MatchFilterDto
+        {
+            PlayerId = player,
+            Type = type,
+            FromDate = from,
+            ToDate = to
+        };
+        return Ok(await matchRepository.ListAsync(page, count, filter));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<long>> CreateMatch(MatchDto match)
+    {
+        return Ok(await matchRepository.CreateAsync(match));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(long id)
+    {
+        await matchRepository.DeleteAsync(id);
+        return Ok();
+    }
+
+    [HttpPut("{id}/Scores")]
+    public async Task<ActionResult> SetScores(long id, List<TeamScoreDto> scores)
+    {
+        await matchRepository.SetScoresAsync(id, scores);
+        return Ok();
+    }
+}

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
+using TeamBuilder.Core.Extensions;
 using TeamBuilder.Core.Mappers;
 using TeamBuilder.Data.Interfaces;
 using TourViewer.Database.Extensions;
@@ -28,38 +29,47 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
         await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<MatchDto>> ListAsync(int page, int count)
+    public async Task<PagedResult<MatchDto>> ListAsync(int page, int count, MatchFilterDto filter)
     {
-        return await context.Matches
+        IQueryable<MatchEntity> query = context.Matches
             .Include(m => m.Teams)
-            .ThenInclude(t => t.Players)
-            .OrderByDescending(m => m.Created)
-            .ProjectTo<MatchDto>(MatchMapper.Configuration())
-            .ToPagedResult(page, count);
+            .ThenInclude(t => t.Players);
+        if (filter.PlayerId is not null)
+        {
+            query = query.Where(m => m.Teams.Any(t => t.Players.Any(p => p.Id == filter.PlayerId)));
+        }
+        if (filter.Type is not null)
+        {
+            query = query.Where(m => m.Type == filter.Type);
+        }
+        if (filter.FromDate is not null)
+        {
+            query = query.Where(m => m.Created > filter.FromDate);
+        }
+        if (filter.ToDate is not null)
+        {
+            query = query.Where(m => m.Created < filter.ToDate);
+        }
+        return (await query.ToPagedResult(page, count)).MapTo<MatchDto, MatchEntity>(mapper);
     }
 
-    public async Task SetScoresAsync(List<TeamScoreDto> scores)
+    public async Task SetScoresAsync(long id, List<TeamScoreDto> scores)
     {
-        var match = await GetMatchByTeamId(scores.First().TeamId);
+        var match = await GetMatchById(scores.First().TeamId);
         foreach (var score in scores)
         {
-            var team = match.Teams.FirstOrDefault(t => t.Id == score.TeamId);
-            if (team is null)
-            {
-                match = await GetMatchByTeamId(score.TeamId);
-                team = match.Teams.FirstOrDefault(t => t.Id == score.TeamId)
-                    ?? throw new ItemNotFoundException(score.TeamId.ToString(), typeof(TeamEntity));
-            }
+            var team = match.Teams.FirstOrDefault(t => t.Id == score.TeamId)
+                ?? throw new ItemNotFoundException($"team {score.TeamId} in match {match.Id}", typeof(TeamEntity));
             team.Score = score.Score;
         }
         await context.SaveChangesAsync();
     }
 
-    private async Task<MatchEntity> GetMatchByTeamId(long teamId)
+    private async Task<MatchEntity> GetMatchById(long id)
     {
         return await context.Matches
             .Include(m => m.Teams)
-            .FirstOrDefaultAsync(m => m.Teams.Any(t => teamId == t.Id))
-            ?? throw new ItemNotFoundException(string.Join(", ", teamId), typeof(TeamEntity));
+            .FirstOrDefaultAsync(m => m.Id == id)
+            ?? throw new ItemNotFoundException(string.Join(", ", id), typeof(MatchEntity));
     }
 }

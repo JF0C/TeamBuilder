@@ -6,6 +6,6 @@ public interface IMatchRepository
 {
     Task<long> CreateAsync(MatchDto match);
     Task DeleteAsync(long id);
-    Task SetScoresAsync(List<TeamScoreDto> scores);
-    Task<PagedResult<MatchDto>> ListAsync(int page, int count);
+    Task SetScoresAsync(long id, List<TeamScoreDto> scores);
+    Task<PagedResult<MatchDto>> ListAsync(int page, int count, MatchFilterDto filter);
 }

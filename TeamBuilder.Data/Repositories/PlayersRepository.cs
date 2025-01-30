@@ -1,13 +1,15 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
+using TeamBuilder.Core.Extensions;
 using TeamBuilder.Data.Interfaces;
 using TourViewer.Database.Extensions;
 
 namespace TeamBuilder.Data.Repositories;
 
-internal class PlayersRepository(TeamBuilderDbContext context) : IPlayersRepository
+internal class PlayersRepository(TeamBuilderDbContext context, IMapper mapper) : IPlayersRepository
 {
     public async Task<long> CreateAsync(string name)
     {
@@ -28,18 +30,18 @@ internal class PlayersRepository(TeamBuilderDbContext context) : IPlayersReposit
         await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<PlayerEntity>> ListAsync(int page, int count, long? groupId = null)
+    public async Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null)
     {
         if (groupId is null)
         {
-            return await context.Players.ToPagedResult(page, count);
+            return (await context.Players.ToPagedResult(page, count)).MapTo<PlayerDto, PlayerEntity>(mapper);
         }
         else
         {
-            return await context.Players
+            return (await context.Players
                 .Include(p => p.Groups)
                 .Where(p => p.Groups.Any(g => g.Id == groupId))
-                .ToPagedResult(page, count);
+                .ToPagedResult(page, count)).MapTo<PlayerDto, PlayerEntity>(mapper);
         }
     }
 

@@ -1,8 +1,5 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TeamBuilder.Core.Dtos;
-using TeamBuilder.Core.Entities;
-using TeamBuilder.Core.Extensions;
 using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Shared;
 
@@ -10,13 +7,12 @@ namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PlayersController(IPlayersRepository playersRepository, IMapper mapper): BaseController
+public class PlayersController(IPlayersRepository playersRepository): BaseController
 {
     [HttpGet]
     public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null)
     {
-        var playerResult = await playersRepository.ListAsync(page, count, group);
-        return Ok(playerResult.MapTo<PlayerDto, PlayerEntity>(mapper));
+        return Ok(await playersRepository.ListAsync(page, count, group));
     }
 
     [HttpDelete("{id}")]

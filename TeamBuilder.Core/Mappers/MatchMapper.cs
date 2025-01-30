@@ -10,8 +10,4 @@ public class MatchMapper: Profile
     {
         CreateMap<MatchDto, MatchEntity>().ReverseMap();
     }
-    public static MapperConfiguration Configuration()
-    {
-        return new MapperConfiguration(cfg => cfg.CreateProjection<MatchEntity, MatchDto>());
-    }
 }
