@@ -15,6 +15,7 @@ public static class DatabaseExtensions
         services.AddSingleton<IDbInitializer, DbInitializer>();
         services.AddScoped<IPlayersRepository, PlayersRepository>();
         services.AddScoped<IGroupsRepository, GroupsRepository>();
+        services.AddScoped<IMatchRepository, MatchRepository>();
     }
     public static async Task EnsureMigration(this IApplicationBuilder app)
     {

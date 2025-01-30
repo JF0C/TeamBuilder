@@ -11,6 +11,7 @@ public class TeamBuilderDbContext(DbContextOptions<TeamBuilderDbContext> options
         builder.ConfigurePlayerEntitiy();
         builder.ConfigureGroupEntitiy();
         builder.ConfigureTeamEntity();
+        builder.ConfigureMatchEntity();
     }
 
     public DbSet<PlayerEntity> Players { get; set; }
