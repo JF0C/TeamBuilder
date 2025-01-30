@@ -10,10 +10,12 @@ public class TeamBuilderDbContext(DbContextOptions<TeamBuilderDbContext> options
     {
         builder.ConfigurePlayerEntitiy();
         builder.ConfigureGroupEntitiy();
+        builder.ConfigureTeamEntity();
     }
 
     public DbSet<PlayerEntity> Players { get; set; }
     public DbSet<GroupEntity> Groups { get; set; }
+    public DbSet<MatchEntity> Matches { get; set; }
 
     public override Task<int> SaveChangesAsync(
         bool acceptAllChangesOnSuccess,

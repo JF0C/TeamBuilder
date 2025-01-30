@@ -8,4 +8,6 @@ public class PlayerEntity: EntityBase
     public string Name { get; set; } = string.Empty;
 
     public List<GroupEntity> Groups { get; set; } = [];
+
+    public List<TeamEntity> Teams { get; set; } = [];
 }
