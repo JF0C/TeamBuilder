@@ -8,7 +8,7 @@ export type RadioGroupProps = {
 
 export const RadioGroup: FunctionComponent<RadioGroupProps> = (props) => {
 
-    return <div className="flex flex-row">
+    return <div className="flex flex-row flex-wrap">
         {
             props.items.map(item => 
                 <div className={`${item.id === props.selectedId ? 'highlighted' : ''} px-1 rounded-md cursor-pointer`} 

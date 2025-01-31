@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { Paths } from "../../constants/Paths";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { TeamResult } from "./TeamResult";
 import { MatchTypeRadio } from "../shared/MatchTypeRadio";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
@@ -9,10 +9,13 @@ import { createMatchRequest } from "../../thunks/matchThunk";
 
 export const Match: FunctionComponent = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const matchState = useAppSelector((state) => state.match);
 
     const finishMatch = () => {
         dispatch(createMatchRequest(matchState.current))
+            .unwrap()
+            .then(() => navigate('/'))
     }
 
     if (matchState.loading) {
