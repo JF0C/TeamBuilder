@@ -8,6 +8,7 @@ public class TeamMapper: Profile
 {
     public TeamMapper()
     {
-        CreateMap<TeamDto, TeamEntity>().ReverseMap();
+        CreateMap<CreateTeamDto, TeamEntity>();
+        CreateMap<TeamEntity, TeamDto>();
     }
 }

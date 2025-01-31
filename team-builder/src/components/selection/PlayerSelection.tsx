@@ -3,11 +3,13 @@ import { PlayerSelector } from "./PlayerSelector";
 import { SelectedPlayers } from "./SelectedPlayers";
 import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
-import { useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
-import { TeamConfiguration } from "./TeamConfiguration";
+import { MatchConfiguration } from "./MatchConfiguration";
+import { resetTeamPlayers } from "../../store/matchReducer";
 
 export const PlayerSelection: FunctionComponent = () => {
+    const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
 
     if (playerState.players === null || playerState.loading) {
@@ -27,8 +29,8 @@ export const PlayerSelection: FunctionComponent = () => {
             <NavLink to={'/'}>
                 Back
             </NavLink>
-            <TeamConfiguration/>
-            <NavLink to={Paths.TeamResultPath}>
+            <MatchConfiguration/>
+            <NavLink to={Paths.TeamPath} onClick={() => dispatch(resetTeamPlayers())}>
                 Generate
             </NavLink>
         </div>

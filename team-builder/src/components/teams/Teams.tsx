@@ -1,20 +1,17 @@
-import { FunctionComponent, useState } from "react";
-import { useAppSelector } from "../../store/store";
+import { FunctionComponent } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { PlayerDto } from "../../dtos/PlayerDto";
 import { TeamView } from "./TeamView";
 import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
-
-type Team = {
-    players: PlayerDto[]
-    name: string
-}
+import { TeamEntity } from "../../data/TeamEntity";
+import { setTeamName, setTeamPlayers } from "../../store/matchReducer";
 
 export const Teams: FunctionComponent = () => {
+    const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
-    const teamConfig = useAppSelector((state) => state.teamConfig);
-    const [teams, setTeams] = useState<Team[] | null>(null)
+    const matchState = useAppSelector((state) => state.match);
 
     if (playerState.players === null || playerState.loading) {
         return <LoadingSpinner />
@@ -35,39 +32,31 @@ export const Teams: FunctionComponent = () => {
         }
     }
 
-    const generateTeams = (selectedPlayers: PlayerDto[]): Team[] => {
+    const generateTeams = (selectedPlayers: PlayerDto[]) => {
         shuffle(selectedPlayers);
 
-        const teams: Team[] = [];
+        const teams: TeamEntity[] = [];
         const selectedCount = selectedPlayers.length;
-        const teamSize = Math.ceil(selectedCount / teamConfig.teamsCount);
-        for (let k = 0; k < teamConfig.teamsCount; k++) {
+        const teamSize = Math.ceil(selectedCount / matchState.current.teams.length);
+        for (let k = 0; k < matchState.current.teams.length; k++) {
             const players = selectedPlayers.slice(k * teamSize, Math.min((k + 1) * teamSize, selectedCount));
-            let teamName = teamConfig.teamNames[k]
-            if (teamName === '') {
-                teamName = 'Team ' + (k+1)
+            dispatch(setTeamPlayers({ index: k, players: players }));
+            if (matchState.current.teams[k].name === '') {
+                dispatch(setTeamName({ index: k, name: `Team ${(k+1)}`}))
             }
-            teams.push({
-                players: players,
-                name: teamName
-            });
         }
         return teams;
     }
 
-    if (teams === null) {
-        setTeams(generateTeams(selectedPlayers));
-    }
-
-    if (teams === null) {
-        return <></>
+    if (matchState.current.teams.every(t => t.players.length === 0)) {
+        generateTeams(selectedPlayers);
     }
 
     return <div className="size-full flex flex-row justify-center">
         <div className="flex flex-col h-full p-4 w-screen md:max-w-2/3">
             <div className="flex-1">
                 {
-                    teams.map((team, index) =>
+                    matchState.current.teams.map((team, index) =>
                         <TeamView key={`team-${index}`} name={team.name} players={team.players} />
                     )
                 }
@@ -78,8 +67,13 @@ export const Teams: FunctionComponent = () => {
                         Back
                     </NavLink>
                 </div>
-                <div className="button" onClick={() => setTeams(generateTeams(selectedPlayers))}>
+                <div className="button" onClick={() => generateTeams(selectedPlayers)}>
                     Again
+                </div>
+                <div>
+                    <NavLink to={Paths.MatchPath}>
+                        Play
+                    </NavLink>
                 </div>
             </div>
         </div>

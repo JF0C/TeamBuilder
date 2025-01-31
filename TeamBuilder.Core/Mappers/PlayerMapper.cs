@@ -8,6 +8,6 @@ public class PlayerMapper: Profile
 {
     public PlayerMapper()
     {
-        CreateMap<PlayerEntity, PlayerDto>();
+        CreateMap<PlayerEntity, PlayerDto>().ReverseMap();
     }
 }

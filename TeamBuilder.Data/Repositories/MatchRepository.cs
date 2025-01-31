@@ -1,11 +1,9 @@
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
 using TeamBuilder.Core.Extensions;
-using TeamBuilder.Core.Mappers;
 using TeamBuilder.Data.Interfaces;
 using TourViewer.Database.Extensions;
 
@@ -13,9 +11,18 @@ namespace TeamBuilder.Data.Repositories;
 
 internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : IMatchRepository
 {
-    public async Task<long> CreateAsync(MatchDto match)
+    public async Task<long> CreateAsync(CreateMatchDto match)
     {
         var matchEntity = mapper.Map<MatchEntity>(match);
+        foreach (var team in matchEntity.Teams)
+        {
+            var players = new List<PlayerEntity>();
+            foreach (var player in team.Players)
+            {
+                players.Add(await context.Players.FirstAsync(p => p.Id == player.Id));
+            }
+            team.Players = players;
+        }
         context.Matches.Add(matchEntity);
         await context.SaveChangesAsync();
         return matchEntity.Id;

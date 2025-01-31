@@ -2,11 +2,12 @@ import { FunctionComponent } from "react";
 import { Modal } from "../shared/Modal";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { RadioGroup } from "../shared/RadioGroup";
-import { setTeamCount, setTeamName } from "../../store/teamConfigurationReducer";
+import { setTeamCount, setTeamName } from "../../store/matchReducer";
+import { MatchTypeRadio } from "../shared/MatchTypeRadio";
 
-export const TeamConfiguration: FunctionComponent = () => {
+export const MatchConfiguration: FunctionComponent = () => {
     const dispatch = useAppDispatch();
-    const teamConfig = useAppSelector((state) => state.teamConfig);
+    const matchState = useAppSelector((state) => state.match);
 
     const teamCounts = [
         { id: 2, name: '2' },
@@ -35,14 +36,22 @@ export const TeamConfiguration: FunctionComponent = () => {
     return <Modal buttonContent='Configure'>
         <div className="flex flex-col max-w-xs gap-2">
             <div className="text-center font-bold">
-                Team Configuration
+                Match Configuration
+            </div>
+            <div className="flex flex-row items-center">
+                <div className="text-left" style={{ width: '100px' }}>
+                    Type
+                </div>
+                <div className="flex-1">
+                    <MatchTypeRadio />
+                </div>
             </div>
             <div className="flex flex-row items-center">
                 <div className="text-left" style={{ width: '100px' }}>
                     Count
                 </div>
                 <div className="flex-1">
-                    <RadioGroup items={teamCounts} selectedId={teamConfig.teamsCount}
+                    <RadioGroup items={teamCounts} selectedId={matchState.current.teams.length}
                         onSelectionChanged={changeTeamCount} />
                 </div>
             </div>
@@ -52,8 +61,8 @@ export const TeamConfiguration: FunctionComponent = () => {
                 </div>
                 <div className="flex-1">
                     {
-                        [...Array(teamConfig.teamsCount)].map((_, i) =>
-                            <input defaultValue={teamConfig.teamNames[i]}
+                        matchState.current.teams.map((t, i) =>
+                            <input defaultValue={t.name}
                                 onInput={(e) => teamNameChange(i, e)}
                                 className="w-full"
                                 key={`team-name-${i}`}

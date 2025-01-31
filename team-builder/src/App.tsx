@@ -9,6 +9,7 @@ import { CustomizedSnackbar } from './components/shared/CustomizedSnackbar'
 import { DataLoader } from './components/shared/DataLoader'
 import { GroupManager } from './components/groups/GroupManager'
 import { GroupMembers } from './components/groups/GroupMembers'
+import { Match } from './components/match/Match'
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
       <Routes>
         <Route path={''} element={<MainMenu />} />
         <Route path={Paths.SelectionPath} element={<PlayerSelection />} />
-        <Route path={Paths.TeamResultPath} element={<Teams />} />
+        <Route path={Paths.TeamPath} element={<Teams />} />
         <Route path={Paths.PlayerManagementPath} element={<PlayerManagement />} />
         <Route path={Paths.GroupManagementPath} element={<GroupManager />} />
         <Route path={Paths.GroupMembersPath} element={<GroupMembers />} />
+        <Route path={Paths.MatchPath} element={<Match />} />
       </Routes>
     </div>
   )

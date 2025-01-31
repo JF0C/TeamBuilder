@@ -23,7 +23,7 @@ public class MatchController(IMatchRepository matchRepository): BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<long>> CreateMatch(MatchDto match)
+    public async Task<ActionResult<long>> CreateMatch(CreateMatchDto match)
     {
         return Ok(await matchRepository.CreateAsync(match));
     }

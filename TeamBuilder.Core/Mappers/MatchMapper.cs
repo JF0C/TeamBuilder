@@ -8,6 +8,7 @@ public class MatchMapper: Profile
 {
     public MatchMapper()
     {
-        CreateMap<MatchDto, MatchEntity>().ReverseMap();
+        CreateMap<CreateMatchDto, MatchEntity>();
+        CreateMap<MatchEntity, MatchDto>();
     }
 }
