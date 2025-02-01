@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { addPlayerToGroupRequest, removePlayerFromGroupRequest } from "../../thunks/groupThunk";
 import { GroupDto } from "../../dtos/GroupDto";
 import { reloadEditingGroupPlayers } from "../../store/groupReducer";
+import { ListItem } from "../layout/ListItem";
 
 export type MemberItemProps = {
     player: PlayerDto
@@ -37,9 +38,8 @@ export const MemberItem: FunctionComponent<MemberItemProps> = ({player, group}) 
     }
 
     return (
-        <div className="player-item border rounded-md px-2 cursor-pointer"
-            onClick={toggleMembership}>
+        <ListItem onSelected={toggleMembership}>
             {player.name}
-        </div>
+        </ListItem>
     )
 }

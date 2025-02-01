@@ -7,7 +7,7 @@ import { MatchTypeRadio } from "../shared/MatchTypeRadio";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { createMatchRequest } from "../../thunks/matchThunk";
 
-export const Match: FunctionComponent = () => {
+export const MatchCompletion: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const matchState = useAppSelector((state) => state.match);

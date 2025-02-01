@@ -2,8 +2,8 @@ import { FunctionComponent } from "react";
 import { GroupDto } from "../../dtos/GroupDto";
 import { MemberItem } from "./MemberItem";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { Pagination } from "../shared/Pagination";
 import { reloadEditingGroupPlayers } from "../../store/groupReducer";
+import { PaginatedListLayout } from "../layout/PaginatedListLayout";
 
 export const MembersCurrent: FunctionComponent<{ group: GroupDto }> = ({ group }) => {
     const dispatch = useAppDispatch();
@@ -19,22 +19,16 @@ export const MembersCurrent: FunctionComponent<{ group: GroupDto }> = ({ group }
     }
 
     return (
-        <div className="p-2 size-full">
-            <div className="size-full flex flex-col">
-                <div className="flex-1 size-full">
-                    <div className="flex flex-row flex-wrap gap-2">
-                        <div className="w-full">
-                            Members of {group.name}
-                        </div>
-                        {
-                            editingGroupPlayers.items.map(p => <MemberItem key={p.id} player={p} group={group} />)
-                        }
-                    </div>
-                </div>
+        <div className="pl-4 size-full">
+            <PaginatedListLayout pageData={groupState.editingGroupPlayers} onPageChange={pageChange}>
                 <div className="w-full">
-                    <Pagination pageData={groupState.editingGroupPlayers} onPageChange={pageChange} />
+                    Members of {group.name}
                 </div>
-            </div>
+                {
+                    editingGroupPlayers.items.map(p => <MemberItem key={p.id} player={p} group={group} />)
+                }
+            </PaginatedListLayout>
+
         </div>
     )
 }

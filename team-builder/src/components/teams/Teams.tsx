@@ -71,7 +71,7 @@ export const Teams: FunctionComponent = () => {
                     Shuffle
                 </div>
                 <div>
-                    <NavLink to={Paths.MatchPath}>
+                    <NavLink to={Paths.MatchCompletionPath}>
                         Play
                     </NavLink>
                 </div>

@@ -1,19 +1,18 @@
 import { FunctionComponent } from "react";
 import { PlayerDto } from "../../dtos/PlayerDto";
-import { AppDispatch, useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppSelector } from "../../store/store";
+import { ListItem } from "../layout/ListItem";
 
 export type PlayerListItemProps = {
     player: PlayerDto
-    onSelected: (player: PlayerDto, dispatch: AppDispatch) => void
+    onSelected: () => void
 }
 
 export const PlayerListItem: FunctionComponent<PlayerListItemProps> = ({player, onSelected}) => {
-    const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
     const isSelected = player.id === playerState.editingPlayer?.id;
 
-    return <div className={`${isSelected ? 'highlighted' : ''} rounded-md border border-2 px-2`} 
-        onClick={() => onSelected(player, dispatch)}>
+    return <ListItem isSelected={isSelected} onSelected={onSelected}>
         {player.name}
-    </div>
+    </ListItem>
 }

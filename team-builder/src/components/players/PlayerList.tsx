@@ -5,7 +5,7 @@ import { PlayerListItem } from "./PlayerListItem";
 import { CreatePlayerItem } from "./CreatePlayerItem";
 import { reloadPlayers, setEditingPlayer } from "../../store/playerReducer";
 import { GroupFilter } from "../groups/GroupFilter";
-import { Pagination } from "../shared/Pagination";
+import { PaginatedListLayout } from "../layout/PaginatedListLayout";
 
 export const PlayerList: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -19,21 +19,16 @@ export const PlayerList: FunctionComponent = () => {
         dispatch(reloadPlayers({ page }))
     }
 
-    return <div style={{ maxWidth: '400px' }} className="flex flex-col flex-wrap gap-2 h-full">
-        <div className="flex-1 ">
-            <div className="flex flex-row flex-wrap gap-2 items-start">
-                <div className="w-full">
-                    <GroupFilter />
-                </div>
-                {
-                    playerState.players.items.map(p =>
-                        <PlayerListItem key={p.id} player={p} onSelected={(p, d) => d(setEditingPlayer(p))} />)
-                }
-                <CreatePlayerItem />
+    return <div style={{ maxWidth: '400px' }} className="size-full">
+        <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange}>
+            <div className="w-full">
+                <GroupFilter />
             </div>
-        </div>
-        <div>
-            <Pagination pageData={playerState.players} onPageChange={pageChange} />
-        </div>
+            {
+                playerState.players.items.map(p =>
+                    <PlayerListItem key={p.id} player={p} onSelected={() => dispatch(setEditingPlayer(p))} />)
+            }
+            <CreatePlayerItem />
+        </PaginatedListLayout>
     </div>
 }

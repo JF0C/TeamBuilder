@@ -20,5 +20,10 @@ export const MainMenu: FunctionComponent = () => {
                 Manage Groups
             </NavLink>
         </div>
+        <div>
+            <NavLink to={Paths.MatchManagementPath}>
+                Matches
+            </NavLink>
+        </div>
     </div>
 }

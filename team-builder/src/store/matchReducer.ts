@@ -13,6 +13,7 @@ export interface MatchState {
     loading: boolean
     current: MatchEntity
     matches: PagedResult<MatchDto> | null
+    selected: MatchDto | null
     queryFilter: MatchesRequestDto
 }
 
@@ -37,7 +38,8 @@ const initialState: MatchState = {
     queryFilter: {
         page: PaginationDefaults.Page,
         count: PaginationDefaults.Count
-    }
+    },
+    selected: null
 }
 
 export const matchSlice = createSlice({
@@ -68,6 +70,21 @@ export const matchSlice = createSlice({
         },
         setTeamScore(state, action: PayloadAction<{index: number, score: number}>) {
             state.current.teams[action.payload.index].score = action.payload.score;
+        },
+        reloadMatches(state, action: PayloadAction<{page?: number, player?: number | null, type?: number | null}>) {
+            if (action.payload.page) {
+                state.queryFilter.page = action.payload.page;
+            }
+            if (action.payload.player !== undefined) {
+                state.queryFilter.player = action.payload.player ?? undefined;
+            }
+            if (action.payload.type !== undefined) {
+                state.queryFilter.type = action.payload.type ?? undefined;
+            }
+            state.matches = null;
+        },
+        selectMatch(state, action: PayloadAction<MatchDto | null>) {
+            state.selected = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -110,5 +127,7 @@ export const {
     setTeamName,
     setTeamPlayers,
     resetTeamPlayers,
-    setTeamScore
+    setTeamScore,
+    reloadMatches,
+    selectMatch
 } = matchSlice.actions;
