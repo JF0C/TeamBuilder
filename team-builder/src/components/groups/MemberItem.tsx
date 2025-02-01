@@ -1,8 +1,9 @@
 import { FunctionComponent } from "react";
 import { PlayerDto } from "../../dtos/PlayerDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { addPlayerToGroupRequest, loadGroupPlayersRequest, removePlayerFromGroupRequest } from "../../thunks/groupThunk";
+import { addPlayerToGroupRequest, removePlayerFromGroupRequest } from "../../thunks/groupThunk";
 import { GroupDto } from "../../dtos/GroupDto";
+import { reloadEditingGroupPlayers } from "../../store/groupReducer";
 
 export type MemberItemProps = {
     player: PlayerDto
@@ -15,11 +16,7 @@ export const MemberItem: FunctionComponent<MemberItemProps> = ({player, group}) 
     const isInGroup = Boolean(editingGroupPlayers?.items.find(p => p.id === player.id));
 
     const reloadGroupPlayers = () => {
-        dispatch(loadGroupPlayersRequest({
-            page: editingGroupPlayers?.page ?? 1,
-            count: editingGroupPlayers?.count ?? 100,
-            group: group.id
-        }))
+        dispatch(reloadEditingGroupPlayers({}))
     }
 
     const toggleMembership = () => {

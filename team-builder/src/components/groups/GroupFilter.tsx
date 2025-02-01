@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { AppDispatch, useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { GroupListItem } from "./GroupListItem";
-import { resetPlayers, setGroup } from "../../store/playerReducer";
+import { reloadPlayers } from "../../store/playerReducer";
 import { GroupDto } from "../../dtos/GroupDto";
 import { Modal } from "../shared/Modal";
 
@@ -15,19 +15,17 @@ export const GroupFilter: FunctionComponent = () => {
     }
 
     const groupSelected = (group: GroupDto, dispatch: AppDispatch) => {
-        dispatch(setGroup(group));
-        dispatch(resetPlayers());
+        dispatch(reloadPlayers({group}))
     }
 
     const selectNoGroup = (_group: GroupDto, dispatch: AppDispatch) => {
-        dispatch(setGroup(null));
-        dispatch(resetPlayers());
+        dispatch(reloadPlayers({group: null}))
     }
 
-    return <Modal buttonContent={`Group: ${playerState.group?.name ?? '[none]'}`}>
+    return <Modal buttonContent={`Group: ${playerState.group?.name ?? '[all]'}`}>
         {
             groupState.groups.items.map(g => <GroupListItem className="closes-modal" key={g.id} group={g} onSelected={groupSelected}/>)
         }
-        <GroupListItem className="closes-modal" group={{id: 0, name: '[none]'}} onSelected={selectNoGroup} />
+        <GroupListItem className="closes-modal" group={{id: 0, name: '[all]'}} onSelected={selectNoGroup} />
     </Modal>
 }

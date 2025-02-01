@@ -1,7 +1,7 @@
 import { FunctionComponent, useRef, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { createPlayerRequest } from "../../thunks/playerThunk";
-import { resetPlayers } from "../../store/playerReducer";
+import { reloadPlayers } from "../../store/playerReducer";
 
 export const CreatePlayerItem: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -12,7 +12,7 @@ export const CreatePlayerItem: FunctionComponent = () => {
         dispatch(createPlayerRequest({name: name}))
             .unwrap()
             .then(() => {
-                dispatch(resetPlayers(null))
+                dispatch(reloadPlayers({group: null}))
                 if (inputRef.current) {
                     inputRef.current.value = '';
                 }

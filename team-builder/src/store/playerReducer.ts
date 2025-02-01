@@ -4,11 +4,14 @@ import { createPlayerRequest, loadPlayersRequest } from "../thunks/playerThunk";
 import { PagedResult } from "../dtos/PagedResult";
 import { GroupDto } from "../dtos/GroupDto";
 import { enqueueSnackbar } from "notistack";
+import { PlayersRequestDto } from "../dtos/PlayersRequestDto";
+import { PaginationDefaults } from "../constants/DefaultPagination";
 
 export interface PlayerState {
     loading: boolean;
     group: GroupDto | null
     players: PagedResult<PlayerDto> | null
+    queryFilter: PlayersRequestDto
     selected: number[]
     editingPlayer: PlayerDto | null
 }
@@ -17,6 +20,10 @@ export const initialState: PlayerState = {
     loading: false,
     group: null,
     players: null,
+    queryFilter: {
+        page: PaginationDefaults.Page,
+        count: PaginationDefaults.Count
+    },
     selected: [],
     editingPlayer: null
 }
@@ -40,14 +47,18 @@ export const playerSlice = createSlice({
         setEditingPlayer(state, action: PayloadAction<PlayerDto|null>) {
             state.editingPlayer = action.payload;
         },
-        setGroup(state, action: PayloadAction<GroupDto | null>) {
-            state.group = action.payload;
-        },
-        resetPlayers(state, action: PayloadAction<GroupDto | undefined | null>) {
-            state.players = null;
-            if (action.payload !== undefined) {
-                state.group = action.payload
+        reloadPlayers(state, action: PayloadAction<{group?: GroupDto | null, name?: string, page?: number}>) {
+            if (action.payload.group !== undefined) {
+                state.group = action.payload.group;
+                state.queryFilter.group = action.payload.group?.id
             }
+            if (action.payload.page !== undefined) {
+                state.queryFilter.page = action.payload.page;
+            }
+            if (action.payload.name !== undefined) {
+                state.queryFilter.name = action.payload.name
+            }
+            state.players = null;
         }
     },
     extraReducers: (builder) => {
@@ -56,7 +67,6 @@ export const playerSlice = createSlice({
         })
         builder.addCase(loadPlayersRequest.fulfilled, (state, action) => {
             state.players = action.payload;
-            state.players.count = action.meta.arg.count;
             state.loading = false;
         })
         builder.addCase(loadPlayersRequest.rejected, (state, action) => {
@@ -89,6 +99,5 @@ export const {
     deselectPlayer,
     clearSelectedPlayers,
     setEditingPlayer,
-    setGroup,
-    resetPlayers
+    reloadPlayers
 } = playerSlice.actions;

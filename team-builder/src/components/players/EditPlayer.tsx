@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { resetPlayers, setEditingPlayer } from "../../store/playerReducer";
+import { reloadPlayers, setEditingPlayer } from "../../store/playerReducer";
 import { deletePlayerRequest } from "../../thunks/playerThunk";
 
 export const EditPlayer: FunctionComponent = () => {
@@ -19,7 +19,7 @@ export const EditPlayer: FunctionComponent = () => {
         dispatch(deletePlayerRequest({id: editingPlayer.id}))
             .unwrap()
             .then(() => {
-                dispatch(resetPlayers())
+                dispatch(reloadPlayers({}))
                 dispatch(setEditingPlayer(null))
             })
     }

@@ -1,16 +1,14 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { resetGroups, setEditingGroup } from "../../store/groupReducer";
-import { deleteGroupRequest, loadGroupPlayersRequest } from "../../thunks/groupThunk";
+import { reloadEditingGroupPlayers, reloadGroups, setEditingGroup } from "../../store/groupReducer";
+import { deleteGroupRequest } from "../../thunks/groupThunk";
 import { useNavigate } from "react-router";
 import { Paths } from "../../constants/Paths";
-import { PaginationDefaults } from "../../constants/DefaultPagination";
-import { resetPlayers } from "../../store/playerReducer";
+import { reloadPlayers } from "../../store/playerReducer";
 
 export const EditGroup: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const groupState = useAppSelector((state) => state.groups)
-    const playerState = useAppSelector((state) => state.players)
     const editingGroup = groupState.editingGroup
     const navigate = useNavigate()
 
@@ -26,18 +24,14 @@ export const EditGroup: FunctionComponent = () => {
         dispatch(deleteGroupRequest({id: editingGroup.id}))
             .unwrap()
             .then(() => {
-                dispatch(resetGroups())
+                dispatch(reloadGroups({}))
                 dispatch(setEditingGroup(null))
             })
     }
 
     const editGroupMembers = () => {
-        dispatch(loadGroupPlayersRequest({
-            page: playerState.players?.page ?? 1,
-            count: playerState.players?.count ?? PaginationDefaults.Count,
-            group: editingGroup.id
-        }))
-        dispatch(resetPlayers(null))
+        dispatch(reloadEditingGroupPlayers({}))
+        dispatch(reloadPlayers({group: null}))
         navigate(Paths.GroupMembersPath)
     }
 

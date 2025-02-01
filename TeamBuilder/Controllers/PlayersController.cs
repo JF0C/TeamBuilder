@@ -10,9 +10,9 @@ namespace TeamBuilder.Controllers;
 public class PlayersController(IPlayersRepository playersRepository): BaseController
 {
     [HttpGet]
-    public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null)
+    public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null, string? name = null)
     {
-        return Ok(await playersRepository.ListAsync(page, count, group));
+        return Ok(await playersRepository.ListAsync(page, count, group, name));
     }
 
     [HttpDelete("{id}")]

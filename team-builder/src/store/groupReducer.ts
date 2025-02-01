@@ -4,22 +4,37 @@ import { GroupDto } from "../dtos/GroupDto";
 import { enqueueSnackbar } from "notistack";
 import { addPlayerToGroupRequest, loadGroupPlayersRequest, loadGroupsRequest, removePlayerFromGroupRequest } from "../thunks/groupThunk";
 import { PlayerDto } from "../dtos/PlayerDto";
-import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
+import { GroupsRequestDto } from "../dtos/GroupsRequestDto";
+import { PaginationDefaults } from "../constants/DefaultPagination";
+import { GroupPlayersRequestDto } from "../dtos/GroupPlayersRequestDto";
 
 export interface GroupState {
     loading: boolean;
+
     groups: PagedResult<GroupDto> | null
+    queryFilter: GroupsRequestDto
+
     editingGroup: GroupDto | null
     editingGroupPlayers: PagedResult<PlayerDto> | null
-    queryFilter: MatchesRequestDto | null
+    groupPlayersFilter: GroupPlayersRequestDto
 }
 
 export const initialState: GroupState = {
     loading: false,
+
     groups: null,
+    queryFilter: {
+        page: PaginationDefaults.Page,
+        count: PaginationDefaults.Count
+    },
+
     editingGroup: null,
     editingGroupPlayers: null,
-    queryFilter: null
+    groupPlayersFilter: {
+        page: PaginationDefaults.Page,
+        count: PaginationDefaults.Count,
+        group: 0
+    }
 }
 
 export const groupSlice = createSlice({
@@ -28,8 +43,20 @@ export const groupSlice = createSlice({
     reducers: {
         setEditingGroup(state, action: PayloadAction<GroupDto | null>) {
             state.editingGroup = action.payload;
+            if (action.payload) {
+                state.groupPlayersFilter.group = action.payload.id;
+            }
         },
-        resetGroups(state) {
+        reloadEditingGroupPlayers(state, action: PayloadAction<{page?: number}>) {
+            if (action.payload.page !== undefined) {
+                state.groupPlayersFilter.page = action.payload.page
+            }
+            state.editingGroupPlayers = null;
+        },
+        reloadGroups(state, action: PayloadAction<{page?: number}>) {
+            if (action.payload.page !== undefined) {
+                state.queryFilter.page = action.payload.page
+            }
             state.groups = null;
         }
     },
@@ -39,7 +66,6 @@ export const groupSlice = createSlice({
         })
         builder.addCase(loadGroupsRequest.fulfilled, (state, action) => {
             state.groups = action.payload;
-            state.groups.count = action.meta.arg.count;
             state.loading = false;
         })
         builder.addCase(loadGroupsRequest.rejected, (state, action) => {
@@ -96,5 +122,6 @@ export const groupSlice = createSlice({
 export const groupReducer = groupSlice.reducer;
 export const {
     setEditingGroup,
-    resetGroups
+    reloadGroups,
+    reloadEditingGroupPlayers
 } = groupSlice.actions;

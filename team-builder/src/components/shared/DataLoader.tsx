@@ -1,9 +1,7 @@
 import { FunctionComponent, ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { loadPlayersRequest } from "../../thunks/playerThunk";
-import { LoadingSpinner } from "./LoadingSpinner";
-import { loadGroupsRequest } from "../../thunks/groupThunk";
-import { PaginationDefaults } from "../../constants/DefaultPagination";
+import { loadGroupPlayersRequest, loadGroupsRequest } from "../../thunks/groupThunk";
 import { loadMatchesRequest } from "../../thunks/matchThunk";
 
 export const DataLoader: FunctionComponent = () => {
@@ -14,43 +12,47 @@ export const DataLoader: FunctionComponent = () => {
     const loading = playerState.loading || groupState.loading || matchState.loading
     
     const loadPlayers = () => {
-        dispatch(loadPlayersRequest({ 
-            page: playerState.players?.page ?? PaginationDefaults.Page,
-            count: playerState.players?.count ?? PaginationDefaults.Count,
-            group: playerState.group?.id ?? null
-        }));
+        dispatch(loadPlayersRequest(playerState.queryFilter));
     }
 
     const loadGroups = () => {
-        dispatch(loadGroupsRequest({
-            page: groupState.groups?.page ?? PaginationDefaults.Page,
-            count: groupState.groups?.count ?? PaginationDefaults.Count
-        }));
+        dispatch(loadGroupsRequest(groupState.queryFilter));
     }
 
     const loadMatches = () => {
         dispatch(loadMatchesRequest(matchState.queryFilter));
     }
 
+    const loadGroupPlayers = () => {
+        dispatch(loadGroupPlayersRequest(groupState.groupPlayersFilter))
+    }
+
     if (playerState.players === null) {
         if (!loading) {
             loadPlayers();
         }
-        return <LoadingSpinner />
+        return <></>
     }
 
     if (groupState.groups === null) {
         if (!loading) {
             loadGroups();
         }
-        return <LoadingSpinner />
+        return <></>
     }
 
     if (matchState.matches === null) {
         if (!loading) {
             loadMatches();
         }
-        return <LoadingSpinner />
+        return <></>
+    }
+
+    if (groupState.editingGroup !== null && groupState.editingGroupPlayers === null) {
+        if (!loading) {
+            loadGroupPlayers();
+        }
+        return <></>
     }
 
     const elements: ReactNode[] = [];

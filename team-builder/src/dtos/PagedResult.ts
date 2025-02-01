@@ -1,7 +1,6 @@
-export type PagedResult<T> = {
+import { PageDto } from "./PageDto"
+
+export type PagedResult<T> = PageDto & {
     items: T[]
-    page: number,
-    count?: number,
     totalItems: number
-    totalPages: number
 }

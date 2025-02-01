@@ -4,11 +4,14 @@ import { PagedResult } from "../dtos/PagedResult";
 import { PlayersRequestDto } from "../dtos/PlayersRequestDto";
 import { createDeleteThunk, createGetThunk, createPostThunk } from "./thunkBase";
 
+export const playerRequestToQuery = (request: PlayersRequestDto) => 
+    `${ApiUrls.BaseUrl + ApiUrls.PlayersEndpoint}?page=${request.page}&count=${request.count}` +
+        `${request.group ? `&group=${request.group}` : ''}` +
+        `${request.name ? `&name=${request.name}` : ''}`
+
 export const loadPlayersRequest = createGetThunk<PagedResult<PlayerDto>, PlayersRequestDto>(
     'load-players',
-    (request) => `${ApiUrls.BaseUrl + ApiUrls.PlayersEndpoint}?page=${request.page}&count=${request.count}${
-        request.group === null ? '' : '&group=' + request.group
-    }`,
+    (request) => playerRequestToQuery(request),
     async (response) => {
         const result = await response.json();
         return result;

@@ -30,23 +30,22 @@ internal class PlayersRepository(TeamBuilderDbContext context, IMapper mapper) :
         await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null)
+    public async Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null, string? name = null)
     {
-        if (groupId is null)
+        IQueryable<PlayerEntity> query = context.Players
+            .Include(p => p.Groups);
+        if (groupId is not null)
         {
-            return (await context.Players
-                .OrderByDescending(p => p.Created)
-                .ToPagedResult(page, count))
-                .MapTo<PlayerDto, PlayerEntity>(mapper);
+            query = query.Where(p => p.Groups.Any(g => g.Id == groupId));
         }
-        else
+        if (name is not null)
         {
-            return (await context.Players
-                .OrderByDescending(p => p.Created)
-                .Include(p => p.Groups)
-                .Where(p => p.Groups.Any(g => g.Id == groupId))
-                .ToPagedResult(page, count)).MapTo<PlayerDto, PlayerEntity>(mapper);
+            query = query.Where(p => p.Name.ToLower().Contains(name.ToLower()));
         }
+        return (await query
+            .OrderByDescending(p => p.Created)
+            .ToPagedResult(page, count))
+            .MapTo<PlayerDto, PlayerEntity>(mapper);
     }
 
     public async Task RenameAsync(long id, string name)
