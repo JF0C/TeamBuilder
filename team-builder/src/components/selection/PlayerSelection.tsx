@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { MatchConfiguration } from "./MatchConfiguration";
 import { resetTeamPlayers } from "../../store/matchReducer";
-import { ListAndDetails } from "../layout/ListAndDetails";
+import { SplitLayout } from "../layout/SplitLayout";
 
 export const PlayerSelection: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -18,10 +18,9 @@ export const PlayerSelection: FunctionComponent = () => {
     }
 
     return (
-        <ListAndDetails
-            list={<PlayerSelector />}
-            details={<SelectedPlayers />}
-            showDetails
+        <SplitLayout
+            left={<PlayerSelector />}
+            right={<SelectedPlayers />}
             bottom={
                 <div className="w-full flex flex-row justify-between">
                     <NavLink to={'/'}>
@@ -32,7 +31,6 @@ export const PlayerSelection: FunctionComponent = () => {
                         Generate
                     </NavLink>
                 </div>
-            }
-        />
+            } />
     )
 }

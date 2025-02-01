@@ -5,34 +5,29 @@ import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
 import { MembersAvailable } from "./MembersAvailable";
 import { MembersCurrent } from "./MembersCurrent";
+import { SplitLayout } from "../layout/SplitLayout";
 
 export const GroupMembers: FunctionComponent = () => {
     const groupState = useAppSelector((state) => state.groups)
     const playerState = useAppSelector((state) => state.players)
 
-    if (groupState.groups === null || groupState.loading 
+    if (groupState.groups === null || groupState.loading
         || playerState.players === null || playerState.loading
         || groupState.editingGroup === null
     ) {
         return <LoadingSpinner />
     }
 
-    const availableMembers = playerState.players.items.filter(p => 
+    const availableMembers = playerState.players.items.filter(p =>
         groupState.editingGroupPlayers?.items.find(g => g.id === p.id) === undefined)
 
-    return <div className="flex flex-col h-full p-4">
-    <div className="flex-1 flex flex-row">
-        <div className="w-1/2">
-            <MembersAvailable group={groupState.editingGroup} availableMembers={availableMembers}/>
-        </div>
-        <div className="w-1/2">
-            <MembersCurrent group={groupState.editingGroup}/>
-        </div>
-    </div>
-    <div className="w-full flex flex-row justify-between">
-        <NavLink to={Paths.GroupManagementPath}>
-            Back
-        </NavLink>
-    </div>
-</div>
+    return (
+        <SplitLayout
+            left={<MembersAvailable group={groupState.editingGroup} availableMembers={availableMembers} />}
+            right={<MembersCurrent group={groupState.editingGroup} />}
+            bottom={<NavLink to={Paths.GroupManagementPath}>
+                Back
+            </NavLink>}
+        />
+    )
 }
