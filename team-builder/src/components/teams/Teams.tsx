@@ -68,7 +68,7 @@ export const Teams: FunctionComponent = () => {
                     </NavLink>
                 </div>
                 <div className="button" onClick={() => generateTeams(selectedPlayers)}>
-                    Again
+                    Shuffle
                 </div>
                 <div>
                     <NavLink to={Paths.MatchPath}>

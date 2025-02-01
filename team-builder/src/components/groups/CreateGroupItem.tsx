@@ -1,10 +1,10 @@
 import { FunctionComponent, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { createGroupRequest, loadGroupsRequest } from "../../thunks/groupThunk";
+import { useAppDispatch } from "../../store/store";
+import { createGroupRequest } from "../../thunks/groupThunk";
+import { resetGroups } from "../../store/groupReducer";
 
 export const CreateGroupItem: FunctionComponent = () => {
      const dispatch = useAppDispatch();
-    const groupState = useAppSelector((state) => state.groups);
     const [name, setName] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -12,10 +12,7 @@ export const CreateGroupItem: FunctionComponent = () => {
         dispatch(createGroupRequest({name: name}))
             .unwrap()
             .then(() => {
-                dispatch(loadGroupsRequest({
-                    page: groupState.groups?.page ?? 1,
-                    count: groupState.groups?.count ?? 100
-                }));
+                dispatch(resetGroups());
                 if (inputRef.current) {
                     inputRef.current.value = '';
                 }

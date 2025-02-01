@@ -7,10 +7,10 @@ namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MatchController(IMatchRepository matchRepository): BaseController
+public class MatchesController(IMatchRepository matchRepository): BaseController
 {
     [HttpGet]
-    public async Task<ActionResult<PagedResult<MatchDto>>> ListMatches(int page, int count, long? player, Core.Entities.MatchType? type, DateTime? from, DateTime? to)
+    public async Task<ActionResult<PagedResult<MatchDto>>> ListMatches(int page, int count, long? player, Core.Entities.MatchType? type, long? from, long? to)
     {
         var filter = new MatchFilterDto
         {

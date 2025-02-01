@@ -51,11 +51,13 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
         }
         if (filter.FromDate is not null)
         {
-            query = query.Where(m => m.Created > filter.FromDate);
+            var fromDate = DateTime.UnixEpoch.AddMilliseconds((double)filter.FromDate);
+            query = query.Where(m => m.Created > fromDate);
         }
         if (filter.ToDate is not null)
         {
-            query = query.Where(m => m.Created < filter.ToDate);
+            var toDate = DateTime.UnixEpoch.AddMilliseconds((double)filter.ToDate);
+            query = query.Where(m => m.Created < toDate);
         }
         return (await query.ToPagedResult(page, count)).MapTo<MatchDto, MatchEntity>(mapper);
     }

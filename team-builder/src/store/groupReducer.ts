@@ -4,19 +4,22 @@ import { GroupDto } from "../dtos/GroupDto";
 import { enqueueSnackbar } from "notistack";
 import { addPlayerToGroupRequest, loadGroupPlayersRequest, loadGroupsRequest, removePlayerFromGroupRequest } from "../thunks/groupThunk";
 import { PlayerDto } from "../dtos/PlayerDto";
+import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
 
 export interface GroupState {
     loading: boolean;
     groups: PagedResult<GroupDto> | null
     editingGroup: GroupDto | null
     editingGroupPlayers: PagedResult<PlayerDto> | null
+    queryFilter: MatchesRequestDto | null
 }
 
 export const initialState: GroupState = {
     loading: false,
     groups: null,
     editingGroup: null,
-    editingGroupPlayers: null
+    editingGroupPlayers: null,
+    queryFilter: null
 }
 
 export const groupSlice = createSlice({
@@ -25,6 +28,9 @@ export const groupSlice = createSlice({
     reducers: {
         setEditingGroup(state, action: PayloadAction<GroupDto | null>) {
             state.editingGroup = action.payload;
+        },
+        resetGroups(state) {
+            state.groups = null;
         }
     },
     extraReducers: (builder) => {
@@ -44,7 +50,7 @@ export const groupSlice = createSlice({
                 totalPages: 0,
                 items: []
             }
-            enqueueSnackbar(`failed to load players ${action.error.message}`, { variant: 'error' });
+            enqueueSnackbar(`failed to load groups ${action.error.message}`, { variant: 'error' });
         })
 
         builder.addCase(loadGroupPlayersRequest.pending, (state) => {
@@ -89,5 +95,6 @@ export const groupSlice = createSlice({
 
 export const groupReducer = groupSlice.reducer;
 export const {
-    setEditingGroup
+    setEditingGroup,
+    resetGroups
 } = groupSlice.actions;

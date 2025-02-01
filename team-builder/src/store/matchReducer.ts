@@ -4,13 +4,16 @@ import { PagedResult } from "../dtos/PagedResult";
 import { MatchEntity } from "../data/MatchEntity";
 import { TeamEntity } from "../data/TeamEntity";
 import { PlayerDto } from "../dtos/PlayerDto";
-import { createMatchRequest } from "../thunks/matchThunk";
+import { createMatchRequest, loadMatchesRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
+import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
+import { PaginationDefaults } from "../constants/DefaultPagination";
 
 export interface MatchState {
     loading: boolean
     current: MatchEntity
     matches: PagedResult<MatchDto> | null
+    queryFilter: MatchesRequestDto
 }
 
 const emptyTeam = (): TeamEntity => {
@@ -31,6 +34,10 @@ const initialState: MatchState = {
         type: 0
     },
     matches: null,
+    queryFilter: {
+        page: PaginationDefaults.Page,
+        count: PaginationDefaults.Count
+    }
 }
 
 export const matchSlice = createSlice({
@@ -74,6 +81,24 @@ export const matchSlice = createSlice({
         builder.addCase(createMatchRequest.rejected, (state) => {
             enqueueSnackbar('Could not save match', {variant: 'error'})
             state.loading = false;
+        })
+
+        builder.addCase(loadMatchesRequest.pending, (state) => {
+            state.loading = true;
+        })
+        builder.addCase(loadMatchesRequest.fulfilled, (state, action) => {
+            state.matches = action.payload;
+            state.loading = false;
+        })
+        builder.addCase(loadMatchesRequest.rejected, (state, action) => {
+            state.loading = false;
+            state.matches = {
+                page: action.meta.arg.page,
+                totalItems: 0,
+                totalPages: 0,
+                items: []
+            }
+            enqueueSnackbar(`failed to load matches ${action.error.message}`, { variant: 'error' });
         })
     }
 })

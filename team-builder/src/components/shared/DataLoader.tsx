@@ -3,30 +3,52 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { loadPlayersRequest } from "../../thunks/playerThunk";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { loadGroupsRequest } from "../../thunks/groupThunk";
+import { PaginationDefaults } from "../../constants/DefaultPagination";
+import { loadMatchesRequest } from "../../thunks/matchThunk";
 
 export const DataLoader: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
     const groupState = useAppSelector((state) => state.groups);
+    const matchState = useAppSelector((state) => state.match);
+    const loading = playerState.loading || groupState.loading || matchState.loading
     
     const loadPlayers = () => {
-        dispatch(loadPlayersRequest({ page: 1, count: 100, group: playerState.group?.id ?? null }));
+        dispatch(loadPlayersRequest({ 
+            page: playerState.players?.page ?? PaginationDefaults.Page,
+            count: playerState.players?.count ?? PaginationDefaults.Count,
+            group: playerState.group?.id ?? null
+        }));
     }
 
     const loadGroups = () => {
-        dispatch(loadGroupsRequest({ page: 1, count: 100 }));
+        dispatch(loadGroupsRequest({
+            page: groupState.groups?.page ?? PaginationDefaults.Page,
+            count: groupState.groups?.count ?? PaginationDefaults.Count
+        }));
+    }
+
+    const loadMatches = () => {
+        dispatch(loadMatchesRequest(matchState.queryFilter));
     }
 
     if (playerState.players === null) {
-        if (!playerState.loading) {
+        if (!loading) {
             loadPlayers();
         }
         return <LoadingSpinner />
     }
 
     if (groupState.groups === null) {
-        if (!groupState.loading) {
+        if (!loading) {
             loadGroups();
+        }
+        return <LoadingSpinner />
+    }
+
+    if (matchState.matches === null) {
+        if (!loading) {
+            loadMatches();
         }
         return <LoadingSpinner />
     }
@@ -45,6 +67,14 @@ export const DataLoader: FunctionComponent = () => {
         elements.push(<div className="size-full flex flex-row justify-center items-center">
             <div onClick={loadGroups} className="button">
                 Reload Groups
+            </div>
+        </div>)
+    }
+
+    if (matchState.matches.items.length === 0) {
+        elements.push(<div className="size-full flex flex-row justify-center items-center">
+            <div onClick={loadMatches} className="button">
+                Reload Matches
             </div>
         </div>)
     }

@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { setEditingPlayer } from "../../store/playerReducer";
-import { deletePlayerRequest, loadPlayersRequest } from "../../thunks/playerThunk";
+import { resetPlayers, setEditingPlayer } from "../../store/playerReducer";
+import { deletePlayerRequest } from "../../thunks/playerThunk";
 
 export const EditPlayer: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -19,11 +19,7 @@ export const EditPlayer: FunctionComponent = () => {
         dispatch(deletePlayerRequest({id: editingPlayer.id}))
             .unwrap()
             .then(() => {
-                dispatch(loadPlayersRequest({
-                    page: playerState.players?.page ?? 1,
-                    count: playerState.players?.count ?? 100,
-                    group: playerState.group?.id ?? null
-                }))
+                dispatch(resetPlayers())
                 dispatch(setEditingPlayer(null))
             })
     }

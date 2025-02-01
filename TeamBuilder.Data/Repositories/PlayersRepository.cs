@@ -34,11 +34,15 @@ internal class PlayersRepository(TeamBuilderDbContext context, IMapper mapper) :
     {
         if (groupId is null)
         {
-            return (await context.Players.ToPagedResult(page, count)).MapTo<PlayerDto, PlayerEntity>(mapper);
+            return (await context.Players
+                .OrderByDescending(p => p.Created)
+                .ToPagedResult(page, count))
+                .MapTo<PlayerDto, PlayerEntity>(mapper);
         }
         else
         {
             return (await context.Players
+                .OrderByDescending(p => p.Created)
                 .Include(p => p.Groups)
                 .Where(p => p.Groups.Any(g => g.Id == groupId))
                 .ToPagedResult(page, count)).MapTo<PlayerDto, PlayerEntity>(mapper);

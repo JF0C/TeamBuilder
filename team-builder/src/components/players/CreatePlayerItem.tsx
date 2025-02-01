@@ -1,10 +1,10 @@
 import { FunctionComponent, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { createPlayerRequest, loadPlayersRequest } from "../../thunks/playerThunk";
+import { useAppDispatch } from "../../store/store";
+import { createPlayerRequest } from "../../thunks/playerThunk";
+import { resetPlayers } from "../../store/playerReducer";
 
 export const CreatePlayerItem: FunctionComponent = () => {
     const dispatch = useAppDispatch();
-    const playerState = useAppSelector((state) => state.players);
     const [name, setName] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -12,11 +12,7 @@ export const CreatePlayerItem: FunctionComponent = () => {
         dispatch(createPlayerRequest({name: name}))
             .unwrap()
             .then(() => {
-                dispatch(loadPlayersRequest({
-                    page: playerState.players?.page ?? 1,
-                    count: playerState.players?.count ?? 100,
-                    group: null
-                }));
+                dispatch(resetPlayers(null))
                 if (inputRef.current) {
                     inputRef.current.value = '';
                 }

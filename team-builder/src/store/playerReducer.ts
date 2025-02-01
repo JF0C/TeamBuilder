@@ -43,8 +43,11 @@ export const playerSlice = createSlice({
         setGroup(state, action: PayloadAction<GroupDto | null>) {
             state.group = action.payload;
         },
-        resetPlayers(state) {
+        resetPlayers(state, action: PayloadAction<GroupDto | undefined | null>) {
             state.players = null;
+            if (action.payload !== undefined) {
+                state.group = action.payload
+            }
         }
     },
     extraReducers: (builder) => {
