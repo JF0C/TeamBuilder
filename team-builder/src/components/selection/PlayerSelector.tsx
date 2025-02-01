@@ -33,7 +33,7 @@ export const PlayerSelector: FunctionComponent = () => {
     }
 
     return (
-        <div className="border-r p-2 h-full">
+        <div className="border-r h-full">
             <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange}>
                 <div className="w-full">
                     Available

@@ -20,7 +20,7 @@ export const SelectedPlayers: FunctionComponent = () => {
     }
 
     return (
-        <div className="flex flex-row flex-wrap gap-2 p-2">
+        <div className="flex flex-row flex-wrap gap-2">
             <div className="w-full">
                 Selected ({selectedPlayers.length.toString()})
             </div>
