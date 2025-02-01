@@ -20,7 +20,7 @@ export const MembersAvailable: FunctionComponent<{ availableMembers: PlayerDto[]
     }
 
     return (
-        <div className="border-r size-full">
+        <div className="size-full">
             <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange}>
                 <div className="w-full">
                     Available

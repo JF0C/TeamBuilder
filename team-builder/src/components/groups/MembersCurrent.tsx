@@ -19,7 +19,7 @@ export const MembersCurrent: FunctionComponent<{ group: GroupDto }> = ({ group }
     }
 
     return (
-        <div className="pl-4 size-full">
+        <div className="size-full">
             <PaginatedListLayout pageData={groupState.editingGroupPlayers} onPageChange={pageChange}>
                 <div className="w-full">
                     Members of {group.name}
