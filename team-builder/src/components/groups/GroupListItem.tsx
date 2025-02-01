@@ -6,6 +6,7 @@ import { ListItem } from "../layout/ListItem";
 export type GroupListItemProps = {
     group: GroupDto
     onSelected: () => void
+    
 }
 
 export const GroupListItem: FunctionComponent<GroupListItemProps> = ({ group, onSelected }) => {
@@ -13,8 +14,10 @@ export const GroupListItem: FunctionComponent<GroupListItemProps> = ({ group, on
     const isSelected = group.id === playerState.group?.id;
 
     return (
-        <ListItem isSelected={isSelected} onSelected={onSelected}>
-            {group.name}
-        </ListItem>
+        <div className="closes-modal">
+            <ListItem isSelected={isSelected} onSelected={onSelected}>
+                {group.name}
+            </ListItem>
+        </div>
     )
 }
