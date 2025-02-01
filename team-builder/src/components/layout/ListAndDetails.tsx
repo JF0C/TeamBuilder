@@ -8,12 +8,17 @@ export type ListAndDetailsProps = {
 }
 
 export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDetails, list, details, bottom }) => {
+    console.log('show details: ', showDetails)
     return (
         <div className="flex flex-col w-full h-full p-4">
-            <div className="flex flex-col w-full flex-1 flex-wrap md:flex-row-reverse">
-                <div className="md:w-1/2">
-                    {showDetails ? details : <></>}
-                </div>
+            <div className="flex flex-col w-full flex-1 flex-wrap md:flex-row-reverse md:justify-center">
+                {
+                    showDetails ?
+                        <div className="md:w-1/2">
+                            {details}
+                        </div>
+                        : <></>
+                }
                 <div className={`${showDetails ? 'md:w-1/2' : ''}`}>
                     {list}
                 </div>
