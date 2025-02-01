@@ -5,7 +5,7 @@ import { PagedResult } from "../dtos/PagedResult";
 import { GroupDto } from "../dtos/GroupDto";
 import { enqueueSnackbar } from "notistack";
 import { PlayersRequestDto } from "../dtos/PlayersRequestDto";
-import { PaginationDefaults } from "../constants/DefaultPagination";
+import { PaginationDefaults } from "../constants/PaginationDefaults";
 
 export interface PlayerState {
     loading: boolean;

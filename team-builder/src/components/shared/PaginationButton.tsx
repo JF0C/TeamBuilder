@@ -1,8 +1,8 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 
-export const PaginationButton: FunctionComponent<{page: string, onClick: () => void}> = ({page, onClick}) => {
+export const PaginationButton: FunctionComponent<{page: string | ReactNode, onClick: () => void, isCurrent?: boolean}> = ({page, onClick, isCurrent}) => {
 
-    return <div className="button rounded-full light" onClick={onClick}>
+    return <div className={`${!isCurrent ? 'button' : ''} rounded-full bg-action px-3`} onClick={onClick}>
         {page}
     </div>
 }

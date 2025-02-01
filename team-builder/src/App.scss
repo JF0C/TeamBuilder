@@ -1,6 +1,6 @@
 $celadon: rgb(110, 173, 115);
 $linkColor: #646cff;
-
+$actionColor: rgb(56, 49, 10);
 
 #root {
   max-width: 1280px;
@@ -25,8 +25,8 @@ $linkColor: #646cff;
   background-color: $celadon;
 }
 
-.light {
-  background-color: rgb(122, 110, 70);
+.bg-action {
+  background-color: $actionColor;
 }
 
 .modal-background {
@@ -34,7 +34,7 @@ $linkColor: #646cff;
 }
 
 .modal-content {
-  background-color: rgb(56, 49, 10);
+  background-color: $actionColor;
   max-width: 90vw;
 }
 

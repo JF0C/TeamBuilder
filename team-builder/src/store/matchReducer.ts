@@ -7,7 +7,7 @@ import { PlayerDto } from "../dtos/PlayerDto";
 import { createMatchRequest, loadMatchesRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
 import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
-import { PaginationDefaults } from "../constants/DefaultPagination";
+import { PaginationDefaults } from "../constants/PaginationDefaults";
 
 export interface MatchState {
     loading: boolean
