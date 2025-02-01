@@ -105,6 +105,9 @@ export const matchSlice = createSlice({
         })
         builder.addCase(loadMatchesRequest.fulfilled, (state, action) => {
             state.matches = action.payload;
+            for (const match of state.matches.items) {
+                match.created = new Date(match.created).valueOf();
+            }
             state.loading = false;
         })
         builder.addCase(loadMatchesRequest.rejected, (state, action) => {

@@ -59,7 +59,10 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
             var toDate = DateTime.UnixEpoch.AddMilliseconds((double)filter.ToDate);
             query = query.Where(m => m.Created < toDate);
         }
-        return (await query.ToPagedResult(page, count)).MapTo<MatchDto, MatchEntity>(mapper);
+        return (await query
+            .OrderByDescending(m => m.Created)
+            .ToPagedResult(page, count))
+            .MapTo<MatchDto, MatchEntity>(mapper);
     }
 
     public async Task SetScoresAsync(long id, List<TeamScoreDto> scores)
