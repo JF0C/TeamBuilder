@@ -14,12 +14,12 @@ export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDet
             <div className="flex flex-col w-full flex-1 flex-wrap md:flex-row-reverse md:justify-center">
                 {
                     showDetails ?
-                        <div className="md:w-1/2">
+                        <div className="md:w-1/2 h-full">
                             {details}
                         </div>
                         : <></>
                 }
-                <div className={`${showDetails ? 'md:w-1/2' : ''}`}>
+                <div className={`${showDetails ? 'md:w-1/2' : ''} h-full`}>
                     {list}
                 </div>
             </div>
