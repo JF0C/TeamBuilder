@@ -41,6 +41,14 @@ $actionColor: rgb(56, 49, 10);
   font-size: 1rem;
 }
 
+.color-red {
+  color: rgb(123, 17, 17);
+}
+
+.color-red:hover {
+  color: rgb(188, 31, 31);
+}
+
 .modal-content {
   background-color: $actionColor;
   max-width: 90vw;

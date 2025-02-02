@@ -67,6 +67,10 @@ export const playerSlice = createSlice({
         })
         builder.addCase(loadPlayersRequest.fulfilled, (state, action) => {
             state.players = action.payload;
+            const editingPlayerId = state.editingPlayer?.id
+            if (editingPlayerId) {
+                state.editingPlayer = action.payload.items.find(p => p.id === editingPlayerId) ?? null
+            }
             state.loading = false;
         })
         builder.addCase(loadPlayersRequest.rejected, (state, action) => {

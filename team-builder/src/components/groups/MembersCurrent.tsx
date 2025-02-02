@@ -26,12 +26,11 @@ export const MembersCurrent: FunctionComponent<{ group: GroupDto | null }> = ({ 
                     Members of {group?.name}
                 </div>
                 {
-                    group ?
+                    group && !groupState.loading ?
                     editingGroupPlayers.items.map(p => <MemberItem key={p.id} player={p} group={group} />)
                     : <LoadingSpinner/>
                 }
             </PaginatedListLayout>
-
         </div>
     )
 }

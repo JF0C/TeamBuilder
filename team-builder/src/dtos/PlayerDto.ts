@@ -1,4 +1,7 @@
+import { GroupDto } from "./GroupDto"
+
 export type PlayerDto = {
     id: number,
-    name: string
+    name: string,
+    groups: GroupDto[]
 }

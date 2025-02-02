@@ -2,7 +2,7 @@ import { FunctionComponent, ReactNode } from "react";
 
 export type ListItemProps = {
     isSelected?: boolean
-    onSelected: () => void
+    onSelected?: () => void
     children: string | ReactNode | ReactNode[]
 }
 
@@ -10,7 +10,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({ isSelected, onSelec
 
     return (
         <div className={`${isSelected ? 'highlighted' : ''} cursor-pointer rounded-md border border-2 px-2`}
-            onClick={() => onSelected()}>
+            onClick={() => onSelected?.()}>
             {children}
         </div>
     )

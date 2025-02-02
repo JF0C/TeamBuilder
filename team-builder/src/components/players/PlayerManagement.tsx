@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { PlayerList } from "./PlayerList";
-import { EditPlayer } from "./EditPlayer";
+import { PlayerDetails } from "./PlayerDetails";
 import { useAppSelector } from "../../store/store";
 import { NavLink } from "react-router-dom";
 import { ListAndDetails } from "../layout/ListAndDetails";
@@ -11,7 +11,7 @@ export const PlayerManagement: FunctionComponent = () => {
     return (
         <ListAndDetails
             list={<PlayerList />}
-            details={<EditPlayer />}
+            details={<PlayerDetails />}
             showDetails={editingPlayer}
             navigation={<div className="button">
                 <NavLink to={'/'}>
