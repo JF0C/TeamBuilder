@@ -13,7 +13,7 @@ export const PlayerManagement: FunctionComponent = () => {
             list={<PlayerList />}
             details={<EditPlayer />}
             showDetails={editingPlayer}
-            bottom={<div className="button">
+            navigation={<div className="button">
                 <NavLink to={'/'}>
                     Back
                 </NavLink>

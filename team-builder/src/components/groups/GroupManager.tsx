@@ -13,7 +13,7 @@ export const GroupManager: FunctionComponent = () => {
         list={<GroupList />} 
         details={<EditGroup />} 
         showDetails={showDetails}
-        bottom={<div className="button">
+        navigation={<div className="button">
             <NavLink to={'/'}>
                 Back
             </NavLink>

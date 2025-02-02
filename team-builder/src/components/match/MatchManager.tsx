@@ -13,7 +13,7 @@ export const MatchManager: FunctionComponent = () => {
             list={<MatchList />}
             details={<MatchDetails />}
             showDetails={isMatchSelected}
-            bottom={
+            navigation={
                 <div className="button">
                     <NavLink to={'/'}>
                         Back

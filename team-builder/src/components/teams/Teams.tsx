@@ -7,6 +7,7 @@ import { Paths } from "../../constants/Paths";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { TeamEntity } from "../../data/TeamEntity";
 import { setTeamName, setTeamPlayers } from "../../store/matchReducer";
+import { BottomBarLayout } from "../layout/BottomBarLayout";
 
 export const Teams: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ export const Teams: FunctionComponent = () => {
             const players = selectedPlayers.slice(k * teamSize, Math.min((k + 1) * teamSize, selectedCount));
             dispatch(setTeamPlayers({ index: k, players: players }));
             if (matchState.current.teams[k].name === '') {
-                dispatch(setTeamName({ index: k, name: `Team ${(k+1)}`}))
+                dispatch(setTeamName({ index: k, name: `Team ${(k + 1)}` }))
             }
         }
         return teams;
@@ -52,30 +53,27 @@ export const Teams: FunctionComponent = () => {
         generateTeams(selectedPlayers);
     }
 
-    return <div className="size-full flex flex-row justify-center">
-        <div className="flex flex-col h-full p-4 w-screen md:max-w-2/3">
-            <div className="flex-1">
-                {
-                    matchState.current.teams.map((team, index) =>
-                        <TeamView key={`team-${index}`} name={team.name} players={team.players} />
-                    )
-                }
+    return (
+        <BottomBarLayout navigation={<div className="flex flex-row justify-between">
+            <div>
+                <NavLink to={Paths.SelectionPath}>
+                    Back
+                </NavLink>
             </div>
-            <div className="w-full flex flex-row justify-between">
-                <div>
-                    <NavLink to={Paths.SelectionPath}>
-                        Back
-                    </NavLink>
-                </div>
-                <div className="button" onClick={() => generateTeams(selectedPlayers)}>
-                    Shuffle
-                </div>
-                <div>
-                    <NavLink to={Paths.MatchCompletionPath}>
-                        Play
-                    </NavLink>
-                </div>
+            <div className="button" onClick={() => generateTeams(selectedPlayers)}>
+                Shuffle
             </div>
-        </div>
-    </div>
+            <div>
+                <NavLink to={Paths.MatchCompletionPath}>
+                    Play
+                </NavLink>
+            </div></div>}>
+            {
+                matchState.current.teams.map((team, index) =>
+                    <TeamView key={`team-${index}`} name={team.name} players={team.players} />
+                )
+            }
+        </BottomBarLayout>
+
+    )
 }

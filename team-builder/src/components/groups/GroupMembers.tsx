@@ -23,9 +23,9 @@ export const GroupMembers: FunctionComponent = () => {
 
     return (
         <SplitLayout
-            left={<MembersAvailable group={groupState.editingGroup} availableMembers={availableMembers} />}
-            right={<MembersCurrent group={groupState.editingGroup} />}
-            bottom={<NavLink to={Paths.GroupManagementPath}>
+            source={<MembersAvailable group={groupState.editingGroup} availableMembers={availableMembers} />}
+            selected={<MembersCurrent group={groupState.editingGroup} />}
+            navigation={<NavLink to={Paths.GroupManagementPath}>
                 Back
             </NavLink>}
         />

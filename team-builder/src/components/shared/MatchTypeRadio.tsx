@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { RadioGroup } from "./RadioGroup";
 import { setMatchType } from "../../store/matchReducer";
 
-export const MatchTypeRadio: FunctionComponent = () => {
+export const MatchTypeRadio: FunctionComponent<{justifyRight?: boolean}> = ({justifyRight}) => {
     const dispatch = useAppDispatch();
     const matchState = useAppSelector((state) => state.match);
 
@@ -30,5 +30,5 @@ export const MatchTypeRadio: FunctionComponent = () => {
         }
     ]
 
-    return <RadioGroup selectedId={matchState.current.type} items={matchTypes} onSelectionChanged={changeMatchState}/>
+    return <RadioGroup selectedId={matchState.current.type} items={matchTypes} onSelectionChanged={changeMatchState} justifyRight={justifyRight}/>
 }

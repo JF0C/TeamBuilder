@@ -25,8 +25,12 @@ export const GroupFilter: FunctionComponent = () => {
 
     return <Modal buttonContent={`Groupfilter: ${playerState.group?.name ?? '[all]'}`}>
         {
-            groupState.groups.items.map(g => <GroupListItem key={g.id} group={g} onSelected={() => groupSelected(g)}/>)
+            groupState.groups.items.map(g => <GroupListItem key={g.id}
+                group={g}
+                onSelected={() => groupSelected(g)}
+                isSelected={(state) => state.players.group?.id === g.id}    
+            />)
         }
-        <GroupListItem group={{id: 0, name: '[all]'}} onSelected={selectNoGroup} />
+        <GroupListItem group={{id: 0, name: '[all]'}} onSelected={selectNoGroup} isSelected={(state) => state.players.group === null} />
     </Modal>
 }

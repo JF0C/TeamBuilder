@@ -19,9 +19,9 @@ export const PlayerSelection: FunctionComponent = () => {
 
     return (
         <SplitLayout
-            left={<PlayerSelector />}
-            right={<SelectedPlayers />}
-            bottom={
+            source={<PlayerSelector />}
+            selected={<SelectedPlayers />}
+            navigation={
                 <div className="w-full flex flex-row justify-between">
                     <NavLink to={'/'}>
                         Back

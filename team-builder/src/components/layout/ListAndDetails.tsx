@@ -1,31 +1,30 @@
 import { FunctionComponent, ReactNode } from "react";
+import { BottomBarLayout } from "./BottomBarLayout";
+import { LeftOrBottomHalf } from "./LeftOrBottomHalf";
+import { RightOrTopHalf } from "./RightOrTopHalf";
 
 export type ListAndDetailsProps = {
     showDetails: boolean
     list: ReactNode
     details: ReactNode
-    bottom: ReactNode | ReactNode[]
+    navigation: ReactNode | ReactNode[]
 }
 
-export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDetails, list, details, bottom }) => {
-    console.log('show details: ', showDetails)
+export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDetails, list, details, navigation }) => {
     return (
-        <div className="flex flex-col w-full h-full p-4">
-            <div className="flex flex-col w-full flex-1 flex-wrap md:flex-row-reverse md:justify-center">
+        <BottomBarLayout navigation={navigation}>
+            <div className="flex flex-col w-full flex-1 flex-wrap md:flex-row-reverse md:justify-end">
                 {
                     showDetails ?
-                        <div className="md:w-1/2 h-full">
+                        <RightOrTopHalf>
                             {details}
-                        </div>
+                        </RightOrTopHalf>
                         : <></>
                 }
-                <div className={`${showDetails ? 'md:w-1/2' : ''} h-full`}>
+                <LeftOrBottomHalf expanded={!showDetails}>
                     {list}
-                </div>
+                </LeftOrBottomHalf>
             </div>
-            <div className="w-full">
-                {bottom}
-            </div>
-        </div>
+        </BottomBarLayout>
     )
 }
