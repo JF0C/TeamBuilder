@@ -1,9 +1,19 @@
+import { MatchProperties } from "../constants/MatchProperties"
+
 export const matchTypeToString = (type: number): string => {
-    switch(type) {
-        case 0: return 'Match'
-        case 1: return 'Flunkyball'
-        case 2: return 'Beerpong'
-        case 3: return 'Fireball'
-        default: return 'Error'
+    if (type >= 0 && type < MatchProperties.length) {
+        return MatchProperties[type].name;
+    }
+    else {
+        return 'Error';
+    }
+}
+
+export const matchTypeWinningScore = (type: number): number => {
+    if (type >= 0 && type < MatchProperties.length) {
+        return MatchProperties[type].winningScore;
+    }
+    else {
+        return 0;
     }
 }

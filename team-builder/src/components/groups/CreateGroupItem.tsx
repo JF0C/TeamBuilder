@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useState } from "react";
+import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { createGroupRequest } from "../../thunks/groupThunk";
 import { reloadGroups } from "../../store/groupReducer";
@@ -19,8 +19,7 @@ export const CreateGroupItem: FunctionComponent = () => {
             })
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onInput = (e: any) => {
+    const onInput = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     }
 

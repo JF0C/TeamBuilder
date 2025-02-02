@@ -4,6 +4,7 @@ import { reloadPlayers, setEditingPlayer } from "../../store/playerReducer";
 import { deletePlayerRequest } from "../../thunks/playerThunk";
 import { PlayerGroups } from "./PlayerGroups";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { DetailsLayout } from "../layout/DetailsLayout";
 
 export const PlayerDetails: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -26,15 +27,10 @@ export const PlayerDetails: FunctionComponent = () => {
             })
     }
 
-    return <div style={{ minWidth: '200px' }} className="pb-4 size-full flex flex-col">
-        <div className="flex flex-row justify-between">
-            <div>{editingPlayer.id}</div>
-            <div>{editingPlayer.name}</div>
-            <div onClick={deselectPlayer} className="button">X</div>
-        </div>
-        <div className="flex-1 overflow-y-scroll text-left">
+    return (
+        <DetailsLayout onClose={deselectPlayer} title={editingPlayer.name} id={editingPlayer.id.toString()}>
             <PlayerGroups player={editingPlayer} />
             <div className="button color-red" onClick={deletePlayer}>Delete</div>
-        </div>
-    </div>
+        </DetailsLayout>
+    )
 }

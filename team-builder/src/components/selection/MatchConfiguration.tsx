@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { ChangeEvent, FunctionComponent } from "react";
 import { Modal } from "../shared/Modal";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { RadioGroup } from "../shared/RadioGroup";
@@ -25,8 +25,7 @@ export const MatchConfiguration: FunctionComponent = () => {
         dispatch(setTeamCount(count))
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const teamNameChange = (index: number, e: any) => {
+    const teamNameChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
         dispatch(setTeamName({
             index: index,
             name: e.target.value
@@ -63,7 +62,7 @@ export const MatchConfiguration: FunctionComponent = () => {
                     {
                         matchState.current.teams.map((t, i) =>
                             <input defaultValue={t.name}
-                                onInput={(e) => teamNameChange(i, e)}
+                                onChange={(e) => teamNameChange(i, e)}
                                 className="w-full"
                                 key={`team-name-${i}`}
                                 placeholder={`Team ${i + 1}`} />

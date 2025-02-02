@@ -7,8 +7,9 @@ import { addPlayerToGroupRequest, removePlayerFromGroupRequest } from "../../thu
 import { ListItem } from "../layout/ListItem";
 import { Modal } from "../shared/Modal";
 import { PlayerGroupList } from "./PlayerGroupList";
+import { ConfirmModal } from "../shared/ConfirmModal";
 
-export const PlayerGroups: FunctionComponent<{player: PlayerDto}> = ({player}) => {
+export const PlayerGroups: FunctionComponent<{ player: PlayerDto }> = ({ player }) => {
     const dispatch = useAppDispatch();
 
     const removeGroup = (group: GroupDto) => {
@@ -35,20 +36,16 @@ export const PlayerGroups: FunctionComponent<{player: PlayerDto}> = ({player}) =
         </div>
         <div className="flex flex-row flex-wrap gap-2">
             {
-                player.groups.map(g => 
-                    <Modal key={`player-group-${g.id}`}
-                        buttonContent={<ListItem>{g.name}</ListItem>}>
-                            <div>
-                                Unassign {player.name} from {g.name}?
-                            </div>
-                            <div className="flex flex-row justify-between w-full">
-                                <div className="button closes-modal">Cancel</div>
-                                <div onClick={() => removeGroup(g)} className="button color-red">Confirm</div>
-                            </div>
-                    </Modal>)
+                player.groups.map(g =>
+                    <ConfirmModal key={`player-group-${g.id}`}
+                        buttonContent={<ListItem>{g.name}</ListItem>}
+                        onConfirm={() => removeGroup(g)}
+                    >
+                        Unassign {player.name} from {g.name}?
+                    </ConfirmModal>)
             }
             <Modal buttonContent={<ListItem>Assign Group</ListItem>}>
-                <PlayerGroupList player={player} onSelected={addGroup}/>
+                <PlayerGroupList player={player} onSelected={addGroup} />
             </Modal>
         </div>
     </div>

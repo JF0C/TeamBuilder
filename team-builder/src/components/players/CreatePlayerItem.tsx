@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useState } from "react";
+import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { createPlayerRequest } from "../../thunks/playerThunk";
 import { reloadPlayers } from "../../store/playerReducer";
@@ -19,8 +19,7 @@ export const CreatePlayerItem: FunctionComponent = () => {
             })
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onInput = (e: any) => {
+    const onInput = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
     }
 
@@ -33,7 +32,7 @@ export const CreatePlayerItem: FunctionComponent = () => {
 
     return <div className="flex flex-row gap-2 justify-center border-2 rounded-md px-2">
         <input style={{width: '150px'}} ref={inputRef} 
-            placeholder="New Player" onKeyDown={createOnEnter} onInput={onInput} />
+            placeholder="New Player" onKeyDown={createOnEnter} onChange={onInput} />
         <div className="button" onClick={createPlayer}>Create</div>
     </div>
 }
