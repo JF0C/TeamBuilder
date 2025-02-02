@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PlayerDto } from "../dtos/PlayerDto";
-import { createPlayerRequest, loadPlayersRequest } from "../thunks/playerThunk";
+import { createPlayerRequest, loadPlayersRequest, renamePlayerRequest } from "../thunks/playerThunk";
 import { PagedResult } from "../dtos/PagedResult";
 import { GroupDto } from "../dtos/GroupDto";
 import { enqueueSnackbar } from "notistack";
@@ -93,6 +93,17 @@ export const playerSlice = createSlice({
         builder.addCase(createPlayerRequest.rejected, (state) => {
             state.loading = false;
             enqueueSnackbar(`failed to create player`, { variant: 'error' });
+        })
+
+        builder.addCase(renamePlayerRequest.pending, (state) => {
+            state.loading = true;
+        })
+        builder.addCase(renamePlayerRequest.fulfilled, (state) => {
+            state.loading = false;
+        })
+        builder.addCase(renamePlayerRequest.rejected, (state, action) => {
+            state.loading = false;
+            enqueueSnackbar(`failed to rename player: ${action.error.message}`, {variant: 'error'});
         })
     }
 })

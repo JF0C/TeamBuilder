@@ -2,7 +2,7 @@ import { ApiUrls } from "../constants/ApiUrls";
 import { PlayerDto } from "../dtos/PlayerDto";
 import { PagedResult } from "../dtos/PagedResult";
 import { PlayersRequestDto } from "../dtos/PlayersRequestDto";
-import { createDeleteThunk, createGetThunk, createPostThunk } from "./thunkBase";
+import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } from "./thunkBase";
 
 export const playerRequestToQuery = (request: PlayersRequestDto) => 
     `${ApiUrls.BaseUrl + ApiUrls.PlayersEndpoint}?page=${request.page}&count=${request.count}` +
@@ -23,6 +23,11 @@ export const createPlayerRequest = createPostThunk<number, {name: string}>(
     () => `${ApiUrls.BaseUrl + ApiUrls.PlayersEndpoint}`,
     (response) => response.json(),
     ({name}) => JSON.stringify(name)
+)
+
+export const renamePlayerRequest = createPutThunk<{id: number, name: string}>(
+    'rename-player',
+    (request) => `${ApiUrls.BaseUrl + ApiUrls.PlayersEndpoint}/${request.id}/Name/${request.name}`
 )
 
 export const deletePlayerRequest = createDeleteThunk<{id: number}>(
