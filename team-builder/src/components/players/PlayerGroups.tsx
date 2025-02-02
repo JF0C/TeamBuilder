@@ -4,7 +4,7 @@ import { PlayerDto } from "../../dtos/PlayerDto";
 import { reloadPlayers } from "../../store/playerReducer";
 import { useAppDispatch } from "../../store/store";
 import { addPlayerToGroupRequest, removePlayerFromGroupRequest } from "../../thunks/groupThunk";
-import { ListItem } from "../layout/ListItem";
+import { ListItem } from "../shared/ListItem";
 import { Modal } from "../shared/Modal";
 import { PlayerGroupList } from "./PlayerGroupList";
 import { ConfirmModal } from "../shared/ConfirmModal";

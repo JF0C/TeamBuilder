@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { MatchDto } from "../../dtos/MatchDto";
-import { ListItem } from "../layout/ListItem";
+import { ListItem } from "../shared/ListItem";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { selectMatch } from "../../store/matchReducer";
 import { matchTypeToString } from "../../mapping/matchTypeMapper";

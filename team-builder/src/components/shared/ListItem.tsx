@@ -9,7 +9,7 @@ export type ListItemProps = {
 export const ListItem: FunctionComponent<ListItemProps> = ({ isSelected, onSelected, children }) => {
 
     return (
-        <div className={`${isSelected ? 'highlighted' : ''} cursor-pointer rounded-md border border-2 px-2`}
+        <div className={`${isSelected ? 'highlighted' : ''} closes-modal cursor-pointer rounded-md border border-2 px-2`}
             onClick={() => onSelected?.()}>
             {children}
         </div>

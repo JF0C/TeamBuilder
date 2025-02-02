@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { PlayerDto } from "../../dtos/PlayerDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { deselectPlayer, selectPlayer } from "../../store/playerReducer";
-import { ListItem } from "../layout/ListItem";
+import { ListItem } from "../shared/ListItem";
 
 export const PlayerItem: FunctionComponent<{player: PlayerDto}> = ({player}) => {
     const dispatch = useAppDispatch();

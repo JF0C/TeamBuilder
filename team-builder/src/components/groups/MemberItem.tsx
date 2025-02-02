@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { addPlayerToGroupRequest, removePlayerFromGroupRequest } from "../../thunks/groupThunk";
 import { GroupDto } from "../../dtos/GroupDto";
 import { reloadEditingGroupPlayers } from "../../store/groupReducer";
-import { ListItem } from "../layout/ListItem";
+import { ListItem } from "../shared/ListItem";
 import { reloadPlayers } from "../../store/playerReducer";
 
 export type MemberItemProps = {

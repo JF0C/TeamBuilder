@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { PlayerDto } from "../../dtos/PlayerDto";
 import { useAppSelector } from "../../store/store";
-import { ListItem } from "../layout/ListItem";
+import { ListItem } from "../shared/ListItem";
 
 export type PlayerListItemProps = {
     player: PlayerDto
