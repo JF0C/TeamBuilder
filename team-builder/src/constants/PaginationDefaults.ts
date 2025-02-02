@@ -1,4 +1,6 @@
 export class PaginationDefaults {
-    public static readonly Count = 15;
+    public static get Count() {
+        return window.screen.width >= 768 ? 50 : 12;
+    }
     public static readonly Page = 1;
 }
