@@ -7,7 +7,7 @@ export const BottomBarLayout: FunctionComponent<{ navigation: ReactNode | ReactN
             <div className="flex-1 flex flex-col justify-center w-full h-full p-4">
                 {children}
             </div>
-            <div className="w-full p-4 bg-darker">
+            <div className="w-full px-4 py-1 bg-darker">
                 {navigation}
             </div>
         </div>
