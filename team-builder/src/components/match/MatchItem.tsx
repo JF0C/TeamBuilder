@@ -12,7 +12,7 @@ export const MatchItem: FunctionComponent<{match: MatchDto}> = ({match}) => {
 
     return <ListItem isSelected={isSelected} onSelected={() => dispatch(selectMatch(match))} >
         {
-            `${millisToClosestDateOrTime(match.created)}: ${matchTypeToString(match.type)}`
+            `${millisToClosestDateOrTime(match.created)} ${matchTypeToString(match.type)}`
         }
     </ListItem>
 }

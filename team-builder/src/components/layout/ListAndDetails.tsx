@@ -17,13 +17,9 @@ export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDet
                 <LeftOrTopHalf>
                     {list}
                 </LeftOrTopHalf>
-                {
-                    showDetails ?
-                        <RightOrBottomHalf>
-                            {details}
-                        </RightOrBottomHalf>
-                        : <></>
-                }
+                <RightOrBottomHalf contracted={!showDetails}>
+                    {details}
+                </RightOrBottomHalf>
             </div>
         </BottomBarLayout>
     )

@@ -54,6 +54,10 @@ $actionColor: rgb(56, 49, 10);
   max-width: 90vw;
 }
 
+.animated {
+  transition: all .3s ease-in-out;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
