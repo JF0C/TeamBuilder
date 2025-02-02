@@ -5,21 +5,19 @@ import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { GroupFilter } from "../groups/GroupFilter";
 import { reloadPlayers, selectPlayer } from "../../store/playerReducer";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";
+import { PlayerNameFilter } from "../players/PlayerNameFilter";
+import { FilterAction } from "../layout/FilterAction";
 
 export const PlayerSelector: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
+    const loading = playerState.players === null || playerState.loading;
 
-    if (playerState.players === null || playerState.loading) {
-        return <LoadingSpinner />
-    }
+    const availablePlayers = () => playerState.players?.items
+        .filter(p => playerState.selected.find(s => p.id === s.id) === undefined) ?? []
 
-    const availablePlayers = playerState.players.items
-        .filter(p => playerState.selected.find(s => p.id === s) === undefined)
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onFilterChange = (e: any) => {
-        dispatch(reloadPlayers({ name: e.target.value }))
+    const onFilterChange = (name: string) => {
+        dispatch(reloadPlayers({ name }))
     }
 
     const pageChange = (page: number) => {
@@ -27,24 +25,28 @@ export const PlayerSelector: FunctionComponent = () => {
     }
 
     const addAll = () => {
-        for (const p of availablePlayers) {
+        for (const p of availablePlayers()) {
             dispatch(selectPlayer(p));
         }
     }
 
     return (
         <div className="h-full">
-            <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange}>
-                <div className="w-full">
-                    Available
-                </div>
-                <div className="w-full flex flex-row flex-wrap gap-2">
-                    <GroupFilter />
-                    <div className="button" onClick={addAll}>Add All</div>
-                    <input className="w-full" placeholder="filter" onInput={onFilterChange} />
-                </div>
+            <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange} title={
+                <>
+                    <div className="w-full">
+                        Available
+                    </div>
+                    <div className="w-full flex flex-row flex-wrap gap-2">
+                        <GroupFilter />
+                        <FilterAction onClick={addAll}>Add All</FilterAction>
+                        <PlayerNameFilter onFilterChange={onFilterChange} />
+                    </div>
+                </>
+            }>
                 {
-                    availablePlayers.map(p => <PlayerItem key={p.id} player={p} />)
+                    loading ? <LoadingSpinner/> :
+                    availablePlayers().map(p => <PlayerItem key={p.id} player={p} />)
                 }
             </PaginatedListLayout>
         </div>

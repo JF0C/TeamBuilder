@@ -58,7 +58,7 @@ export const DataLoader: FunctionComponent = () => {
     const elements: ReactNode[] = [];
     
     if (playerState.players.items.length === 0) {
-        elements.push(<div className="size-full flex flex-row justify-center items-center">
+        elements.push(<div key="reload-players" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadPlayers} className="button">
                 Reload Players
             </div>
@@ -66,7 +66,7 @@ export const DataLoader: FunctionComponent = () => {
     }
 
     if (groupState.groups.items.length === 0) {
-        elements.push(<div className="size-full flex flex-row justify-center items-center">
+        elements.push(<div key="reload-groups" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadGroups} className="button">
                 Reload Groups
             </div>
@@ -74,7 +74,7 @@ export const DataLoader: FunctionComponent = () => {
     }
 
     if (matchState.matches.items.length === 0) {
-        elements.push(<div className="size-full flex flex-row justify-center items-center">
+        elements.push(<div key="reload-matches" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadMatches} className="button">
                 Reload Matches
             </div>

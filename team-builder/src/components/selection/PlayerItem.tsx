@@ -7,7 +7,7 @@ import { ListItem } from "../layout/ListItem";
 export const PlayerItem: FunctionComponent<{player: PlayerDto}> = ({player}) => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
-    const isSelected = playerState.selected.find(x => player.id === x) !== undefined;
+    const isSelected = playerState.selected.find(x => player.id === x.id) !== undefined;
 
     const toggleSelection = () => {
         if (isSelected) {

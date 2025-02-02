@@ -3,19 +3,13 @@ import { PlayerSelector } from "./PlayerSelector";
 import { SelectedPlayers } from "./SelectedPlayers";
 import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { useAppDispatch } from "../../store/store";
 import { MatchConfiguration } from "./MatchConfiguration";
 import { resetTeamPlayers } from "../../store/matchReducer";
 import { SplitLayout } from "../layout/SplitLayout";
 
 export const PlayerSelection: FunctionComponent = () => {
     const dispatch = useAppDispatch();
-    const playerState = useAppSelector((state) => state.players);
-
-    if (playerState.players === null || playerState.loading) {
-        return <LoadingSpinner />
-    }
 
     return (
         <SplitLayout

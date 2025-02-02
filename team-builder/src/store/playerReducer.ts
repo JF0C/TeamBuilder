@@ -12,7 +12,7 @@ export interface PlayerState {
     group: GroupDto | null
     players: PagedResult<PlayerDto> | null
     queryFilter: PlayersRequestDto
-    selected: number[]
+    selected: PlayerDto[]
     editingPlayer: PlayerDto | null
 }
 
@@ -33,13 +33,13 @@ export const playerSlice = createSlice({
     initialState: initialState,
     reducers: {
         selectPlayer(state, action: PayloadAction<PlayerDto>) {
-            if (state.selected.find(x => x === action.payload.id)) {
+            if (state.selected.find(x => x.id === action.payload.id)) {
                 return;
             }
-            state.selected.push(action.payload.id);
+            state.selected.push(action.payload);
         },
         deselectPlayer(state, action: PayloadAction<number>) {
-            state.selected = state.selected.filter(x => x !== action.payload);
+            state.selected = state.selected.filter(x => x.id !== action.payload);
         },
         clearSelectedPlayers(state) {
             state.selected = [];

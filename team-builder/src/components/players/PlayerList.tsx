@@ -20,10 +20,16 @@ export const PlayerList: FunctionComponent = () => {
     }
 
     return <div style={{ maxWidth: '400px' }} className="size-full">
-        <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange}>
-            <div className="w-full">
-                <GroupFilter />
-            </div>
+        <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange} title={
+            <>
+                <div>
+                    Players
+                </div>
+                <div className="w-full">
+                    <GroupFilter />
+                </div>
+            </>
+        }>
             {
                 playerState.players.items.map(p =>
                     <PlayerListItem key={p.id} player={p} onSelected={() => dispatch(setEditingPlayer(p))} />)

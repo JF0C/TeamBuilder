@@ -1,21 +1,21 @@
 import { FunctionComponent, ReactNode } from "react";
 import { Pagination } from "../shared/Pagination";
 import { PageDto } from "../../dtos/PageDto";
+import { ListLayout } from "./ListLayout";
 
 export type PaginatedListLayoutProps = {
     children: ReactNode | ReactNode[]
     onPageChange: (page: number) => void
     pageData: PageDto | null
+    title?: string | ReactNode | ReactNode[]
 }
 
-export const PaginatedListLayout: FunctionComponent<PaginatedListLayoutProps> = ({ children, onPageChange, pageData }) => {
+export const PaginatedListLayout: FunctionComponent<PaginatedListLayoutProps> = ({ children, onPageChange, pageData, title }) => {
     return (
         <div className="size-full flex flex-col">
-            <div className="flex-1">
-                <div className="flex flex-row flex-wrap gap-2">
-                    {children}
-                </div>
-            </div>
+            <ListLayout title={title}>
+                {children}
+            </ListLayout>
             <div className="w-full pt-2">
                 <Pagination pageData={pageData} onPageChange={onPageChange} />
             </div>

@@ -5,14 +5,14 @@ import { GroupDto } from "../../dtos/GroupDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { reloadPlayers } from "../../store/playerReducer";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";
+import { PlayerNameFilter } from "../players/PlayerNameFilter";
 
 export const MembersAvailable: FunctionComponent<{ availableMembers: PlayerDto[], group: GroupDto }> = ({ availableMembers, group }) => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onFilterChange = (e: any) => {
-        dispatch(reloadPlayers({ name: e.target.value }))
+    const onFilterChange = (name: string) => {
+        dispatch(reloadPlayers({ name }))
     }
 
     const pageChange = (page: number) => {
@@ -26,7 +26,7 @@ export const MembersAvailable: FunctionComponent<{ availableMembers: PlayerDto[]
                     Available
                 </div>
                 <div className="w-full">
-                    <input className="w-full" placeholder="filter" onInput={onFilterChange} />
+                    <PlayerNameFilter onFilterChange={onFilterChange} />
                 </div>
                 {
                     availableMembers.map(p => <MemberItem key={p.id} player={p} group={group} />)

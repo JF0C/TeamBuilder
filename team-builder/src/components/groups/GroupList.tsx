@@ -19,7 +19,7 @@ export const GroupList: FunctionComponent = () => {
     }
 
     return <div style={{ maxWidth: '400px' }} className="h-full" >
-        <PaginatedListLayout pageData={groupState.groups} onPageChange={pageChange}>
+        <PaginatedListLayout pageData={groupState.groups} onPageChange={pageChange} title="Groups">
             {
                 groupState.groups.items.map(g => <GroupListItem key={g.id}
                     onSelected={() => dispatch(setEditingGroup(g))}

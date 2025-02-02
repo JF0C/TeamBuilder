@@ -29,8 +29,16 @@ $actionColor: rgb(56, 49, 10);
   background-color: $actionColor;
 }
 
+.bg-darker {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
 .modal-background {
   background-color: rgba(30, 30, 30, 0.7);
+}
+
+.text-msm {
+  font-size: 1rem;
 }
 
 .modal-content {

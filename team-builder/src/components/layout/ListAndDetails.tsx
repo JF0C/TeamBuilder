@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from "react";
 import { BottomBarLayout } from "./BottomBarLayout";
-import { LeftOrBottomHalf } from "./LeftOrBottomHalf";
-import { RightOrTopHalf } from "./RightOrTopHalf";
+import { LeftOrTopHalf } from "./LeftOrTopHalf";
+import { RightOrBottomHalf } from "./RightOrBottomHalf";
 
 export type ListAndDetailsProps = {
     showDetails: boolean
@@ -13,17 +13,17 @@ export type ListAndDetailsProps = {
 export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDetails, list, details, navigation }) => {
     return (
         <BottomBarLayout navigation={navigation}>
-            <div className="flex flex-col w-full flex-1 flex-wrap md:flex-row-reverse md:justify-end">
+            <div className="flex flex-col size-full flex-1 flex-wrap md:flex-row md:justify-end">
+                <LeftOrTopHalf>
+                    {list}
+                </LeftOrTopHalf>
                 {
                     showDetails ?
-                        <RightOrTopHalf>
+                        <RightOrBottomHalf>
                             {details}
-                        </RightOrTopHalf>
+                        </RightOrBottomHalf>
                         : <></>
                 }
-                <LeftOrBottomHalf expanded={!showDetails}>
-                    {list}
-                </LeftOrBottomHalf>
             </div>
         </BottomBarLayout>
     )

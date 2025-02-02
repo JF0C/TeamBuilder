@@ -5,6 +5,7 @@ import { GroupListItem } from "./GroupListItem";
 import { reloadPlayers } from "../../store/playerReducer";
 import { GroupDto } from "../../dtos/GroupDto";
 import { Modal } from "../shared/Modal";
+import { FilterAction } from "../layout/FilterAction";
 
 export const GroupFilter: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ export const GroupFilter: FunctionComponent = () => {
         dispatch(reloadPlayers({group: null}))
     }
 
-    return <Modal buttonContent={`Groupfilter: ${playerState.group?.name ?? '[all]'}`}>
+    return <Modal buttonContent={<FilterAction>{`Groupfilter: ${playerState.group?.name ?? '[all]'}`}</FilterAction>}>
         {
             groupState.groups.items.map(g => <GroupListItem key={g.id}
                 group={g}

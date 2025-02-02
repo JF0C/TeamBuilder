@@ -17,7 +17,7 @@ export const Modal: FunctionComponent<ModalProps> = ({children, buttonContent}) 
     }
 
     return <>
-            <div className="button" onClick={() => setOpen(true)}>
+            <div className="button flex" onClick={() => setOpen(true)}>
                 {
                     buttonContent ?? 'Modal'
                 }
