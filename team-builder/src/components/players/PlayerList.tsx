@@ -30,11 +30,11 @@ export const PlayerList: FunctionComponent = () => {
                 </div>
             </>
         }>
+            <CreatePlayerItem />
             {
                 playerState.players.items.map(p =>
                     <PlayerListItem key={p.id} player={p} onSelected={() => dispatch(setEditingPlayer(p))} />)
             }
-            <CreatePlayerItem />
         </PaginatedListLayout>
     </div>
 }

@@ -19,9 +19,13 @@ export const SelectedPlayers: FunctionComponent = () => {
                 <div className="w-full">
                     Selected ({playerState.selected.length.toString()})
                 </div>
-                <FilterAction onClick={clearSelected}>
-                    Clear
-                </FilterAction>
+                {
+                    playerState.selected.length > 0 ?
+                    <FilterAction onClick={clearSelected}>
+                        Clear
+                    </FilterAction>
+                    : <></>
+                }
             </div>
         }>
             {

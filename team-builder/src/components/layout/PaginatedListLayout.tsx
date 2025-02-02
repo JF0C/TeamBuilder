@@ -13,12 +13,13 @@ export type PaginatedListLayoutProps = {
 export const PaginatedListLayout: FunctionComponent<PaginatedListLayoutProps> = ({ children, onPageChange, pageData, title }) => {
     return (
         <div className="size-full flex flex-col">
-            <ListLayout title={title}>
+            <ListLayout title={title} bottomRow={
+                <div className="w-full pt-2">
+                    <Pagination pageData={pageData} onPageChange={onPageChange} />
+                </div>
+            }>
                 {children}
             </ListLayout>
-            <div className="w-full pt-2">
-                <Pagination pageData={pageData} onPageChange={onPageChange} />
-            </div>
         </div>
     )
 }

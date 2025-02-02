@@ -4,8 +4,9 @@ import { MemberItem } from "./MemberItem";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { reloadEditingGroupPlayers } from "../../store/groupReducer";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
 
-export const MembersCurrent: FunctionComponent<{ group: GroupDto }> = ({ group }) => {
+export const MembersCurrent: FunctionComponent<{ group: GroupDto | null }> = ({ group }) => {
     const dispatch = useAppDispatch();
     const groupState = useAppSelector((state) => state.groups);
     const editingGroupPlayers = groupState.editingGroupPlayers;
@@ -22,10 +23,12 @@ export const MembersCurrent: FunctionComponent<{ group: GroupDto }> = ({ group }
         <div className="size-full">
             <PaginatedListLayout pageData={groupState.editingGroupPlayers} onPageChange={pageChange}>
                 <div className="w-full">
-                    Members of {group.name}
+                    Members of {group?.name}
                 </div>
                 {
+                    group ?
                     editingGroupPlayers.items.map(p => <MemberItem key={p.id} player={p} group={group} />)
+                    : <LoadingSpinner/>
                 }
             </PaginatedListLayout>
 

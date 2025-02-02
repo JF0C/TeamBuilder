@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react";
 import { useAppSelector } from "../../store/store";
-import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
 import { MembersAvailable } from "./MembersAvailable";
@@ -11,15 +10,8 @@ export const GroupMembers: FunctionComponent = () => {
     const groupState = useAppSelector((state) => state.groups)
     const playerState = useAppSelector((state) => state.players)
 
-    if (groupState.groups === null || groupState.loading
-        || playerState.players === null || playerState.loading
-        || groupState.editingGroup === null
-    ) {
-        return <LoadingSpinner />
-    }
-
-    const availableMembers = playerState.players.items.filter(p =>
-        groupState.editingGroupPlayers?.items.find(g => g.id === p.id) === undefined)
+    const availableMembers = playerState.players?.items.filter(p =>
+        groupState.editingGroupPlayers?.items.find(g => g.id === p.id) === undefined) ?? []
 
     return (
         <SplitLayout

@@ -6,8 +6,9 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { reloadPlayers } from "../../store/playerReducer";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";
 import { PlayerNameFilter } from "../players/PlayerNameFilter";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
 
-export const MembersAvailable: FunctionComponent<{ availableMembers: PlayerDto[], group: GroupDto }> = ({ availableMembers, group }) => {
+export const MembersAvailable: FunctionComponent<{ availableMembers: PlayerDto[], group: GroupDto | null }> = ({ availableMembers, group }) => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players)
 
@@ -29,7 +30,9 @@ export const MembersAvailable: FunctionComponent<{ availableMembers: PlayerDto[]
                     <PlayerNameFilter onFilterChange={onFilterChange} />
                 </div>
                 {
+                    group ?
                     availableMembers.map(p => <MemberItem key={p.id} player={p} group={group} />)
+                    : <LoadingSpinner />
                 }
             </PaginatedListLayout>
         </div>
