@@ -4,7 +4,7 @@ import { PagedResult } from "../dtos/PagedResult";
 import { MatchEntity } from "../data/MatchEntity";
 import { TeamEntity } from "../data/TeamEntity";
 import { PlayerDto } from "../dtos/PlayerDto";
-import { createMatchRequest, loadMatchesRequest } from "../thunks/matchThunk";
+import { createMatchRequest, loadMatchesRequest, loadMatchRequest, setMatchScoresRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
 import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
@@ -120,6 +120,31 @@ export const matchSlice = createSlice({
             }
             enqueueSnackbar(`failed to load matches ${action.error.message}`, { variant: 'error' });
         })
+
+        builder.addCase(loadMatchRequest.pending, (state) => {
+            state.loading = true;
+        })
+        builder.addCase(loadMatchRequest.fulfilled, (state, action) => {
+            state.selected = action.payload;
+            state.loading = false;
+        })
+        builder.addCase(loadMatchRequest.rejected, (state, action) => {
+            state.loading = false;
+            state.selected = {
+                id: 0,
+                type: -1,
+                teams: [],
+                created: 0
+            };
+            enqueueSnackbar(`failed to load match ${action.meta.arg}: ${action.error.message}`, { variant: 'error' });
+        })
+
+        builder.addCase(setMatchScoresRequest.pending, (state) => {state.loading = true;});
+        builder.addCase(setMatchScoresRequest.fulfilled, (state) => {state.loading = false;});
+        builder.addCase(setMatchScoresRequest.rejected, (state, action) => {
+            state.loading = false;
+            enqueueSnackbar(`failed to set scores for match ${action.meta.arg.matchId}: ${action.error.message}`, { variant: 'error' });
+        });
     }
 })
 

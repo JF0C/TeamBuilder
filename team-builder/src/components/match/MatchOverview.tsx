@@ -7,6 +7,7 @@ import { millisToDateTimeString } from "../../mapping/timestampMapper";
 import { MatchTeamTable } from "./MatchTeamTable";
 import { NavLink } from "react-router-dom";
 import { Paths } from "../../constants/Paths";
+import { totalPlayers } from "../../mapping/matchStatistics";
 
 export const MatchOverview: FunctionComponent = () => {
     const dispatch = useAppDispatch()
@@ -27,7 +28,7 @@ export const MatchOverview: FunctionComponent = () => {
                 {millisToDateTimeString(match.created)}
             </div>
             <div>
-                {match.teams.map(t => t.players.length).reduce((a, b) => a + b)} Players
+                {totalPlayers(match)} Players
             </div>
         </div>
         <MatchTeamTable match={match} />

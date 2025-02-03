@@ -4,20 +4,32 @@ import { NavLink, useParams } from "react-router-dom";
 import { Paths } from "../../constants/Paths";
 import { millisToDateTimeString } from "../../mapping/timestampMapper";
 import { MatchTeamTable } from "./MatchTeamTable";
-import { useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { matchTypeToString } from "../../mapping/matchTypeMapper";
+import { loadMatchRequest } from "../../thunks/matchThunk";
+import { totalPlayers } from "../../mapping/matchStatistics";
 
 export const MatchDetails: FunctionComponent = () => {
-    const match = useAppSelector((state) => state.match.selected)
-    const matchId = useParams()['*']
+    const dispatch = useAppDispatch();
+    const matchState = useAppSelector((state) => state.match)
+    const match = matchState.selected
+    const matchParam = useParams()['*']
+    const matchId = Number(matchParam)
 
-    if (!match) {
-        return <LoadingSpinner />
+    if (isNaN(matchId)) {
+        return <div>
+            Error: invalid match id {matchParam}
+        </div>
     }
 
-    console.log("match id: ", matchId);
+    if (matchId !== match?.id) {
+        dispatch(loadMatchRequest(matchId))
+    }
 
+    if (!match || matchState.loading) {
+        return <LoadingSpinner />
+    }
     return <NavBarLayout navigation={<>
         <div>
             <NavLink to={Paths.MatchManagementPath}>Back</NavLink>
@@ -31,7 +43,7 @@ export const MatchDetails: FunctionComponent = () => {
                 {millisToDateTimeString(match.created)}
             </div>
             <div>
-                {match.teams.map(t => t.players.length).reduce((a, b) => a + b)} Players
+                {totalPlayers(match)} Players
             </div>
         </div>
         <MatchTeamTable match={match} />
