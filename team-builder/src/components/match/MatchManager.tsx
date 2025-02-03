@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../store/store";
 import { ListAndDetails } from "../layout/ListAndDetails";
 import { MatchList } from "./MatchList";
-import { MatchDetails } from "./MatchDetails";
+import { MatchOverview } from "./MatchOverview";
 
 export const MatchManager: FunctionComponent = () => {
     const isMatchSelected = useAppSelector((state) => state.match.selected !== null);
@@ -11,7 +11,7 @@ export const MatchManager: FunctionComponent = () => {
     return (
         <ListAndDetails
             list={<MatchList />}
-            details={<MatchDetails />}
+            details={<MatchOverview />}
             showDetails={isMatchSelected}
             navigation={
                 <div className="button">

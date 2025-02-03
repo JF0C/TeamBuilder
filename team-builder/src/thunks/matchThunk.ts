@@ -20,3 +20,10 @@ export const loadMatchesRequest = createGetThunk<PagedResult<MatchDto>, MatchesR
         `${request.to !== undefined ? `&to=${request.to}` : ''}`,
     (response) => response.json()
 )
+
+export const loadMatchRequest = createGetThunk<MatchDto, number>(
+    'load-match',
+    (id) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${id}`,
+    (response) => response.json()
+)
+

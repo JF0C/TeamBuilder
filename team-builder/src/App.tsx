@@ -11,6 +11,7 @@ import { GroupManager } from './components/groups/GroupManager'
 import { GroupMembers } from './components/groups/GroupMembers'
 import { MatchCompletion } from './components/match/MatchCompletion'
 import { MatchManager } from './components/match/MatchManager'
+import { MatchDetails } from './components/match/MatchDetails'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path={Paths.GroupMembersPath} element={<GroupMembers />} />
         <Route path={Paths.MatchCompletionPath} element={<MatchCompletion />} />
         <Route path={Paths.MatchManagementPath} element={<MatchManager />} />
+        <Route path={`${Paths.MatchDetailPath}/*`} element={<MatchDetails />} />
       </Routes>
     </div>
   )

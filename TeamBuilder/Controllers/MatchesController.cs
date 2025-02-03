@@ -9,6 +9,12 @@ namespace TeamBuilder.Controllers;
 [Route("[controller]")]
 public class MatchesController(IMatchRepository matchRepository): BaseController
 {
+    [HttpGet("{id}")]
+    public async Task<ActionResult<MatchDto>> Get(long id)
+    {
+        return Ok(await matchRepository.GetAsync(id));
+    }
+
     [HttpGet]
     public async Task<ActionResult<PagedResult<MatchDto>>> ListMatches(int page, int count, long? player, Core.Entities.MatchType? type, long? from, long? to)
     {

@@ -1,40 +1,39 @@
 import { FunctionComponent } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { DetailsLayout } from "../layout/DetailsLayout";
-import { matchTypeToString } from "../../mapping/matchTypeMapper";
-import { selectMatch } from "../../store/matchReducer";
+import { NavBarLayout } from "../layout/NavbarLayout";
+import { NavLink, useParams } from "react-router-dom";
+import { Paths } from "../../constants/Paths";
 import { millisToDateTimeString } from "../../mapping/timestampMapper";
-import { MatchTeamDetails } from "./MatchTeamDetails";
+import { MatchTeamTable } from "./MatchTeamTable";
+import { useAppSelector } from "../../store/store";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { matchTypeToString } from "../../mapping/matchTypeMapper";
 
 export const MatchDetails: FunctionComponent = () => {
-    const dispatch = useAppDispatch()
     const match = useAppSelector((state) => state.match.selected)
+    const matchId = useParams()['*']
 
     if (!match) {
-        return <></>
-    }
-    const deselectMatch = () => {
-        dispatch(selectMatch(null))
+        return <LoadingSpinner />
     }
 
-    const teams = [...match.teams].sort((a, b) => b.score - a.score);
-    const winner = teams.find(() => true);
+    console.log("match id: ", matchId);
 
-    const title = `${matchTypeToString(match.type)}`
-
-    return <DetailsLayout title={title} id={match.id.toString()} onClose={deselectMatch}>
+    return <NavBarLayout navigation={<>
         <div>
-            {millisToDateTimeString(match.created)}
+            <NavLink to={Paths.MatchManagementPath}>Back</NavLink>
         </div>
-        <div>
-            {
-                winner ? `Winner: ${winner.name}` : ''
-            }
+    </>}>
+        <div className="w-full text-center font-bold">
+            {matchTypeToString(match.type)}
         </div>
-        <div>
-            {
-                teams.map(t => <MatchTeamDetails key={t.id} team={t}/>)
-            }
+        <div className="w-full flex flex-row text-msm gap-2">
+            <div>
+                {millisToDateTimeString(match.created)}
+            </div>
+            <div>
+                {match.teams.map(t => t.players.length).reduce((a, b) => a + b)} Players
+            </div>
         </div>
-    </DetailsLayout>
+        <MatchTeamTable match={match} />
+    </NavBarLayout>
 }

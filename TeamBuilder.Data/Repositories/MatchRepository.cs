@@ -11,6 +11,15 @@ namespace TeamBuilder.Data.Repositories;
 
 internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : IMatchRepository
 {
+    public async Task<MatchDto> GetAsync(long id)
+    {
+        var match = await context.Matches
+            .Include(m => m.Teams)
+            .ThenInclude(t => t.Players)
+            .FirstOrDefaultAsync(m => m.Id == id) 
+            ?? throw new ItemNotFoundException(id.ToString(), typeof(MatchEntity));
+        return mapper.Map<MatchDto>(match);
+    }
     public async Task<long> CreateAsync(CreateMatchDto match)
     {
         var matchEntity = mapper.Map<MatchEntity>(match);

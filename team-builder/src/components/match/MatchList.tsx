@@ -16,7 +16,7 @@ export const MatchList: FunctionComponent = () => {
         return <LoadingSpinner />
     }
 
-    return <PaginatedListLayout pageData={matchState.matches} onPageChange={pageChange} >
+    return <PaginatedListLayout pageData={matchState.matches} onPageChange={pageChange} title={'Matches'}>
         {
             matchState.matches.items.map(m => <MatchItem match={m} />)
         }

@@ -24,7 +24,7 @@ export const Modal: FunctionComponent<ModalProps> = ({children, buttonContent}) 
             </div>
             {
                 open ?
-                <div className="absolute size-full left-0 top-0 flex flex-row justify-center items-center modal-background"
+                <div className="absolute size-full left-0 top-0 flex flex-row justify-center items-center modal-background font-normal"
                     onClick={modalClicked}>
                     <div className="flex flex-row flex-wrap gap-2 modal-content p-4 rounded-md">
                         {children}

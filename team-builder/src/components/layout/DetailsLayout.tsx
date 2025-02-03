@@ -12,7 +12,7 @@ export type DetailsLayoutProps = {
 export const DetailsLayout: FunctionComponent<DetailsLayoutProps> = ({ id, title, children, onClose }) => {
 
     return <div style={{ minWidth: '200px' }} className="pb-4 size-full flex flex-col">
-        <div className="flex flex-row justify-between pb-2">
+        <div className="flex flex-row justify-between pb-2 font-bold">
             <div>{id}</div>
             <div>{title}</div>
             <div onClick={onClose} className="button">

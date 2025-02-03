@@ -10,7 +10,7 @@ export const ListLayout: FunctionComponent<ListLayoutProps> = ({children, title,
 
     return <div className="flex flex-col size-full">
         {
-            title ? <div className="pb-2">{title}</div> : <></>
+            title ? <div className="pb-2 font-bold">{title}</div> : <></>
         }
         <div className="flex-1 flex flex-col overflow-y-scroll">
             <div className="flex flex-row flex-wrap gap-2">
