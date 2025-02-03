@@ -18,7 +18,7 @@ export const GroupList: FunctionComponent = () => {
         dispatch(reloadGroups({ page }))
     }
 
-    return <div style={{ maxWidth: '400px' }} className="h-full" >
+    return <div className="size-full" >
         <PaginatedListLayout pageData={groupState.groups} onPageChange={pageChange} title="Groups">
             {
                 groupState.groups.items.map(g => <GroupListItem key={g.id}

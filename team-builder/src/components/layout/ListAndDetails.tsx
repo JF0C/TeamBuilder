@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from "react";
-import { BottomBarLayout } from "./BottomBarLayout";
+import { NavBarLayout } from "./NavbarLayout";
 import { LeftOrTopHalf } from "./LeftOrTopHalf";
 import { RightOrBottomHalf } from "./RightOrBottomHalf";
 
@@ -12,7 +12,7 @@ export type ListAndDetailsProps = {
 
 export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDetails, list, details, navigation }) => {
     return (
-        <BottomBarLayout navigation={navigation}>
+        <NavBarLayout navigation={navigation}>
             <div className="flex flex-col size-full flex-1 flex-wrap md:flex-row md:justify-end">
                 <LeftOrTopHalf>
                     {list}
@@ -21,6 +21,6 @@ export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDet
                     {details}
                 </RightOrBottomHalf>
             </div>
-        </BottomBarLayout>
+        </NavBarLayout>
     )
 }

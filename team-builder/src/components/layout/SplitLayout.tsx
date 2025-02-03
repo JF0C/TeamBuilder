@@ -1,11 +1,11 @@
 import { FunctionComponent, ReactNode } from "react"
-import { BottomBarLayout } from "./BottomBarLayout"
+import { NavBarLayout } from "./NavbarLayout"
 import { LeftOrBottomHalf } from "./LeftOrBottomHalf"
 import { RightOrTopHalf } from "./RightOrTopHalf"
 
 export const SplitLayout: FunctionComponent<{ source: ReactNode, selected: ReactNode, navigation: ReactNode | ReactNode[] }> = ({ source, selected, navigation }) => {
     return (
-        <BottomBarLayout navigation={navigation}>
+        <NavBarLayout navigation={navigation}>
             <div className="flex-1 flex flex-col md:flex-row-reverse">
                 <RightOrTopHalf>
                     {selected}
@@ -14,6 +14,6 @@ export const SplitLayout: FunctionComponent<{ source: ReactNode, selected: React
                     {source}
                 </LeftOrBottomHalf>
             </div>
-        </BottomBarLayout >
+        </NavBarLayout >
     )
 }

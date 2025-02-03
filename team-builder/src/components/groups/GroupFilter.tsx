@@ -24,7 +24,7 @@ export const GroupFilter: FunctionComponent = () => {
         dispatch(reloadPlayers({group: null}))
     }
 
-    return <Modal buttonContent={<FilterAction>{`Groupfilter: ${playerState.group?.name ?? '[all]'}`}</FilterAction>}>
+    return <Modal buttonContent={<FilterAction>{`Groupfilter${playerState.group?.name ? ': ' + playerState.group?.name: ''}`}</FilterAction>}>
         {
             groupState.groups.items.map(g => <GroupListItem key={g.id}
                 group={g}

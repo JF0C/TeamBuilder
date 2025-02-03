@@ -19,7 +19,7 @@ export const PlayerList: FunctionComponent = () => {
         dispatch(reloadPlayers({ page }))
     }
 
-    return <div style={{ maxWidth: '400px' }} className="size-full">
+    return <div className="size-full">
         <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange} title={
             <>
                 <div>

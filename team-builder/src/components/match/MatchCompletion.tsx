@@ -6,7 +6,7 @@ import { TeamResult } from "./TeamResult";
 import { MatchTypeRadio } from "../shared/MatchTypeRadio";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { createMatchRequest } from "../../thunks/matchThunk";
-import { BottomBarLayout } from "../layout/BottomBarLayout";
+import { NavBarLayout } from "../layout/NavbarLayout";
 
 export const MatchCompletion: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -24,8 +24,8 @@ export const MatchCompletion: FunctionComponent = () => {
     }
 
     return (
-        <BottomBarLayout navigation={
-            <div className="flex flex-row justify-between">
+        <NavBarLayout navigation={
+            <div className="flex flex-row justify-between w-full">
                 <div>
                     <NavLink to={Paths.TeamPath}>
                         Back
@@ -36,7 +36,7 @@ export const MatchCompletion: FunctionComponent = () => {
                 </div>
             </div>
         }>
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center w-full">
                 <div>
                     Match&nbsp;Type
                 </div>
@@ -49,6 +49,6 @@ export const MatchCompletion: FunctionComponent = () => {
                     <TeamResult key={`team-result-${index}`} index={index} team={team} />
                 )
             }
-        </BottomBarLayout>
+        </NavBarLayout>
     )
 }

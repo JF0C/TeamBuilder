@@ -7,7 +7,7 @@ import { Paths } from "../../constants/Paths";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { TeamEntity } from "../../data/TeamEntity";
 import { setTeamName, setTeamPlayers } from "../../store/matchReducer";
-import { BottomBarLayout } from "../layout/BottomBarLayout";
+import { NavBarLayout } from "../layout/NavbarLayout";
 
 export const Teams: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -53,26 +53,29 @@ export const Teams: FunctionComponent = () => {
     }
 
     return (
-        <BottomBarLayout navigation={<div className="flex flex-row justify-between">
-            <div>
-                <NavLink to={Paths.SelectionPath}>
-                    Back
-                </NavLink>
+        <NavBarLayout navigation={
+            <div className="flex flex-row justify-between w-full">
+                <div>
+                    <NavLink to={Paths.SelectionPath}>
+                        Back
+                    </NavLink>
+                </div>
+                <div className="button" onClick={() => generateTeams(selectedPlayers)}>
+                    Shuffle
+                </div>
+                <div>
+                    <NavLink to={Paths.MatchCompletionPath}>
+                        Play
+                    </NavLink>
+                </div>
             </div>
-            <div className="button" onClick={() => generateTeams(selectedPlayers)}>
-                Shuffle
-            </div>
-            <div>
-                <NavLink to={Paths.MatchCompletionPath}>
-                    Play
-                </NavLink>
-            </div></div>}>
+        }>
             {
                 matchState.current.teams.map((team, index) =>
                     <TeamView key={`team-${index}`} name={team.name} players={team.players} />
                 )
             }
-        </BottomBarLayout>
+        </NavBarLayout>
 
     )
 }
