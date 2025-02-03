@@ -10,5 +10,6 @@ public class TeamMapper: Profile
     {
         CreateMap<CreateTeamDto, TeamEntity>();
         CreateMap<TeamEntity, TeamDto>();
+        CreateMap<TeamPlayerDto, PlayerEntity>();
     }
 }
