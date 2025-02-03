@@ -9,7 +9,7 @@ export const DataLoader: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const groupState = useAppSelector((state) => state.groups);
     const matchState = useAppSelector((state) => state.match);
-    const loading = playerState.loading || groupState.loading || matchState.loading
+    const loading = playerState.loading || groupState.loading || matchState.loading;
     
     const loadPlayers = () => {
         dispatch(loadPlayersRequest(playerState.queryFilter));

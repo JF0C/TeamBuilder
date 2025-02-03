@@ -4,10 +4,11 @@ import { PagedResult } from "../dtos/PagedResult";
 import { MatchEntity } from "../data/MatchEntity";
 import { TeamEntity } from "../data/TeamEntity";
 import { PlayerDto } from "../dtos/PlayerDto";
-import { createMatchRequest, loadMatchesRequest, loadMatchRequest, setMatchScoresRequest } from "../thunks/matchThunk";
+import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, setMatchScoresRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
 import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
+import { TeamScoreDto } from "../dtos/TeamScoreDto";
 
 export interface MatchState {
     loading: boolean
@@ -15,6 +16,7 @@ export interface MatchState {
     matches: PagedResult<MatchDto> | null
     selected: MatchDto | null
     queryFilter: MatchesRequestDto
+    changedScores: TeamScoreDto[]
 }
 
 const emptyTeam = (): TeamEntity => {
@@ -39,7 +41,8 @@ const initialState: MatchState = {
         page: PaginationDefaults.Page,
         count: PaginationDefaults.Count
     },
-    selected: null
+    selected: null,
+    changedScores: []
 }
 
 export const matchSlice = createSlice({
@@ -84,7 +87,14 @@ export const matchSlice = createSlice({
             state.matches = null;
         },
         selectMatch(state, action: PayloadAction<MatchDto | null>) {
-            state.selected = action.payload
+            state.selected = action.payload;
+            state.changedScores = state.selected?.teams.map(t => { return {teamId: t.id, score: t.score}}) ?? [];
+        },
+        changeTeamScore(state, action: PayloadAction<TeamScoreDto>) {
+            const score = state.changedScores.find(t => t.teamId === action.payload.teamId);
+            if (score) {
+                score.score = action.payload.score;
+            }
         }
     },
     extraReducers: (builder) => {
@@ -126,6 +136,7 @@ export const matchSlice = createSlice({
         })
         builder.addCase(loadMatchRequest.fulfilled, (state, action) => {
             state.selected = action.payload;
+            state.changedScores = state.selected?.teams.map(t => { return {teamId: t.id, score: t.score}}) ?? []
             state.loading = false;
         })
         builder.addCase(loadMatchRequest.rejected, (state, action) => {
@@ -145,6 +156,10 @@ export const matchSlice = createSlice({
             state.loading = false;
             enqueueSnackbar(`failed to set scores for match ${action.meta.arg.matchId}: ${action.error.message}`, { variant: 'error' });
         });
+
+        builder.addCase(deleteMatchRequest.pending, (state) => {state.loading = true;});
+        builder.addCase(deleteMatchRequest.fulfilled, (state) => {state.loading = false;});
+        builder.addCase(deleteMatchRequest.rejected, (state) => {state.loading = false;});
     }
 })
 
@@ -157,5 +172,6 @@ export const {
     resetTeamPlayers,
     setTeamScore,
     reloadMatches,
-    selectMatch
+    selectMatch,
+    changeTeamScore
 } = matchSlice.actions;

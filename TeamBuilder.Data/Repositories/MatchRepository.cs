@@ -39,7 +39,7 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
 
     public async Task DeleteAsync(long id)
     {
-        var match = await context.Matches.FirstOrDefaultAsync(m => m.Id == id)
+        var match = await context.Matches.Include(m => m.Teams).FirstOrDefaultAsync(m => m.Id == id)
             ?? throw new ItemNotFoundException(id.ToString(), typeof(MatchEntity));
         context.Matches.Remove(match);
         await context.SaveChangesAsync();
@@ -76,7 +76,7 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
 
     public async Task SetScoresAsync(long id, List<TeamScoreDto> scores)
     {
-        var match = await GetMatchById(scores.First().TeamId);
+        var match = await GetMatchById(id);
         foreach (var score in scores)
         {
             var team = match.Teams.FirstOrDefault(t => t.Id == score.TeamId)

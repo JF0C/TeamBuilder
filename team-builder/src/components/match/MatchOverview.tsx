@@ -32,8 +32,10 @@ export const MatchOverview: FunctionComponent = () => {
             </div>
         </div>
         <MatchTeamTable match={match} />
+        <div className="flex flex-row justify-center">
         <NavLink to={`${Paths.MatchDetailPath}/${match.id}`}>
             Details
         </NavLink>
+        </div>
     </DetailsLayout>
 }
