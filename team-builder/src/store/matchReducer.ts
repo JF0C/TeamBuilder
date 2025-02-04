@@ -142,7 +142,7 @@ export const matchSlice = createSlice({
         builder.addCase(loadMatchRequest.rejected, (state, action) => {
             state.loading = false;
             state.selected = {
-                id: 0,
+                id: action.meta.arg,
                 type: -1,
                 teams: [],
                 created: 0

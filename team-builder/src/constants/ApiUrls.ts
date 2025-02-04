@@ -8,7 +8,7 @@ export class ApiUrls {
             return 'http://localhost:5032/';
         }
         else {
-            return './';
+            return 'https://teambuilder.c11g.net/';
         }
     }
 }
