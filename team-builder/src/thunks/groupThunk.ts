@@ -1,9 +1,9 @@
 import { ApiUrls } from "../constants/ApiUrls";
-import { GroupDto } from "../dtos/GroupDto";
-import { GroupPlayersRequestDto } from "../dtos/GroupPlayersRequestDto";
-import { GroupsRequestDto } from "../dtos/GroupsRequestDto";
-import { PagedResult } from "../dtos/PagedResult";
-import { PlayerDto } from "../dtos/PlayerDto";
+import { GroupDto } from "../dtos/groups/GroupDto";
+import { GroupPlayersRequestDto } from "../dtos/groups/GroupPlayersRequestDto";
+import { GroupsRequestDto } from "../dtos/groups/GroupsRequestDto";
+import { PagedResult } from "../dtos/base/PagedResult";
+import { PlayerDto } from "../dtos/players/PlayerDto";
 import { playerRequestToQuery } from "./playerThunk";
 import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } from "./thunkBase";
 

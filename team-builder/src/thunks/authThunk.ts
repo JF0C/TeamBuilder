@@ -1,5 +1,5 @@
 import { ApiUrls } from "../constants/ApiUrls";
-import { CodeAuthorizationDto } from "../dtos/CodeAuthorizationDto";
+import { CodeAuthorizationDto } from "../dtos/auth/CodeAuthorizationDto";
 import { createPostThunk } from "./thunkBase";
 
 export const codeAuthorizationRequest = createPostThunk<string, CodeAuthorizationDto>(

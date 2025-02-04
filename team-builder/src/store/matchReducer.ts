@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { MatchDto } from "../dtos/MatchDto";
-import { PagedResult } from "../dtos/PagedResult";
+import { MatchDto } from "../dtos/matches/MatchDto";
+import { PagedResult } from "../dtos/base/PagedResult";
 import { MatchEntity } from "../data/MatchEntity";
 import { TeamEntity } from "../data/TeamEntity";
-import { PlayerDto } from "../dtos/PlayerDto";
+import { PlayerDto } from "../dtos/players/PlayerDto";
 import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, setMatchScoresRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
-import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
+import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
-import { TeamScoreDto } from "../dtos/TeamScoreDto";
+import { TeamScoreDto } from "../dtos/teams/TeamScoreDto";
 
 export interface MatchState {
     loading: boolean

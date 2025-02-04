@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { GroupListItem } from "./GroupListItem";
 import { reloadPlayers } from "../../store/playerReducer";
-import { GroupDto } from "../../dtos/GroupDto";
+import { GroupDto } from "../../dtos/groups/GroupDto";
 import { Modal } from "../shared/Modal";
 import { FilterAction } from "../layout/FilterAction";
 

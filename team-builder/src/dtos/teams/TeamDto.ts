@@ -1,4 +1,4 @@
-import { PlayerDto } from "./PlayerDto";
+import { PlayerDto } from "../players/PlayerDto";
 
 export type TeamDto = {
     id: number;

@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
-import { GroupDto } from "../../dtos/GroupDto";
-import { PlayerDto } from "../../dtos/PlayerDto";
+import { GroupDto } from "../../dtos/groups/GroupDto";
+import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { reloadGroups } from "../../store/groupReducer";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { GroupListItem } from "../groups/GroupListItem";

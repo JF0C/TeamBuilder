@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode } from "react";
 import { Pagination } from "../shared/Pagination";
-import { PageDto } from "../../dtos/PageDto";
+import { PageDto } from "../../dtos/base/PageDto";
 import { ListLayout } from "./ListLayout";
 
 export type PaginatedListLayoutProps = {

@@ -1,8 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { LoginDto } from "../dtos/LoginDto";
-
-export const basicAuthorization = (login: LoginDto) =>
-    btoa(`${login.email}:${login.password}`);
 
 export const createThrowingAsyncThunk = <Tout, Tin>(name: string,
     fetchFunction: (arg: Tin, body?: string) => Promise<Response>,

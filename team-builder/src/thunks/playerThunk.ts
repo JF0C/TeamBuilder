@@ -1,7 +1,7 @@
 import { ApiUrls } from "../constants/ApiUrls";
-import { PlayerDto } from "../dtos/PlayerDto";
-import { PagedResult } from "../dtos/PagedResult";
-import { PlayersRequestDto } from "../dtos/PlayersRequestDto";
+import { PlayerDto } from "../dtos/players/PlayerDto";
+import { PagedResult } from "../dtos/base/PagedResult";
+import { PlayersRequestDto } from "../dtos/players/PlayersRequestDto";
 import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } from "./thunkBase";
 
 export const playerRequestToQuery = (request: PlayersRequestDto) => 

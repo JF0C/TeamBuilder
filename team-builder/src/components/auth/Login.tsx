@@ -4,7 +4,7 @@ import { AuthProperties } from "../../constants/AuthProperties";
 import { Paths } from "../../constants/Paths";
 import { useSearchParams } from "react-router-dom";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
-import { LoginStateDto } from "../../dtos/LoginStateDto";
+import { LoginStateDto } from "../../dtos/auth/LoginStateDto";
 import { codeAuthorizationRequest } from "../../thunks/authThunk";
 
 export const Login: FunctionComponent = () => {

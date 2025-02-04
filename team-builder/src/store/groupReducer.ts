@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PagedResult } from "../dtos/PagedResult";
-import { GroupDto } from "../dtos/GroupDto";
+import { PagedResult } from "../dtos/base/PagedResult";
+import { GroupDto } from "../dtos/groups/GroupDto";
 import { enqueueSnackbar } from "notistack";
 import { addPlayerToGroupRequest, loadGroupPlayersRequest, loadGroupsRequest, removePlayerFromGroupRequest } from "../thunks/groupThunk";
-import { PlayerDto } from "../dtos/PlayerDto";
-import { GroupsRequestDto } from "../dtos/GroupsRequestDto";
+import { PlayerDto } from "../dtos/players/PlayerDto";
+import { GroupsRequestDto } from "../dtos/groups/GroupsRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
-import { GroupPlayersRequestDto } from "../dtos/GroupPlayersRequestDto";
+import { GroupPlayersRequestDto } from "../dtos/groups/GroupPlayersRequestDto";
 
 export interface GroupState {
     loading: boolean;

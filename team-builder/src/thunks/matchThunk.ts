@@ -1,9 +1,9 @@
 import { ApiUrls } from "../constants/ApiUrls";
 import { MatchEntity } from "../data/MatchEntity";
-import { MatchDto } from "../dtos/MatchDto";
-import { MatchesRequestDto } from "../dtos/MatchesRequestDto";
-import { PagedResult } from "../dtos/PagedResult";
-import { TeamScoreDto } from "../dtos/TeamScoreDto";
+import { MatchDto } from "../dtos/matches/MatchDto";
+import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
+import { PagedResult } from "../dtos/base/PagedResult";
+import { TeamScoreDto } from "../dtos/teams/TeamScoreDto";
 import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } from "./thunkBase";
 
 export const createMatchRequest = createPostThunk<number, MatchEntity>(

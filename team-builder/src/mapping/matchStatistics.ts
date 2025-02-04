@@ -1,4 +1,4 @@
-import { MatchDto } from "../dtos/MatchDto"
+import { MatchDto } from "../dtos/matches/MatchDto"
 
 export const totalPlayers = (match: MatchDto): number => {
     const teamPlayers = match.teams.map(t => t.players.length);

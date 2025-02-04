@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
-import { PlayerDto } from "../../dtos/PlayerDto";
+import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { MemberItem } from "./MemberItem";
-import { GroupDto } from "../../dtos/GroupDto";
+import { GroupDto } from "../../dtos/groups/GroupDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { reloadPlayers } from "../../store/playerReducer";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";

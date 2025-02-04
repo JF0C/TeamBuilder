@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { PlayerDto } from "../../dtos/PlayerDto";
+import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { TeamView } from "./TeamView";
 import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";

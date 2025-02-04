@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { PlayerDto } from "../../dtos/PlayerDto";
+import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { deselectPlayer, selectPlayer } from "../../store/playerReducer";
 import { ListItem } from "../shared/ListItem";

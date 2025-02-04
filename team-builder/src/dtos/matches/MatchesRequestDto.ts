@@ -1,4 +1,4 @@
-import { PagedRequest } from "./PagedRequest";
+import { PagedRequest } from "../base/PagedRequest";
 
 export type MatchesRequestDto = PagedRequest & {
     player?: number

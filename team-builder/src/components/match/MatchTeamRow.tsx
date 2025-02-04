@@ -1,5 +1,5 @@
 import { ChangeEvent, FunctionComponent } from "react";
-import { TeamDto } from "../../dtos/TeamDto";
+import { TeamDto } from "../../dtos/teams/TeamDto";
 import { useAppDispatch } from "../../store/store";
 import { changeTeamScore } from "../../store/matchReducer";
 

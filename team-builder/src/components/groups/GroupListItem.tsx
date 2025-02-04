@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { RootState, useAppSelector } from "../../store/store";
-import { GroupDto } from "../../dtos/GroupDto";
+import { GroupDto } from "../../dtos/groups/GroupDto";
 import { ListItem } from "../shared/ListItem";
 
 export type GroupListItemProps = {

@@ -1,4 +1,4 @@
-import { GroupDto } from "./GroupDto"
+import { GroupDto } from "../groups/GroupDto"
 
 export type PlayerDto = {
     id: number,

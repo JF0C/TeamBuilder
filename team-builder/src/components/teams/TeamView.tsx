@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { PlayerDto } from "../../dtos/PlayerDto";
+import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { PlayerItem } from "../selection/PlayerItem";
 
 export type TeamViewProps = {

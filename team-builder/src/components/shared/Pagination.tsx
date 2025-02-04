@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { PageDto } from "../../dtos/PageDto";
+import { PageDto } from "../../dtos/base/PageDto";
 import { PaginationButton } from "./PaginationButton";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

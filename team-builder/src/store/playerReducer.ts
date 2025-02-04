@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PlayerDto } from "../dtos/PlayerDto";
+import { PlayerDto } from "../dtos/players/PlayerDto";
 import { createPlayerRequest, loadPlayersRequest, renamePlayerRequest } from "../thunks/playerThunk";
-import { PagedResult } from "../dtos/PagedResult";
-import { GroupDto } from "../dtos/GroupDto";
+import { PagedResult } from "../dtos/base/PagedResult";
+import { GroupDto } from "../dtos/groups/GroupDto";
 import { enqueueSnackbar } from "notistack";
-import { PlayersRequestDto } from "../dtos/PlayersRequestDto";
+import { PlayersRequestDto } from "../dtos/players/PlayersRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
 
 export interface PlayerState {

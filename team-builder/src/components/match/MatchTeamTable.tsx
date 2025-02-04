@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { MatchDto } from "../../dtos/MatchDto";
+import { MatchDto } from "../../dtos/matches/MatchDto";
 import { MatchTeamRow } from "./MatchTeamRow";
 
 export const MatchTeamTable: FunctionComponent<{ match: MatchDto, expanded?: boolean, changeScores?: boolean }> = ({ match, expanded, changeScores }) => {
