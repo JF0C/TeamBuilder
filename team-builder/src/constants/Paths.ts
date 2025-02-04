@@ -7,4 +7,5 @@ export class Paths {
     public static readonly MatchCompletionPath = '/finish-match'
     public static readonly MatchManagementPath = '/matches'
     public static readonly MatchDetailPath = '/match'
+    public static readonly LoginPath = '/login'
 }

@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="../TeamBuilder.Core/TeamBuilder.Core.csproj" />
     <ProjectReference Include="../TeamBuilder.Data/TeamBuilder.Data.csproj" />
+    <ProjectReference Include="../TeamBuilder.Services/TeamBuilder.Services.csproj" />
   </ItemGroup>
 
 </Project>

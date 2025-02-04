@@ -3,11 +3,13 @@ using TeamBuilder.Shared;
 using TeamBuilder.Extensions;
 using TeamBuilder.Data.Extensions;
 using TeamBuilder.Core.Extensions;
+using TeamBuilder.Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddTeamBuilderDbContext(builder.Configuration);
+builder.Services.AddServices(builder.Configuration);
 
 builder.Services.AddMapper();
 
