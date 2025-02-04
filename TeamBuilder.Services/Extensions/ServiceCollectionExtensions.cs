@@ -8,9 +8,9 @@ namespace TeamBuilder.Services.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddTeamBuilderServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<GithubAuthenticationConfiguration>((cfg) => configuration.GetSection(nameof(GithubAuthenticationConfiguration)));
+        services.Configure<GithubAuthenticationConfiguration>(configuration.GetSection(nameof(GithubAuthenticationConfiguration)));
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         return services;

@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddTeamBuilderDbContext(builder.Configuration);
-builder.Services.AddServices(builder.Configuration);
+builder.Services.AddTeamBuilderServices(builder.Configuration);
 
 builder.Services.AddMapper();
 
