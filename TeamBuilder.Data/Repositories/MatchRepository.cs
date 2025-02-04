@@ -1,6 +1,8 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Matches;
+using TeamBuilder.Core.Dtos.Teams;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
 using TeamBuilder.Core.Extensions;

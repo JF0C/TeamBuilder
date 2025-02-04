@@ -1,5 +1,5 @@
 using AutoMapper;
-using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Teams;
 using TeamBuilder.Core.Entities;
 
 namespace TeamBuilder.Core.Mappers;

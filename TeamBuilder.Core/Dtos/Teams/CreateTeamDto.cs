@@ -1,4 +1,4 @@
-namespace TeamBuilder.Core.Dtos;
+namespace TeamBuilder.Core.Dtos.Teams;
 
 public class CreateTeamDto
 {

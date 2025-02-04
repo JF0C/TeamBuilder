@@ -26,6 +26,8 @@ internal class AuthenticationService(IOptions<GithubAuthenticationConfiguration>
             RedirectUri = githubConfig.Value.RedirectUri
         });
         var response = await client.SendAsync(request);
+        
+
         return await response.Content.ReadFromJsonAsync<AccessTokenResponseDto>()
             ?? throw new FailedAuthenticationException(authorizationDto.AuthProvider, githubConfig.Value.ClientId);
     }

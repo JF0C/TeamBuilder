@@ -38,7 +38,9 @@ export const Login: FunctionComponent = () => {
             }))
         }
         return <div className="size-full flex flex-col justify-center items-center">
-            Logging in with {JSON.stringify(loginState)} {authorizationCode} ...
+            Logging in with {JSON.stringify(loginState)} {authorizationCode}
+            {AuthProperties.ClientId}
+            {AuthProperties.RedirectUri + Paths.LoginPath.substring(1)}
             <LoadingSpinner />
         </div>
     }

@@ -1,4 +1,6 @@
-namespace TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Teams;
+
+namespace TeamBuilder.Core.Dtos.Matches;
 
 public class MatchDto
 {

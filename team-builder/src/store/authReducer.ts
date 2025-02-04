@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { codeAuthorizationRequest } from "../thunks/authThunk"
+import { enqueueSnackbar } from "notistack"
 
 export interface AuthState {
     loading: boolean
@@ -23,7 +24,13 @@ const authSlice = createSlice({
         builder.addCase(codeAuthorizationRequest.pending, (state) => { state.loading = true; })
         builder.addCase(codeAuthorizationRequest.fulfilled, (state, action) => {
             state.loading = false;
-            state.access_token = action.payload;
+            state.access_token = action.payload.access_token;
+        })
+        builder.addCase(codeAuthorizationRequest.rejected, (state, action) => {
+            state.loading = false;
+            const message = `Error retrieving access token ${action.error.message}`;
+            enqueueSnackbar(message, {variant: 'error'})
+            state.access_token = message;
         })
     }
 })

@@ -1,4 +1,6 @@
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Matches;
+using TeamBuilder.Core.Dtos.Teams;
 
 namespace TeamBuilder.Data.Interfaces;
 
