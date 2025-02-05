@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Shared;
 
 namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class HomeController: BaseController
+public class HomeController(IMemoryCache cache): BaseController(cache)
 {
     [HttpGet("/")]
     public ActionResult Get()

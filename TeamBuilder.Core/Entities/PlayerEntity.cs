@@ -10,4 +10,6 @@ public class PlayerEntity: EntityBase
     public List<GroupEntity> Groups { get; set; } = [];
 
     public List<TeamEntity> Teams { get; set; } = [];
+
+    public UserEntity? User { get; set; }
 }

@@ -13,6 +13,8 @@ builder.Services.AddTeamBuilderServices(builder.Configuration);
 
 builder.Services.AddMapper();
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddCorsPolicies();
 
 builder.Services.AddControllers(x => x.Filters.Add<ExceptionFilter>())

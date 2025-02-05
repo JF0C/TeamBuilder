@@ -26,8 +26,8 @@ export const Login: FunctionComponent = () => {
         window.location.href = url;
     }
 
-    if (authState.access_token) {
-        return <div>Logged in: {authState.access_token}</div>
+    if (authState.accessToken) {
+        return <div>Logged in: {authState.accessToken}</div>
     }
     if (authorizationCode && loginState) {
         if (!authState.loading) {

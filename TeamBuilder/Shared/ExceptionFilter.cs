@@ -14,16 +14,15 @@ public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IActionFilter, I
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
-        if (context.HttpContext.Request.Path.ToString().Contains("Authentication"))
+        if ((context.HttpContext.Request.Path.ToString().Contains("Authentication") && context.Exception is not null)
+            || context.Exception is UnauthorizedAccessException)
         {
-            if (context.Exception is not null) {
-                context.Result = new ObjectResult(null)
-                {
-                    StatusCode = (int)HttpStatusCode.Unauthorized
-                };
-                context.ExceptionHandled = true;
-                return;
-            }
+            context.Result = new ObjectResult(null)
+            {
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+            context.ExceptionHandled = true;
+            return;
         }
 
         if (context.Exception is ItemNotFoundException)

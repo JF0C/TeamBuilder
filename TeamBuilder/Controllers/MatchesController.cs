@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Dtos.Matches;
 using TeamBuilder.Core.Dtos.Teams;
@@ -9,7 +10,7 @@ namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MatchesController(IMatchRepository matchRepository): BaseController
+public class MatchesController(IMatchRepository matchRepository, IMemoryCache cache): BaseController(cache)
 {
     [HttpGet("{id}")]
     public async Task<ActionResult<MatchDto>> Get(long id)

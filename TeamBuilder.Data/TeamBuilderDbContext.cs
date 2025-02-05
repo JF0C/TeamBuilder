@@ -17,6 +17,7 @@ public class TeamBuilderDbContext(DbContextOptions<TeamBuilderDbContext> options
     public DbSet<PlayerEntity> Players { get; set; }
     public DbSet<GroupEntity> Groups { get; set; }
     public DbSet<MatchEntity> Matches { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
 
     public override Task<int> SaveChangesAsync(
         bool acceptAllChangesOnSuccess,

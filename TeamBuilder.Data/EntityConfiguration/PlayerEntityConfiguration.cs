@@ -10,5 +10,10 @@ public static class PlayerEntityConfiguration
         builder.Entity<PlayerEntity>()
             .HasIndex(c => c.Name)
             .IsUnique();
+
+        builder.Entity<PlayerEntity>()
+            .HasOne(p => p.User)
+            .WithOne(u => u.Player)
+            .HasForeignKey<UserEntity>(u => u.Id);
     }
 }
