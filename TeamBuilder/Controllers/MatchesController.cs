@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Matches;
+using TeamBuilder.Core.Dtos.Teams;
 using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Shared;
 

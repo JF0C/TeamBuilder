@@ -4,5 +4,5 @@ namespace TeamBuilder.Services.Interfaces;
 
 public interface IAuthenticationService
 {
-    Task<AccessTokenResponseDto> AuthenticateAsync(CodeAuthorizationDto authorizationDto);
+    Task<LoginResponseDto> AuthenticateAsync(CodeAuthorizationDto authorizationDto);
 }

@@ -10,7 +10,7 @@ import { codeAuthorizationRequest } from "../../thunks/authThunk";
 export const Login: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const authState = useAppSelector((state) => state.auth);
-    const [params, setParams] = useSearchParams()
+    const [params] = useSearchParams()
     const authorizationCode = params.get('code')
     const loginStateParam = params.get('state')
     const loginState: LoginStateDto | null = loginStateParam ? JSON.parse(loginStateParam) : null
@@ -21,13 +21,12 @@ export const Login: FunctionComponent = () => {
         }
         const url = `${AuthProperties.AuthorizationEndpoint}?client_id=${AuthProperties.ClientId}` +
             `&redirect_uri=${encodeURIComponent(AuthProperties.RedirectUri + Paths.LoginPath.substring(1))}` +
-            `&state=${JSON.stringify(loginState)}`;
+            `&state=${JSON.stringify(loginState)}` +
+            `&scope=user:email`;
         window.location.href = url;
     }
 
     if (authState.access_token) {
-        setParams('code', undefined)
-        setParams('state', undefined)
         return <div>Logged in: {authState.access_token}</div>
     }
     if (authorizationCode && loginState) {

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace TeamBuilder.Core.Dtos.Authentication;
 
-public class FailedTokenRequestDto
+public class FailedTokenResponseDto
 {
     [JsonPropertyName("error")]
     public string Error { get; set; } = string.Empty;

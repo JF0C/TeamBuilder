@@ -6,5 +6,9 @@ import { createPostThunk } from "./thunkBase";
 export const codeAuthorizationRequest = createPostThunk<TokenResponseDto, CodeAuthorizationDto>(
     'code-authorization',
     () => `${ApiUrls.BaseUrl + ApiUrls.AuthenticationEndpoint}`,
-    (response) => response.json()
+    async (response) => {
+        const text = await response.text();
+        console.log(text);
+        return JSON.parse(text)
+    }
 )

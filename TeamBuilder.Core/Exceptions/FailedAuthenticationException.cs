@@ -1,9 +1,17 @@
 namespace TeamBuilder.Core.Exceptions;
-public class FailedAuthenticationException(string authProvider, string clientId):
-    Exception(GetMessage(authProvider, clientId))
+public class FailedAuthenticationException: Exception
 {
-    private static string GetMessage(string authProvider, string clientId)
+    public FailedAuthenticationException(string authProvider, string clientId, string? error = null): base(GetMessage(authProvider, clientId, error))
     {
-        return $"Failed to authenticate with {authProvider} as client {clientId}";
+
     }
+    public FailedAuthenticationException(string message): base(message)
+    {
+        
+    }
+    private static string GetMessage(string authProvider, string clientId, string? error)
+    {
+        return $"Failed to authenticate with {authProvider} as client {clientId}{(error is not null ? (": " + error) : string.Empty)}";
+    }
+
 }

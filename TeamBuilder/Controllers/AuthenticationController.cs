@@ -10,7 +10,7 @@ namespace TeamBuilder.Controllers;
 public class AuthenticationController(IAuthenticationService authenticationService): BaseController
 {
     [HttpPost]
-    public async Task<ActionResult<AccessTokenResponseDto>> Authenticate(CodeAuthorizationDto authorizationDto)
+    public async Task<ActionResult<LoginResponseDto>> Authenticate(CodeAuthorizationDto authorizationDto)
     {
         return Ok(await authenticationService.AuthenticateAsync(authorizationDto));
     }

@@ -1,4 +1,7 @@
 export type TokenResponseDto = {
-    access_token: string
+    accessToken: string
     scope: string
+    email: string
+    playerId: string
+    playerName: string
 }
