@@ -4,6 +4,7 @@ import { useAppSelector } from "../../store/store";
 import { ListAndDetails } from "../layout/ListAndDetails";
 import { EditGroup } from "./EditGroup";
 import { GroupList } from "./GroupList";
+import { Paths } from "../../constants/Paths";
 
 export const GroupManager: FunctionComponent = () => {
     const showDetails = useAppSelector((state) => state.groups.editingGroup !== null);
@@ -13,7 +14,7 @@ export const GroupManager: FunctionComponent = () => {
         details={<EditGroup />} 
         showDetails={showDetails}
         navigation={<div className="button">
-            <NavLink to={'/'}>
+            <NavLink to={Paths.HomePath}>
                 Back
             </NavLink>
         </div>} />

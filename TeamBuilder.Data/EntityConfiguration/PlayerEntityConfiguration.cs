@@ -15,5 +15,9 @@ public static class PlayerEntityConfiguration
             .HasOne(p => p.User)
             .WithOne(u => u.Player)
             .HasForeignKey<UserEntity>(u => u.Id);
+
+        builder.Entity<UserEntity>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
     }
 }

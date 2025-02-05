@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router'
 import './App.scss'
 import { Paths } from './constants/Paths'
 import { PlayerSelection } from './components/selection/PlayerSelection'
-import { MainMenu } from './components/start/MainMenu'
+import { MainMenu } from './components/home/MainMenu'
 import { Teams } from './components/teams/Teams'
 import { PlayerManagement } from './components/players/PlayerManagement'
 import { CustomizedSnackbar } from './components/shared/CustomizedSnackbar'
@@ -13,6 +13,7 @@ import { MatchCompletion } from './components/match/MatchCompletion'
 import { MatchManager } from './components/match/MatchManager'
 import { MatchDetails } from './components/match/MatchDetails'
 import { Login } from './components/auth/Login'
+import { Register } from './components/auth/Register'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path={Paths.MatchManagementPath} element={<MatchManager />} />
         <Route path={`${Paths.MatchDetailPath}/*`} element={<MatchDetails />} />
         <Route path={Paths.LoginPath} element={<Login />} />
+        <Route path={Paths.RegisterPath} element={<Register />} />
       </Routes>
     </div>
   )

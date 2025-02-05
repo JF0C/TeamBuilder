@@ -16,7 +16,7 @@ export const MatchCompletion: FunctionComponent = () => {
     const finishMatch = () => {
         dispatch(createMatchRequest(matchState.current))
             .unwrap()
-            .then(() => navigate('/'))
+            .then(() => navigate(Paths.HomePath))
     }
 
     if (matchState.loading) {

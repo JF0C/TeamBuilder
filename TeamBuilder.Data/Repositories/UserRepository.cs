@@ -28,10 +28,30 @@ internal class UserRepository(TeamBuilderDbContext context) : IUserRepository
         }
     }
 
-    public async Task CreateAsync(string email, long playerId)
+    public async Task<long> CreateAsync(string email, string playerName)
     {
-        var player = await context.Players.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == playerId)
+        var player = new PlayerEntity
+        {
+            Name = playerName,
+            User = new()
+            {
+                Email = email
+            }
+        };
+        context.Players.Add(player);
+        await context.SaveChangesAsync();
+        return player.Id;
+    }
+
+    public async Task RegisterAsync(string email, long playerId)
+    {
+        var player = await context.Players.FirstOrDefaultAsync(p => p.Id == playerId)
             ?? throw new ItemNotFoundException(playerId.ToString(), typeof(PlayerEntity));
+        var existingUser = await context.Players.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == playerId);
+        if (existingUser?.User is not null)
+        {
+            throw new ItemExistsException(existingUser.User!.Email, typeof(UserEntity));
+        }
         player.User = new UserEntity
         {
             Email = email

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Dtos.Matches;
 using TeamBuilder.Core.Dtos.Teams;
@@ -37,6 +38,7 @@ public class MatchesController(IMatchRepository matchRepository, IMemoryCache ca
         return Ok(await matchRepository.CreateAsync(match));
     }
 
+    [TokenAuthentication(Roles.Admin)]
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(long id)
     {
@@ -44,6 +46,7 @@ public class MatchesController(IMatchRepository matchRepository, IMemoryCache ca
         return Ok();
     }
 
+    [TokenAuthentication()]
     [HttpPut("{id}/Scores")]
     public async Task<ActionResult> SetScores(long id, List<TeamScoreDto> scores)
     {

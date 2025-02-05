@@ -17,7 +17,7 @@ export const PlayerSelection: FunctionComponent = () => {
             selected={<SelectedPlayers />}
             navigation={
                 <div className="w-full flex flex-row justify-between">
-                    <NavLink to={'/'}>
+                    <NavLink to={Paths.HomePath}>
                         Back
                     </NavLink>
                     <MatchConfiguration />

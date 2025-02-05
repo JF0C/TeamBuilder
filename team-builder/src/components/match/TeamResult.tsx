@@ -15,7 +15,6 @@ export const TeamResult: FunctionComponent<{index: number, team: TeamEntity}> = 
     const setWinner = () => {
         const winningScore = matchTypeWinningScore(currentMatch.type);
         dispatch(setTeamScore({index: index, score: winningScore}))
-        console.log(currentMatch.teams)
         for (const losingTeam of currentMatch.teams.filter((t, i) => i !== index && t.score >= winningScore)) {
             dispatch(setTeamScore({
                 index: currentMatch.teams.indexOf(losingTeam),

@@ -4,6 +4,7 @@ import { PlayerDetails } from "./PlayerDetails";
 import { useAppSelector } from "../../store/store";
 import { NavLink } from "react-router-dom";
 import { ListAndDetails } from "../layout/ListAndDetails";
+import { Paths } from "../../constants/Paths";
 
 export const PlayerManagement: FunctionComponent = () => {
     const editingPlayer = useAppSelector((state) => state.players.editingPlayer !== null);
@@ -14,7 +15,7 @@ export const PlayerManagement: FunctionComponent = () => {
             details={<PlayerDetails />}
             showDetails={editingPlayer}
             navigation={<div className="button">
-                <NavLink to={'/'}>
+                <NavLink to={Paths.HomePath}>
                     Back
                 </NavLink>
             </div>}

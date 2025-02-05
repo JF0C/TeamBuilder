@@ -40,8 +40,6 @@ export const MatchDetails: FunctionComponent = () => {
             setChangingScores(true)
         }
         else {
-            console.log(match)
-            console.log(matchId)
             dispatch(setMatchScoresRequest({
                 matchId: match.id,
                 scores: matchState.changedScores

@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace TeamBuilder.Shared;
 
-public class TokenAuthenticationAttribute(string roles): ActionFilterAttribute
+public class TokenAuthenticationAttribute(string roles = ""): ActionFilterAttribute
 {
     private const string AuthHeaderPrefix = "Bearer ";
-    private readonly List<string> rolesToValidate = [.. roles.Split(' ')];
+    private readonly List<string> rolesToValidate = [.. roles.Split(' ').Where((r) => !string.IsNullOrEmpty(r))];
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
         var authHeader = filterContext.HttpContext.Request.Headers.Authorization
@@ -16,8 +16,8 @@ public class TokenAuthenticationAttribute(string roles): ActionFilterAttribute
         {
             if (baseController.Cache.TryGetValue(token, out var roleCollection))
             {
-                var userRoles = roleCollection?.ToString()?.Split(' ') ?? [];
-                if (!userRoles.Any(role => rolesToValidate.Contains(role)))
+                var userRoles = roleCollection?.ToString()?.Split(' ').Where(r => !string.IsNullOrEmpty(r)) ?? [];
+                if (!userRoles.Any(rolesToValidate.Contains))
                 {
                     throw new UnauthorizedAccessException("user does not have sufficient permissions");
                 }

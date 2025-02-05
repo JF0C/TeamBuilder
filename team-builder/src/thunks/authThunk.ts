@@ -1,14 +1,23 @@
 import { ApiUrls } from "../constants/ApiUrls";
 import { CodeAuthorizationDto } from "../dtos/auth/CodeAuthorizationDto";
-import { TokenResponseDto } from "../dtos/auth/TokenResponseDto";
-import { createPostThunk } from "./thunkBase";
+import { CreateUserDto } from "../dtos/auth/CreateUserDto";
+import { LoginResponseDto } from "../dtos/auth/LoginResponseDto";
+import { RegisterUserDto } from "../dtos/auth/RegisterUserDto";
+import { createPostThunk, createPutThunk } from "./thunkBase";
 
-export const codeAuthorizationRequest = createPostThunk<TokenResponseDto, CodeAuthorizationDto>(
+export const codeAuthorizationRequest = createPostThunk<LoginResponseDto, CodeAuthorizationDto>(
     'code-authorization',
     () => `${ApiUrls.BaseUrl + ApiUrls.AuthenticationEndpoint}`,
-    async (response) => {
-        const text = await response.text();
-        console.log(text);
-        return JSON.parse(text)
-    }
+    (response) => response.json()
+)
+
+export const registerUserRequest = createPutThunk<RegisterUserDto>(
+    'register-user',
+    (request) => `${ApiUrls.BaseUrl + ApiUrls.AuthenticationEndpoint}/${request.playerId}/User/${request.email}`
+)
+
+export const createUserRequest = createPostThunk<number, CreateUserDto>(
+    'create-user',
+    () => `${ApiUrls.BaseUrl + ApiUrls.AuthenticationEndpoint}/User`,
+    (response) => response.json()
 )

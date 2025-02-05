@@ -24,7 +24,8 @@ internal class PlayersRepository(TeamBuilderDbContext context, IMapper mapper) :
 
     public async Task DeleteAsync(long id)
     {
-        var player = await context.Players.FirstOrDefaultAsync(p => p.Id == id)
+        var player = await context.Players.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id)
+            ?? await context.Players.FirstOrDefaultAsync(p => p.Id == id)
             ?? throw new ItemNotFoundException(id.ToString(), typeof(PlayerEntity));
         context.Players.Remove(player);
         await context.SaveChangesAsync();

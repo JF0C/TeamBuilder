@@ -1,11 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "../store/store";
+import { AuthState } from "../store/authReducer";
 
 export const createThrowingAsyncThunk = <Tout, Tin>(name: string,
-    fetchFunction: (arg: Tin, body?: string) => Promise<Response>,
+    fetchFunction: (arg: Tin, state: AuthState, body?: string) => Promise<Response>,
     parseFunction: (response: Response, arg: Tin | undefined) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
-    return createAsyncThunk(name, async (arg: Tin) => {
-        const response = await fetchFunction(arg, bodyFunction?.(arg) ?? JSON.stringify(arg));
+    return createAsyncThunk(name, async (arg: Tin, { getState }) => {
+        const state: RootState = getState() as RootState;
+        const response = await fetchFunction(arg, state.auth, bodyFunction?.(arg) ?? JSON.stringify(arg));
         if (!response.ok) {
             throw new Error(await response.text());
         }
@@ -16,10 +19,11 @@ export const createThrowingAsyncThunk = <Tout, Tin>(name: string,
 export const createPostThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, body?: string) => fetch(url(arg), {
+    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth.user?.accessToken}`
         },
         credentials: 'include',
         body: body ?? JSON.stringify(arg)
@@ -28,10 +32,11 @@ export const createPostThunk = <Tout, Tin>(name: string, url: (arg: Tin) => stri
 
 export const createPutThunk = <Tin>(name: string, url: (arg: Tin) => string,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, body?: string) => fetch(url(arg), {
+    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth.user?.accessToken}`
         },
         credentials: 'include',
         body: body ?? JSON.stringify(arg)
@@ -41,10 +46,11 @@ export const createPutThunk = <Tin>(name: string, url: (arg: Tin) => string,
 export const createResponsePutThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, body?: string) => fetch(url(arg), {
+    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth.user?.accessToken}`
         },
         credentials: 'include',
         body: body ?? JSON.stringify(arg)
@@ -53,34 +59,21 @@ export const createResponsePutThunk = <Tout, Tin>(name: string, url: (arg: Tin) 
 
 export const createGetThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>) => {
-    return createThrowingAsyncThunk(name, (arg: Tin) => fetch(url(arg), {
-        method: 'GET',
-        credentials: 'include'
-    }), parseFunction);
-}
-
-export const createAuthenticatedGetThunk = <Tout, Tin>(
-    name: string, 
-    url: (arg: Tin) => string,
-    authScheme: 'Basic' | 'Bearer',
-    authFunction: (arg: Tin) => string,
-    parseFunction: (response: Response, arg: Tin | undefined) => Promise<Tout>) => {
-    return createThrowingAsyncThunk(name, (arg: Tin) => fetch(url(arg), {
+    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState) => fetch(url(arg), {
         method: 'GET',
         headers: {
-            'Authorization': `${authScheme} ${authFunction(arg)}`
-        }
+            'Authorization': `Bearer ${auth.user?.accessToken}`}
     }), parseFunction);
 }
-
 
 export const createDeleteThunk = <Tin>(name: string, url: (arg: Tin) => string,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, body?: string) => fetch(url(arg), {
+    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'DELETE',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth.user?.accessToken}`
         },
         body: body
     }), async () => { }, bodyFunction);
@@ -89,11 +82,12 @@ export const createDeleteThunk = <Tin>(name: string, url: (arg: Tin) => string,
 export const createResponseDeleteThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, body?: string) => fetch(url(arg), {
+    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'DELETE',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${auth.user?.accessToken}`
         },
         body: body
     }), parseFunction, bodyFunction);
