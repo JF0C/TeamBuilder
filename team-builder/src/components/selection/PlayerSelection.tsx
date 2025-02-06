@@ -16,15 +16,15 @@ export const PlayerSelection: FunctionComponent = () => {
             source={<PlayerSelector />}
             selected={<SelectedPlayers />}
             navigation={
-                <div className="w-full flex flex-row justify-between">
+                [
                     <NavLink to={Paths.HomePath}>
                         Back
-                    </NavLink>
-                    <MatchConfiguration />
+                    </NavLink>,
+                    <MatchConfiguration />,
                     <NavLink to={Paths.TeamPath} onClick={() => dispatch(resetTeamPlayers())}>
                         Generate
                     </NavLink>
-                </div>
+                ]
             } />
     )
 }

@@ -22,6 +22,8 @@ export const MainMenu: FunctionComponent = () => {
                     Manage Players
                 </NavLink>
             </div>
+        </AuthenticatedElement>
+        <AuthenticatedElement>
             <div>
                 <NavLink to={Paths.GroupManagementPath}>
                     Manage Groups

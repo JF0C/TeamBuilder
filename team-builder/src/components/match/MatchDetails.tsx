@@ -11,6 +11,8 @@ import { deleteMatchRequest, loadMatchRequest, setMatchScoresRequest } from "../
 import { totalPlayers } from "../../mapping/matchStatistics";
 import { reloadMatches, selectMatch } from "../../store/matchReducer";
 import { ConfirmModal } from "../shared/ConfirmModal";
+import { AuthenticatedElement } from "../auth/AuthenticatedElement";
+import { Roles } from "../../constants/Roles";
 
 export const MatchDetails: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -77,21 +79,25 @@ export const MatchDetails: FunctionComponent = () => {
                         {totalPlayers(match)} Players
                     </div>
                 </div>
-                <MatchTeamTable match={match} expanded changeScores={changingScores}/>
+                <MatchTeamTable match={match} expanded changeScores={changingScores} />
             </div>
-            <div className={`flex flex-row ${changingScores ? 'justify-between' : 'justify-center' } w-full`}>
-                {
-                    changingScores ? <div className="button" onClick={() => setChangingScores(false)}>Cancel</div> : <></>
-                }
-                <div className="button" onClick={changeScores}>
-                    { changingScores ? 'Save Scores' : 'Change Scores' }
+            <AuthenticatedElement>
+                <div className={`flex flex-row ${changingScores ? 'justify-between' : 'justify-center'} w-full`}>
+                    {
+                        changingScores ? <div className="button" onClick={() => setChangingScores(false)}>Cancel</div> : <></>
+                    }
+                    <div className="button" onClick={changeScores}>
+                        {changingScores ? 'Save Scores' : 'Change Scores'}
+                    </div>
                 </div>
-            </div>
-            <div className="flex flex-row justify-center">
-            <ConfirmModal onConfirm={deleteMatch} buttonContent={<div className="color-red">Delete</div>}>
-                Delete Match?
-            </ConfirmModal>
-            </div>
+            </AuthenticatedElement>
+            <AuthenticatedElement roles={[Roles.Admin]}>
+                <div className="flex flex-row justify-center">
+                    <ConfirmModal onConfirm={deleteMatch} buttonContent={<div className="color-red">Delete</div>}>
+                        Delete Match?
+                    </ConfirmModal>
+                </div>
+            </AuthenticatedElement>
         </div>
     </NavBarLayout>
 }

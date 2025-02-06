@@ -34,12 +34,13 @@ export const PlayerSelector: FunctionComponent = () => {
         <div className="h-full">
             <PaginatedListLayout pageData={playerState.players} onPageChange={pageChange} title={
                 <>
-                    <div className="w-full">
-                        Available
+                    <div className="w-full flex flex-row gap-2 justify-center items-center">
+                        <div>Available</div>
+                        <div><FilterAction onClick={addAll}>Add All</FilterAction></div>
+                        
                     </div>
                     <div className="w-full flex flex-row flex-wrap gap-2">
                         <GroupFilter />
-                        <FilterAction onClick={addAll}>Add All</FilterAction>
                         <PlayerNameFilter onFilterChange={onFilterChange} />
                     </div>
                 </>

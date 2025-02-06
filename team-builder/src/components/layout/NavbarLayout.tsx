@@ -9,7 +9,7 @@ export const NavBarLayout: FunctionComponent<{ navigation: ReactNode | ReactNode
                 </div>
             </div>
             <div className="w-full bg-darker flex flex-row justify-center">
-                <div className="max-w-screen-lg px-4 py-2 w-full">
+                <div className="max-w-screen-lg px-4 py-2 w-full flex flex-row justify-between">
                     {navigation}
                 </div>
             </div>

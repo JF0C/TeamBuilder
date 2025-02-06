@@ -7,6 +7,8 @@ import { Paths } from "../../constants/Paths";
 import { reloadPlayers } from "../../store/playerReducer";
 import { DetailsLayout } from "../layout/DetailsLayout";
 import { ConfirmModal } from "../shared/ConfirmModal";
+import { AuthenticatedElement } from "../auth/AuthenticatedElement";
+import { Roles } from "../../constants/Roles";
 
 export const EditGroup: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -38,9 +40,11 @@ export const EditGroup: FunctionComponent = () => {
     }
 
     return <DetailsLayout onClose={deselectGroup} title={editingGroup.name} id={editingGroup.id.toString()}>
-        <div className="button" onClick={editGroupMembers}>Members</div>
-        <ConfirmModal onConfirm={deleteGroup} buttonContent="Delete">
-            Delete Group {editingGroup.name}?
-        </ConfirmModal>
+        <div className="button" onClick={editGroupMembers}>Edit Members</div>
+        <AuthenticatedElement roles={[Roles.Admin]}>
+            <ConfirmModal onConfirm={deleteGroup} buttonContent="Delete">
+                Delete Group {editingGroup.name}?
+            </ConfirmModal>
+        </AuthenticatedElement>
     </DetailsLayout>
 }

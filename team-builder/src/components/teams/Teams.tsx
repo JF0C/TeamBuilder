@@ -54,21 +54,21 @@ export const Teams: FunctionComponent = () => {
 
     return (
         <NavBarLayout navigation={
-            <div className="flex flex-row justify-between w-full">
+            [
                 <div>
                     <NavLink to={Paths.SelectionPath}>
                         Back
                     </NavLink>
-                </div>
+                </div>,
                 <div className="button" onClick={() => generateTeams(selectedPlayers)}>
                     Shuffle
-                </div>
+                </div>,
                 <div>
                     <NavLink to={Paths.MatchCompletionPath}>
                         Play
                     </NavLink>
                 </div>
-            </div>
+            ]
         }>
             {
                 matchState.current.teams.map((team, index) =>

@@ -25,16 +25,16 @@ export const MatchCompletion: FunctionComponent = () => {
 
     return (
         <NavBarLayout navigation={
-            <div className="flex flex-row justify-between w-full">
+            [
                 <div>
                     <NavLink to={Paths.TeamPath}>
                         Back
                     </NavLink>
-                </div>
+                </div>,
                 <div className="button" onClick={() => finishMatch()}>
                     Finish
                 </div>
-            </div>
+            ]
         }>
             <div className="flex flex-row items-center w-full">
                 <div>
