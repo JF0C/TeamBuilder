@@ -6,6 +6,7 @@ import { PagedResult } from "../dtos/base/PagedResult";
 import { PlayerDto } from "../dtos/players/PlayerDto";
 import { playerRequestToQuery } from "./playerThunk";
 import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } from "./thunkBase";
+import { RenameGroupDto } from "../dtos/groups/RenameGroupDto";
 
 export const loadGroupsRequest = createGetThunk<PagedResult<GroupDto>, GroupsRequestDto>(
     'load-groups',
@@ -42,4 +43,9 @@ export const addPlayerToGroupRequest = createPutThunk<{groupId: number, playerId
 export const removePlayerFromGroupRequest = createDeleteThunk<{groupId: number, playerId: number}>(
     'remove-player-from-group',
     (request) => `${ApiUrls.BaseUrl + ApiUrls.GroupsEndpoint}/${request.groupId}/Players/${request.playerId}`
+)
+
+export const renameGroupRequest = createPutThunk<RenameGroupDto>(
+    'rename-group',
+    (request) => `${ApiUrls.BaseUrl + ApiUrls.GroupsEndpoint}/${request.id}/Name/${request.name}`
 )

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PagedResult } from "../dtos/base/PagedResult";
 import { GroupDto } from "../dtos/groups/GroupDto";
 import { enqueueSnackbar } from "notistack";
-import { addPlayerToGroupRequest, loadGroupPlayersRequest, loadGroupsRequest, removePlayerFromGroupRequest } from "../thunks/groupThunk";
+import { addPlayerToGroupRequest, loadGroupPlayersRequest, loadGroupsRequest, removePlayerFromGroupRequest, renameGroupRequest } from "../thunks/groupThunk";
 import { PlayerDto } from "../dtos/players/PlayerDto";
 import { GroupsRequestDto } from "../dtos/groups/GroupsRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
@@ -97,25 +97,17 @@ export const groupSlice = createSlice({
             }
         })
 
-        builder.addCase(addPlayerToGroupRequest.pending, (state) => {
-            state.loading = true;
-        })
-        builder.addCase(addPlayerToGroupRequest.fulfilled, (state) => {
-            state.loading = false;
-        })
-        builder.addCase(addPlayerToGroupRequest.rejected, (state) => {
-            state.loading = false;
-        })
+        builder.addCase(addPlayerToGroupRequest.pending, (state) => { state.loading = true; })
+        builder.addCase(addPlayerToGroupRequest.fulfilled, (state) => { state.loading = false; })
+        builder.addCase(addPlayerToGroupRequest.rejected, (state) => { state.loading = false; })
 
-        builder.addCase(removePlayerFromGroupRequest.pending, (state) => {
-            state.loading = true;
-        })
-        builder.addCase(removePlayerFromGroupRequest.fulfilled, (state) => {
-            state.loading = false;
-        })
-        builder.addCase(removePlayerFromGroupRequest.rejected, (state) => {
-            state.loading = false;
-        })
+        builder.addCase(removePlayerFromGroupRequest.pending, (state) => { state.loading = true; })
+        builder.addCase(removePlayerFromGroupRequest.fulfilled, (state) => { state.loading = false; })
+        builder.addCase(removePlayerFromGroupRequest.rejected, (state) => { state.loading = false; })
+
+        builder.addCase(renameGroupRequest.pending, (state) => { state.loading = true; })
+        builder.addCase(renameGroupRequest.fulfilled, (state) => { state.loading = false; })
+        builder.addCase(renameGroupRequest.rejected, (state) => { state.loading = false; })
     }
 })
 

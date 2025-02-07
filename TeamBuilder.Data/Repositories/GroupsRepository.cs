@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Groups;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
 using TeamBuilder.Core.Extensions;
@@ -66,6 +67,15 @@ internal class GroupsRepository(TeamBuilderDbContext context, IMapper mapper) : 
             return;
         }
         group.Players.Remove(player);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task RenameAsync(RenameGroupDto renameGroupDto)
+    {
+        var group = await context.Groups
+            .FirstOrDefaultAsync(g => g.Id == renameGroupDto.Id)
+            ?? throw new ItemNotFoundException(renameGroupDto.Id.ToString(), typeof(GroupEntity));
+        group.Name = renameGroupDto.Name;
         await context.SaveChangesAsync();
     }
 }

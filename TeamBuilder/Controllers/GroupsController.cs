@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Groups;
 using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Shared;
 
@@ -45,6 +46,14 @@ public class GroupsController(IGroupsRepository groupsRepository, IMemoryCache c
     public async Task<ActionResult> RemovePlayerFromGroup(long groupId, long playerId)
     {
         await groupsRepository.RemovePlayerAsync(groupId, playerId);
+        return Ok();
+    }
+
+    [TokenAuthentication(Roles.Admin)]
+    [HttpPut("{groupId}/Name/{name}")]
+    public async Task<ActionResult> RenameGroup(long groupId, string name)
+    {
+        await groupsRepository.RenameAsync(new() { Id = groupId, Name = name });
         return Ok();
     }
 }

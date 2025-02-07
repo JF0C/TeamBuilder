@@ -1,3 +1,5 @@
+using TeamBuilder.Core.Dtos.Groups;
+
 namespace TeamBuilder.Core.Dtos;
 
 public class PlayerDto
