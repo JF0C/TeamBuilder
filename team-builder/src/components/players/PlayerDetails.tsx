@@ -5,6 +5,7 @@ import { deletePlayerRequest, renamePlayerRequest } from "../../thunks/playerThu
 import { PlayerGroups } from "./PlayerGroups";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { DetailsLayout } from "../layout/DetailsLayout";
+import { ConfirmModal } from "../shared/ConfirmModal";
 
 export const PlayerDetails: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -46,7 +47,10 @@ export const PlayerDetails: FunctionComponent = () => {
                     Set
                 </div>
             </div>
-            <div className="button color-red" onClick={deletePlayer}>Delete</div>
+            <ConfirmModal buttonContent={<div className="button color-red">Delete</div>} onConfirm={deletePlayer}>
+                Delete Player {editingPlayer.name}?
+            </ConfirmModal>
+            
         </DetailsLayout>
     )
 }

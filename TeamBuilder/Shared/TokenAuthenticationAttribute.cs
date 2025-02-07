@@ -17,7 +17,7 @@ public class TokenAuthenticationAttribute(string roles = ""): ActionFilterAttrib
             if (baseController.Cache.TryGetValue(token, out var roleCollection))
             {
                 var userRoles = roleCollection?.ToString()?.Split(' ').Where(r => !string.IsNullOrEmpty(r)) ?? [];
-                if (!userRoles.Any(rolesToValidate.Contains))
+                if (rolesToValidate.Count > 0 && !userRoles.Any(rolesToValidate.Contains))
                 {
                     throw new UnauthorizedAccessException("user does not have sufficient permissions");
                 }

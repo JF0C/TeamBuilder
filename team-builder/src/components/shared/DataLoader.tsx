@@ -81,5 +81,5 @@ export const DataLoader: FunctionComponent = () => {
         </div>)
     }
 
-    return <>{elements}</>
+    return <div className="text-sm absolute w-full bottom-0 flex flex-col pb-4">{elements}</div>
 }
