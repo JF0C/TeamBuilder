@@ -23,19 +23,22 @@ export const MatchOverview: FunctionComponent = () => {
     const title = `${matchTypeToString(match.type)}`
 
     return <DetailsLayout title={title} id={match.id.toString()} onClose={deselectMatch}>
-        <div className="w-full flex flex-row text-msm gap-2">
-            <div>
-                {millisToDateTimeString(match.created)}
+        <div>
+            <div className="w-full flex flex-row text-msm gap-2">
+                <div>
+                    {millisToDateTimeString(match.created)}
+                </div>
+                <div>
+                    {totalPlayers(match)} Players
+                </div>
             </div>
-            <div>
-                {totalPlayers(match)} Players
+            <MatchTeamTable match={match} />
+            <div className="flex flex-row justify-center">
+                <NavLink to={`${Paths.MatchDetailPath}/${match.id}`}>
+                    Details
+                </NavLink>
             </div>
-        </div>
-        <MatchTeamTable match={match} />
-        <div className="flex flex-row justify-center">
-        <NavLink to={`${Paths.MatchDetailPath}/${match.id}`}>
-            Details
-        </NavLink>
+
         </div>
     </DetailsLayout>
 }

@@ -27,7 +27,7 @@ export const Register: FunctionComponent = () => {
             .then((id) => {
                 if (id) {
                     navigate(Paths.LoginPath)
-                    enqueueSnackbar(`Successfully created user ${email}`, {variant: 'success'});
+                    enqueueSnackbar(`Successfully created user ${email}`, { variant: 'success' });
                 }
             })
             .catch((error) => {
@@ -43,7 +43,7 @@ export const Register: FunctionComponent = () => {
         })).unwrap()
             .then(() => {
                 navigate(Paths.LoginPath)
-                enqueueSnackbar(`Successfully created user ${email}`, {variant: 'success'});
+                enqueueSnackbar(`Successfully created user ${email}`, { variant: 'success' });
             })
             .catch(error => {
                 console.log(error)
@@ -66,31 +66,25 @@ export const Register: FunctionComponent = () => {
 
     return <div className="size-full flex flex-col justify-center items-center gap-2">
         <div>
-            <RadioGroup selectedId={existingPlayer ? 1 : 0} items={[{name: 'New Player', id: 0}, {name: 'Existing Player', id: 1}]} 
-                onSelectionChanged={(id) => id === 0 ? setExistingPlayer(false) : setExistingPlayer(true)}/>
+            <RadioGroup selectedId={existingPlayer ? 1 : 0} items={[{ name: 'New Player', id: 0 }, { name: 'Existing Player', id: 1 }]}
+                onSelectionChanged={(id) => id === 0 ? setExistingPlayer(false) : setExistingPlayer(true)} />
         </div>
         {
             existingPlayer ?
-            <div className="max-w-80">
-                <div className="flex flex-row justify-between">
-                    <div>
-                        Selected Player:    
-                    </div>
-                    <div>
-                        {editingPlayer?.name ?? 'select a player'}
-                    </div>
-                </div> 
-                <PlayerList />
-            </div>
-            :
-            <div>
-                <input value={name} placeholder="Player Name"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
-            </div>
+                <div className="max-w-80 flex flex-col">
+                    <PlayerList />
+                </div>
+                :
+                <div>
+                    <input value={name} placeholder="Player Name"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)} />
+                </div>
         }
         <div>
-            <input value={email} placeholder="Email"
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+            <div>
+                <input value={email} placeholder="Email"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)} />
+            </div>
             <div className="w-70">
                 <InfoText>
                     Your Email address must be registered at one of the follwing websites: Github

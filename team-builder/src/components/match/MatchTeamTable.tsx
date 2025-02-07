@@ -6,33 +6,35 @@ export const MatchTeamTable: FunctionComponent<{ match: MatchDto, expanded?: boo
     const teams = [...match.teams].sort((a, b) => b.score - a.score);
     const winner = teams.find(() => true);
 
-    return <table className="w-full">
-        <thead>
-            <tr>
-                <th>
-                    Team
-                </th>
-                {
-                    !changeScores ? 
+    return (
+        <table className="w-full">
+            <thead>
+                <tr>
                     <th>
-                        Players
+                        Team
                     </th>
-                    :<></>
+                    {
+                        !changeScores ?
+                            <th>
+                                Players
+                            </th>
+                            : <></>
+                    }
+                    <th>
+                        Score
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    teams.map(t => <MatchTeamRow key={`team-row-${t.id}`}
+                        team={t}
+                        expandPlayers={expanded ?? false}
+                        isWinner={winner?.id === t.id}
+                        changeScore={changeScores ?? false}
+                    />)
                 }
-                <th>
-                    Score
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {
-                teams.map(t => <MatchTeamRow key={`team-row-${t.id}`}
-                    team={t}
-                    expandPlayers={expanded ?? false}
-                    isWinner={winner?.id === t.id}
-                    changeScore={changeScores ?? false}
-                />)
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    )
 }

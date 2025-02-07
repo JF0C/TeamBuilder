@@ -13,7 +13,7 @@ export type ListAndDetailsProps = {
 export const ListAndDetails: FunctionComponent<ListAndDetailsProps> = ({ showDetails, list, details, navigation }) => {
     return (
         <NavBarLayout navigation={navigation}>
-            <div className="flex flex-col size-full flex-1 flex-wrap md:flex-row md:justify-end">
+            <div className="flex-1 list-and-details flex flex-col md:flex-row md:justify-end">
                 <LeftOrTopHalf>
                     {list}
                 </LeftOrTopHalf>
