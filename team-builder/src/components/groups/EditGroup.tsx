@@ -10,6 +10,7 @@ import { ConfirmModal } from "../shared/ConfirmModal";
 import { AuthenticatedElement } from "../auth/AuthenticatedElement";
 import { Roles } from "../../constants/Roles";
 import { EditableLabel } from "../shared/EditableLabel";
+import { ListItem } from "../shared/ListItem";
 
 export const EditGroup: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -48,11 +49,18 @@ export const EditGroup: FunctionComponent = () => {
     }
 
     return <DetailsLayout onClose={deselectGroup} title={editingGroup.name} id={editingGroup.id.toString()}>
-        <div className="button" onClick={editGroupMembers}>Edit Members</div>
         <AuthenticatedElement roles={[Roles.Admin]}>
             <div className="w-full flex flex-row justify-between">
                 <EditableLabel value={editingGroup.name} onChange={renameGroup} />
             </div>
+        </AuthenticatedElement>
+        <div className="flex flex-row flex-wrap gap-2">
+            {
+                groupState.editingGroupPlayers?.items.map(p => <ListItem key={p.id}>{p.name}</ListItem>)
+            }
+        </div>
+        <div className="button" onClick={editGroupMembers}>Edit Members</div>
+        <AuthenticatedElement roles={[Roles.Admin]}>
             <ConfirmModal onConfirm={deleteGroup} buttonContent="Delete">
                 Delete Group {editingGroup.name}?
             </ConfirmModal>

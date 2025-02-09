@@ -46,6 +46,7 @@ export const groupSlice = createSlice({
             state.editingGroup = action.payload;
             if (action.payload) {
                 state.groupPlayersFilter.group = action.payload.id;
+                state.editingGroupPlayers = null;
             }
         },
         reloadEditingGroupPlayers(state, action: PayloadAction<{page?: number}>) {
