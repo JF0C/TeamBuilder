@@ -5,6 +5,8 @@ import { GroupListItem } from "./GroupListItem";
 import { CreateGroupItem } from "./CreateGroupItem";
 import { reloadGroups, setEditingGroup } from "../../store/groupReducer";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";
+import { reloadGroupMembers } from "../../store/groupMembersReducer";
+import { GroupDto } from "../../dtos/groups/GroupDto";
 
 export const GroupList: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -18,11 +20,18 @@ export const GroupList: FunctionComponent = () => {
         dispatch(reloadGroups({ page }))
     }
 
+    const selectGroup = (group: GroupDto) => {
+        dispatch(setEditingGroup(group));
+        dispatch(reloadGroupMembers({
+            group: group.id
+        }))
+    }
+
     return <div className="size-full" >
         <PaginatedListLayout pageData={groupState.groups} onPageChange={pageChange} title="Groups">
             {
                 groupState.groups.items.map(g => <GroupListItem key={g.id}
-                    onSelected={() => dispatch(setEditingGroup(g))}
+                    onSelected={() => selectGroup(g)}
                     group={g}
                     isSelected={(state) => state.groups.editingGroup?.id === g.id}
                 />)

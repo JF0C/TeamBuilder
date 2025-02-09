@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { reloadEditingGroupPlayers, reloadGroups, setEditingGroup } from "../../store/groupReducer";
+import { reloadGroups, setEditingGroup } from "../../store/groupReducer";
+import { reloadGroupMembers } from "../../store/groupMembersReducer";
 import { deleteGroupRequest, renameGroupRequest } from "../../thunks/groupThunk";
 import { useNavigate } from "react-router";
 import { Paths } from "../../constants/Paths";
@@ -11,10 +12,12 @@ import { AuthenticatedElement } from "../auth/AuthenticatedElement";
 import { Roles } from "../../constants/Roles";
 import { EditableLabel } from "../shared/EditableLabel";
 import { ListItem } from "../shared/ListItem";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
 
 export const EditGroup: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const groupState = useAppSelector((state) => state.groups)
+    const memberState = useAppSelector((state) => state.groupMembers)
     const editingGroup = groupState.editingGroup
     const navigate = useNavigate()
 
@@ -36,7 +39,7 @@ export const EditGroup: FunctionComponent = () => {
     }
 
     const editGroupMembers = () => {
-        dispatch(reloadEditingGroupPlayers({}))
+        dispatch(reloadGroupMembers({}))
         dispatch(reloadPlayers({ group: null }))
         navigate(Paths.GroupMembersPath)
     }
@@ -56,7 +59,10 @@ export const EditGroup: FunctionComponent = () => {
         </AuthenticatedElement>
         <div className="flex flex-row flex-wrap gap-2">
             {
-                groupState.editingGroupPlayers?.items.map(p => <ListItem key={p.id}>{p.name}</ListItem>)
+                memberState.requestState === 'loading' ?
+                <LoadingSpinner />
+                :
+                memberState.members?.items.map(p => <ListItem key={p.id}>{p.name}</ListItem>)
             }
         </div>
         <div className="button" onClick={editGroupMembers}>Edit Members</div>

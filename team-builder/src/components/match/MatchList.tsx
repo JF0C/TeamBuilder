@@ -18,7 +18,7 @@ export const MatchList: FunctionComponent = () => {
 
     return <PaginatedListLayout pageData={matchState.matches} onPageChange={pageChange} title={'Matches'}>
         {
-            matchState.matches.items.map(m => <MatchItem match={m} />)
+            matchState.matches.items.map(m => <MatchItem key={'match-' + m.id} match={m} />)
         }
     </PaginatedListLayout>
 }

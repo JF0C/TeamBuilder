@@ -3,7 +3,7 @@ import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { addPlayerToGroupRequest, removePlayerFromGroupRequest } from "../../thunks/groupThunk";
 import { GroupDto } from "../../dtos/groups/GroupDto";
-import { reloadEditingGroupPlayers } from "../../store/groupReducer";
+import { reloadGroupMembers } from "../../store/groupMembersReducer";
 import { ListItem } from "../shared/ListItem";
 import { reloadPlayers } from "../../store/playerReducer";
 
@@ -14,11 +14,11 @@ export type MemberItemProps = {
 
 export const MemberItem: FunctionComponent<MemberItemProps> = ({player, group}) => {
     const dispatch = useAppDispatch();
-    const editingGroupPlayers = useAppSelector((state) => state.groups.editingGroupPlayers);
-    const isInGroup = Boolean(editingGroupPlayers?.items.find(p => p.id === player.id));
+    const members = useAppSelector((state) => state.groupMembers.members);
+    const isInGroup = Boolean(members?.items.find(p => p.id === player.id));
 
     const reloadGroupPlayers = () => {
-        dispatch(reloadEditingGroupPlayers({}));
+        dispatch(reloadGroupMembers({}));
         dispatch(reloadPlayers({}));
     }
 

@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { loadPlayersRequest } from "../../thunks/playerThunk";
-import { loadGroupPlayersRequest, loadGroupsRequest } from "../../thunks/groupThunk";
+import { loadGroupMembersRequest, loadGroupsRequest } from "../../thunks/groupThunk";
 import { loadMatchesRequest } from "../../thunks/matchThunk";
 
 export const DataLoader: FunctionComponent = () => {
@@ -9,9 +9,11 @@ export const DataLoader: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const groupState = useAppSelector((state) => state.groups);
     const matchState = useAppSelector((state) => state.match);
+    const groupMembersState = useAppSelector((state) => state.groupMembers);
     const loading = playerState.requestState === 'loading'
         || groupState.requestState === 'loading'
-        || matchState.requestState === 'loading';
+        || matchState.requestState === 'loading'
+        || groupMembersState.requestState === 'loading';
     
     const loadPlayers = () => {
         dispatch(loadPlayersRequest(playerState.queryFilter));
@@ -25,8 +27,8 @@ export const DataLoader: FunctionComponent = () => {
         dispatch(loadMatchesRequest(matchState.queryFilter));
     }
 
-    const loadGroupPlayers = () => {
-        dispatch(loadGroupPlayersRequest(groupState.groupPlayersFilter))
+    const loadGroupMembers = () => {
+        dispatch(loadGroupMembersRequest(groupMembersState.queryFilter))
     }
 
     if (playerState.requestState === 'initial') {
@@ -50,9 +52,9 @@ export const DataLoader: FunctionComponent = () => {
         return <></>
     }
 
-    if (groupState.editingGroup !== null && groupState.editingGroupPlayers === null) {
+    if (groupState.editingGroup !== null && groupMembersState.requestState === 'initial') {
         if (!loading) {
-            loadGroupPlayers();
+            loadGroupMembers();
         }
         return <></>
     }
@@ -79,6 +81,14 @@ export const DataLoader: FunctionComponent = () => {
         elements.push(<div key="reload-matches" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadMatches} className="button">
                 Reload&nbsp;Matches
+            </div>
+        </div>)
+    }
+
+    if (groupMembersState.requestState === 'error') {
+        elements.push(<div key="reload-group-members" className="size-full flex flex-row justify-center items-center">
+            <div onClick={loadGroupMembers} className="button">
+                Reload&nbsp;Group&nbsp;Members
             </div>
         </div>)
     }

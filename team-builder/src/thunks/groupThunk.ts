@@ -14,8 +14,8 @@ export const loadGroupsRequest = createGetThunk<PagedResult<GroupDto>, GroupsReq
     (response) => response.json()
 )
 
-export const loadGroupPlayersRequest = createGetThunk<PagedResult<PlayerDto>, GroupPlayersRequestDto>(
-    'load-group-players',
+export const loadGroupMembersRequest = createGetThunk<PagedResult<PlayerDto>, GroupPlayersRequestDto>(
+    'load-group-members',
     (request) => playerRequestToQuery(request),
     async (response) => {
         const result = await response.json();

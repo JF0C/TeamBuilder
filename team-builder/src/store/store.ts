@@ -4,11 +4,13 @@ import { playerReducer } from './playerReducer';
 import { groupReducer } from './groupReducer';
 import { matchReducer } from './matchReducer';
 import { authReducer } from './authReducer';
+import { groupMembersReducer } from './groupMembersReducer';
 
 export const store = configureStore({
     reducer: {
         players: playerReducer,
         groups: groupReducer,
+        groupMembers: groupMembersReducer,
         match: matchReducer,
         auth: authReducer
     }
