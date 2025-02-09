@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { reloadEditingGroupPlayers, reloadGroups, setEditingGroup } from "../../store/groupReducer";
 import { deleteGroupRequest, renameGroupRequest } from "../../thunks/groupThunk";
@@ -9,13 +9,13 @@ import { DetailsLayout } from "../layout/DetailsLayout";
 import { ConfirmModal } from "../shared/ConfirmModal";
 import { AuthenticatedElement } from "../auth/AuthenticatedElement";
 import { Roles } from "../../constants/Roles";
+import { EditableLabel } from "../shared/EditableLabel";
 
 export const EditGroup: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const groupState = useAppSelector((state) => state.groups)
     const editingGroup = groupState.editingGroup
     const navigate = useNavigate()
-    const [newName, setNewName] = useState(editingGroup?.name ?? '')
 
     if (editingGroup === null) {
         return <></>
@@ -40,10 +40,10 @@ export const EditGroup: FunctionComponent = () => {
         navigate(Paths.GroupMembersPath)
     }
 
-    const renameGroup = () => {
+    const renameGroup = (name: string) => {
         dispatch(renameGroupRequest({
             id: editingGroup.id,
-            name: newName
+            name: name
         })).unwrap().then(() => dispatch(reloadGroups({})))
     }
 
@@ -51,11 +51,7 @@ export const EditGroup: FunctionComponent = () => {
         <div className="button" onClick={editGroupMembers}>Edit Members</div>
         <AuthenticatedElement roles={[Roles.Admin]}>
             <div className="w-full flex flex-row justify-between">
-                <input value={newName} className="w-32 ml-1" 
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewName(e.target.value)}/>
-                <div className="button" onClick={renameGroup}>
-                    Rename
-                </div>
+                <EditableLabel value={editingGroup.name} onChange={renameGroup} />
             </div>
             <ConfirmModal onConfirm={deleteGroup} buttonContent="Delete">
                 Delete Group {editingGroup.name}?

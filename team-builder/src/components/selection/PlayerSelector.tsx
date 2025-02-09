@@ -28,6 +28,7 @@ export const PlayerSelector: FunctionComponent = () => {
         for (const p of availablePlayers()) {
             dispatch(selectPlayer(p));
         }
+        dispatch(reloadPlayers({}))
     }
 
     return (

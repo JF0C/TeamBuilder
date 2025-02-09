@@ -72,7 +72,7 @@ export const Teams: FunctionComponent = () => {
         }>
             {
                 matchState.current.teams.map((team, index) =>
-                    <TeamView key={`team-${index}`} name={team.name} players={team.players} />
+                    <TeamView key={`team-${index}`} index={index} name={team.name} players={team.players} />
                 )
             }
         </NavBarLayout>

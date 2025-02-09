@@ -37,12 +37,15 @@ export const playerSlice = createSlice({
                 return;
             }
             state.selected.push(action.payload);
+            state.queryFilter.exclude = state.selected.map(s => s.id);
         },
         deselectPlayer(state, action: PayloadAction<number>) {
             state.selected = state.selected.filter(x => x.id !== action.payload);
+            state.queryFilter.exclude = state.selected.map(s => s.id);
         },
         clearSelectedPlayers(state) {
             state.selected = [];
+            state.queryFilter.exclude = state.selected.map(s => s.id);
         },
         setEditingPlayer(state, action: PayloadAction<PlayerDto|null>) {
             state.editingPlayer = action.payload;

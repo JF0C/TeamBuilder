@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Core.Constants;
@@ -12,9 +13,10 @@ namespace TeamBuilder.Controllers;
 public class PlayersController(IPlayersRepository playersRepository, IMemoryCache cache): BaseController(cache)
 {
     [HttpGet]
-    public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null, string? name = null)
+    public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null, string? name = null, string? exclude = null)
     {
-        return Ok(await playersRepository.ListAsync(page, count, group, name));
+        var excludeList = JsonSerializer.Deserialize<List<long>>(exclude ?? "[]");
+        return Ok(await playersRepository.ListAsync(page, count, group, name, excludeList));
     }
 
     [TokenAuthentication(Roles.Admin)]

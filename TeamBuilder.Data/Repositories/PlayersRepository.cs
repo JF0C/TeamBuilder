@@ -31,7 +31,7 @@ internal class PlayersRepository(TeamBuilderDbContext context, IMapper mapper) :
         await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null, string? name = null)
+    public async Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null, string? name = null, List<long>? exclude = null)
     {
         IQueryable<PlayerEntity> query = context.Players
             .Include(p => p.Groups);
@@ -42,6 +42,10 @@ internal class PlayersRepository(TeamBuilderDbContext context, IMapper mapper) :
         if (name is not null)
         {
             query = query.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+        }
+        if (exclude is not null && exclude.Count > 0)
+        {
+            query = query.Where(p => !exclude.Contains(p.Id));
         }
         return (await query
             .OrderByDescending(p => p.Created)

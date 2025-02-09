@@ -36,19 +36,21 @@ export const MatchCompletion: FunctionComponent = () => {
                 </div>
             ]
         }>
-            <div className="flex flex-row items-center w-full">
-                <div>
-                    Match&nbsp;Type
+            <div className="w-full flex flex-col gap-2">
+                <div className="flex flex-row items-center w-full">
+                    <div>
+                        Match&nbsp;Type
+                    </div>
+                    <div className="flex-1">
+                        <MatchTypeRadio justifyRight />
+                    </div>
                 </div>
-                <div className="flex-1">
-                    <MatchTypeRadio justifyRight/>
-                </div>
+                {
+                    matchState.current.teams.map((team, index) =>
+                        <TeamResult key={`team-result-${index}`} index={index} team={team} />
+                    )
+                }
             </div>
-            {
-                matchState.current.teams.map((team, index) =>
-                    <TeamResult key={`team-result-${index}`} index={index} team={team} />
-                )
-            }
         </NavBarLayout>
     )
 }

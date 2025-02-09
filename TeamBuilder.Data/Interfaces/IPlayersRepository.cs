@@ -6,6 +6,6 @@ public interface IPlayersRepository
 {
     Task<long> CreateAsync(string name);   
     Task RenameAsync(long id, string name);
-    Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null, string? name = null);
+    Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null, string? name = null, List<long>? exclude = null);
     Task DeleteAsync(long id);
 }

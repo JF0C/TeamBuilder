@@ -7,7 +7,8 @@ import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } fr
 export const playerRequestToQuery = (request: PlayersRequestDto) => 
     `${ApiUrls.BaseUrl + ApiUrls.PlayersEndpoint}?page=${request.page}&count=${request.count}` +
         `${request.group ? `&group=${request.group}` : ''}` +
-        `${request.name ? `&name=${request.name}` : ''}`
+        `${request.name ? `&name=${request.name}` : ''}` +
+        `${request.exclude ? `&exclude=${JSON.stringify(request.exclude)}` : ''}`
 
 export const loadPlayersRequest = createGetThunk<PagedResult<PlayerDto>, PlayersRequestDto>(
     'load-players',

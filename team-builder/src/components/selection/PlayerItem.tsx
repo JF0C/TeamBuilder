@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { deselectPlayer, selectPlayer } from "../../store/playerReducer";
+import { deselectPlayer, reloadPlayers, selectPlayer } from "../../store/playerReducer";
 import { ListItem } from "../shared/ListItem";
 
 export const PlayerItem: FunctionComponent<{player: PlayerDto}> = ({player}) => {
@@ -16,6 +16,7 @@ export const PlayerItem: FunctionComponent<{player: PlayerDto}> = ({player}) => 
         else {
             dispatch(selectPlayer(player));
         }
+        dispatch(reloadPlayers({}))
     }
 
     return (
