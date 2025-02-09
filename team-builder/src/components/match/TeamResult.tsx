@@ -36,7 +36,7 @@ export const TeamResult: FunctionComponent<{ index: number, team: TeamEntity }> 
         </div>
         <div className="flex flex-row flex-wrap text-msm gap-2">
             {
-                team.players.map(p => <ListItem>
+                team.players.map(p => <ListItem key={'team-member-' + p.id}>
                     {p.name}    
                 </ListItem>)
             }

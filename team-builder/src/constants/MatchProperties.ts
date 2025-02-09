@@ -14,5 +14,9 @@ export const MatchProperties = [
     {
         name: 'Fireball',
         winningScore: 1
+    },
+    {
+        name: 'Schafkopf',
+        winningScore: 61
     }
 ]

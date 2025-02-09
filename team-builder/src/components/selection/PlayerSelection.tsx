@@ -17,11 +17,11 @@ export const PlayerSelection: FunctionComponent = () => {
             selected={<SelectedPlayers />}
             navigation={
                 [
-                    <NavLink to={Paths.HomePath}>
+                    <NavLink to={Paths.HomePath} key='back'>
                         Back
                     </NavLink>,
-                    <MatchConfiguration />,
-                    <NavLink to={Paths.TeamPath} onClick={() => dispatch(resetTeamPlayers())}>
+                    <MatchConfiguration key='match-config' />,
+                    <NavLink key='next' to={Paths.TeamPath} onClick={() => dispatch(resetTeamPlayers())}>
                         Generate
                     </NavLink>
                 ]

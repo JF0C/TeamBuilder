@@ -55,15 +55,15 @@ export const Teams: FunctionComponent = () => {
     return (
         <NavBarLayout navigation={
             [
-                <div>
+                <div key='prev'>
                     <NavLink to={Paths.SelectionPath}>
                         Back
                     </NavLink>
                 </div>,
-                <div className="button" onClick={() => generateTeams(selectedPlayers)}>
+                <div key='shuffle' className="button" onClick={() => generateTeams(selectedPlayers)}>
                     Shuffle
                 </div>,
-                <div>
+                <div key='next'>
                     <NavLink to={Paths.MatchCompletionPath}>
                         Play
                     </NavLink>

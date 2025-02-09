@@ -8,10 +8,11 @@ import { SplitLayout } from "../layout/SplitLayout";
 
 export const GroupMembers: FunctionComponent = () => {
     const groupState = useAppSelector((state) => state.groups)
+    const groupMemberState = useAppSelector((state) => state.groupMembers)
     const playerState = useAppSelector((state) => state.players)
 
     const availableMembers = playerState.players?.items.filter(p =>
-        groupState.editingGroupPlayers?.items.find(g => g.id === p.id) === undefined) ?? []
+        groupMemberState.members?.items.find(g => g.id === p.id) === undefined) ?? []
 
     return (
         <SplitLayout

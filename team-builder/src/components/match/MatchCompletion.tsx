@@ -26,12 +26,12 @@ export const MatchCompletion: FunctionComponent = () => {
     return (
         <NavBarLayout navigation={
             [
-                <div>
+                <div key='prev'>
                     <NavLink to={Paths.TeamPath}>
                         Back
                     </NavLink>
                 </div>,
-                <div className="button" onClick={() => finishMatch()}>
+                <div key='next' className="button" onClick={() => finishMatch()}>
                     Finish
                 </div>
             ]
