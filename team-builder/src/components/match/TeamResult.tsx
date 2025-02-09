@@ -34,7 +34,7 @@ export const TeamResult: FunctionComponent<{ index: number, team: TeamEntity }> 
                 <div className="button" onClick={setWinner}>Has Won</div>
             </div>
         </div>
-        <div className="flex flex-row flex-wrap text-msm">
+        <div className="flex flex-row flex-wrap text-msm gap-2">
             {
                 team.players.map(p => <ListItem>
                     {p.name}    

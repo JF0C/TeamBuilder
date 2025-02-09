@@ -7,9 +7,10 @@ import { PlayerDto } from "../dtos/players/PlayerDto";
 import { GroupsRequestDto } from "../dtos/groups/GroupsRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
 import { GroupPlayersRequestDto } from "../dtos/groups/GroupPlayersRequestDto";
+import { RequestState } from "../data/RequestState";
 
 export interface GroupState {
-    loading: boolean;
+    requestState: RequestState;
 
     groups: PagedResult<GroupDto> | null
     queryFilter: GroupsRequestDto
@@ -20,7 +21,7 @@ export interface GroupState {
 }
 
 export const initialState: GroupState = {
-    loading: false,
+    requestState: 'initial',
 
     groups: null,
     queryFilter: {
@@ -58,56 +59,43 @@ export const groupSlice = createSlice({
                 state.queryFilter.page = action.payload.page
             }
             state.groups = null;
+            state.requestState = 'initial';
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(loadGroupsRequest.pending, (state) => {
-            state.loading = true;
-        })
+        builder.addCase(loadGroupsRequest.pending, (state) => { state.requestState = 'loading'; });
         builder.addCase(loadGroupsRequest.fulfilled, (state, action) => {
             state.groups = action.payload;
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(loadGroupsRequest.rejected, (state, action) => {
-            state.loading = false;
-            state.groups = {
-                page: action.meta.arg.page,
-                totalItems: 0,
-                totalPages: 0,
-                items: []
-            }
+            state.requestState = 'error';
+            state.groups = null;
             enqueueSnackbar(`failed to load groups ${action.error.message}`, { variant: 'error' });
         })
 
-        builder.addCase(loadGroupPlayersRequest.pending, (state) => {
-            state.loading = true;
-        })
+        builder.addCase(loadGroupPlayersRequest.pending, (state) => { state.requestState = 'loading'; });
         builder.addCase(loadGroupPlayersRequest.fulfilled, (state, action) => {
             state.editingGroupPlayers = action.payload;
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(loadGroupPlayersRequest.rejected, (state, action) => {
-            state.loading = false;
+            state.requestState = 'error';
             enqueueSnackbar(`failed to load players for group ${action.meta.arg.group}: ${action.error.message}`);
-            state.editingGroupPlayers = {
-                page: action.meta.arg.page,
-                totalItems: 0,
-                totalPages: 0,
-                items: []
-            }
+            state.editingGroupPlayers = null;
         })
 
-        builder.addCase(addPlayerToGroupRequest.pending, (state) => { state.loading = true; })
-        builder.addCase(addPlayerToGroupRequest.fulfilled, (state) => { state.loading = false; })
-        builder.addCase(addPlayerToGroupRequest.rejected, (state) => { state.loading = false; })
+        builder.addCase(addPlayerToGroupRequest.pending, (state) => { state.requestState = 'loading'; })
+        builder.addCase(addPlayerToGroupRequest.fulfilled, (state) => { state.requestState = 'ok'; })
+        builder.addCase(addPlayerToGroupRequest.rejected, (state) => { state.requestState = 'error'; })
 
-        builder.addCase(removePlayerFromGroupRequest.pending, (state) => { state.loading = true; })
-        builder.addCase(removePlayerFromGroupRequest.fulfilled, (state) => { state.loading = false; })
-        builder.addCase(removePlayerFromGroupRequest.rejected, (state) => { state.loading = false; })
+        builder.addCase(removePlayerFromGroupRequest.pending, (state) => { state.requestState = 'loading'; })
+        builder.addCase(removePlayerFromGroupRequest.fulfilled, (state) => { state.requestState = 'ok'; })
+        builder.addCase(removePlayerFromGroupRequest.rejected, (state) => { state.requestState = 'error'; })
 
-        builder.addCase(renameGroupRequest.pending, (state) => { state.loading = true; })
-        builder.addCase(renameGroupRequest.fulfilled, (state) => { state.loading = false; })
-        builder.addCase(renameGroupRequest.rejected, (state) => { state.loading = false; })
+        builder.addCase(renameGroupRequest.pending, (state) => { state.requestState = 'loading'; })
+        builder.addCase(renameGroupRequest.fulfilled, (state) => { state.requestState = 'ok'; })
+        builder.addCase(renameGroupRequest.rejected, (state) => { state.requestState = 'error'; })
     }
 })
 

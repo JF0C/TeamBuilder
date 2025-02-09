@@ -9,7 +9,9 @@ export const DataLoader: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const groupState = useAppSelector((state) => state.groups);
     const matchState = useAppSelector((state) => state.match);
-    const loading = playerState.loading || groupState.loading || matchState.loading;
+    const loading = playerState.requestState === 'loading'
+        || groupState.requestState === 'loading'
+        || matchState.requestState === 'loading';
     
     const loadPlayers = () => {
         dispatch(loadPlayersRequest(playerState.queryFilter));
@@ -27,21 +29,21 @@ export const DataLoader: FunctionComponent = () => {
         dispatch(loadGroupPlayersRequest(groupState.groupPlayersFilter))
     }
 
-    if (playerState.players === null) {
+    if (playerState.requestState === 'initial') {
         if (!loading) {
             loadPlayers();
         }
         return <></>
     }
 
-    if (groupState.groups === null) {
+    if (groupState.requestState === 'initial') {
         if (!loading) {
             loadGroups();
         }
         return <></>
     }
 
-    if (matchState.matches === null) {
+    if (matchState.requestState === 'initial') {
         if (!loading) {
             loadMatches();
         }
@@ -57,7 +59,7 @@ export const DataLoader: FunctionComponent = () => {
 
     const elements: ReactNode[] = [];
     
-    if (playerState.players.items.length === 0) {
+    if (playerState.requestState === 'error') {
         elements.push(<div key="reload-players" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadPlayers} className="button">
                 Reload&nbsp;Players
@@ -65,7 +67,7 @@ export const DataLoader: FunctionComponent = () => {
         </div>)
     }
 
-    if (groupState.groups.items.length === 0) {
+    if (groupState.requestState === 'error') {
         elements.push(<div key="reload-groups" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadGroups} className="button">
                 Reload&nbsp;Groups
@@ -73,7 +75,7 @@ export const DataLoader: FunctionComponent = () => {
         </div>)
     }
 
-    if (matchState.matches.items.length === 0) {
+    if (matchState.requestState === 'error') {
         elements.push(<div key="reload-matches" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadMatches} className="button">
                 Reload&nbsp;Matches

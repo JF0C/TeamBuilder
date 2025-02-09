@@ -26,7 +26,7 @@ export const MembersCurrent: FunctionComponent<{ group: GroupDto | null }> = ({ 
                     Members of {group?.name}
                 </div>
                 {
-                    group && !groupState.loading ?
+                    group && groupState.requestState === 'ok' ?
                     editingGroupPlayers.items.map(p => <MemberItem key={p.id} player={p} group={group} />)
                     : <LoadingSpinner/>
                 }

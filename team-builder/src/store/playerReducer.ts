@@ -6,9 +6,10 @@ import { GroupDto } from "../dtos/groups/GroupDto";
 import { enqueueSnackbar } from "notistack";
 import { PlayersRequestDto } from "../dtos/players/PlayersRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
+import { RequestState } from "../data/RequestState";
 
 export interface PlayerState {
-    loading: boolean;
+    requestState: RequestState;
     group: GroupDto | null
     players: PagedResult<PlayerDto> | null
     queryFilter: PlayersRequestDto
@@ -17,7 +18,7 @@ export interface PlayerState {
 }
 
 export const initialState: PlayerState = {
-    loading: false,
+    requestState: 'initial',
     group: null,
     players: null,
     queryFilter: {
@@ -61,12 +62,13 @@ export const playerSlice = createSlice({
             if (action.payload.name !== undefined) {
                 state.queryFilter.name = action.payload.name
             }
+            state.requestState = 'initial';
             state.players = null;
         }
     },
     extraReducers: (builder) => {
         builder.addCase(loadPlayersRequest.pending, (state) => {
-            state.loading = true;
+            state.requestState = 'loading';
         })
         builder.addCase(loadPlayersRequest.fulfilled, (state, action) => {
             state.players = action.payload;
@@ -74,38 +76,33 @@ export const playerSlice = createSlice({
             if (editingPlayerId) {
                 state.editingPlayer = action.payload.items.find(p => p.id === editingPlayerId) ?? null
             }
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(loadPlayersRequest.rejected, (state, action) => {
-            state.loading = false;
-            state.players = {
-                page: action.meta.arg.page,
-                totalItems: 0,
-                totalPages: 0,
-                items: []
-            }
+            state.requestState = 'error';
+            state.players = null;
             enqueueSnackbar(`failed to load players ${action.error.message}`, { variant: 'error' });
         })
 
         builder.addCase(createPlayerRequest.pending, (state) => {
-            state.loading = true;
+            state.requestState = 'loading';
         })
         builder.addCase(createPlayerRequest.fulfilled, (state) => {
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(createPlayerRequest.rejected, (state) => {
-            state.loading = false;
+            state.requestState = 'error';
             enqueueSnackbar(`failed to create player`, { variant: 'error' });
         })
 
         builder.addCase(renamePlayerRequest.pending, (state) => {
-            state.loading = true;
+            state.requestState = 'loading';
         })
         builder.addCase(renamePlayerRequest.fulfilled, (state) => {
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(renamePlayerRequest.rejected, (state, action) => {
-            state.loading = false;
+            state.requestState = 'error';
             enqueueSnackbar(`failed to rename player: ${action.error.message}`, {variant: 'error'});
         })
     }

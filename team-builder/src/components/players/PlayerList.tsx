@@ -11,7 +11,7 @@ export const PlayerList: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
 
-    if (playerState.loading || playerState.players === null) {
+    if (playerState.requestState === 'loading' || playerState.players === null) {
         return <LoadingSpinner />
     }
 

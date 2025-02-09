@@ -5,5 +5,6 @@ public enum MatchType
     None,
     Flunkyball,
     Beerpong,
-    Fireball
+    Fireball,
+    Schafkopf
 }

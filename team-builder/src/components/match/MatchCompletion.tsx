@@ -19,7 +19,7 @@ export const MatchCompletion: FunctionComponent = () => {
             .then(() => navigate(Paths.HomePath))
     }
 
-    if (matchState.loading) {
+    if (matchState.requestState === 'loading') {
         return <LoadingSpinner />
     }
 

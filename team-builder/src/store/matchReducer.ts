@@ -9,9 +9,10 @@ import { enqueueSnackbar } from "notistack";
 import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
 import { TeamScoreDto } from "../dtos/teams/TeamScoreDto";
+import { RequestState } from "../data/RequestState";
 
 export interface MatchState {
-    loading: boolean
+    requestState: RequestState
     current: MatchEntity
     matches: PagedResult<MatchDto> | null
     selected: MatchDto | null
@@ -28,7 +29,7 @@ const emptyTeam = (): TeamEntity => {
 }
 
 const initialState: MatchState = {
-    loading: false,
+    requestState: 'initial',
     current: {
         teams: [
             emptyTeam(),
@@ -85,6 +86,7 @@ export const matchSlice = createSlice({
                 state.queryFilter.type = action.payload.type ?? undefined;
             }
             state.matches = null;
+            state.requestState = 'initial';
         },
         selectMatch(state, action: PayloadAction<MatchDto | null>) {
             state.selected = action.payload;
@@ -98,68 +100,56 @@ export const matchSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(createMatchRequest.pending, (state) => {
-            state.loading = true;
-        })
+        builder.addCase(createMatchRequest.pending, (state) => { state.requestState = 'loading'; });
         builder.addCase(createMatchRequest.fulfilled, (state) => {
             enqueueSnackbar('Saved match!', {variant: 'success'})
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(createMatchRequest.rejected, (state) => {
             enqueueSnackbar('Could not save match', {variant: 'error'})
-            state.loading = false;
+            state.requestState = 'error';
         })
 
         builder.addCase(loadMatchesRequest.pending, (state) => {
-            state.loading = true;
+            state.requestState = 'loading';
         })
         builder.addCase(loadMatchesRequest.fulfilled, (state, action) => {
             state.matches = action.payload;
             for (const match of state.matches.items) {
                 match.created = new Date(match.created).valueOf();
             }
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(loadMatchesRequest.rejected, (state, action) => {
-            state.loading = false;
-            state.matches = {
-                page: action.meta.arg.page,
-                totalItems: 0,
-                totalPages: 0,
-                items: []
-            }
+            state.requestState = 'error';
+            state.matches = null;
             enqueueSnackbar(`failed to load matches ${action.error.message}`, { variant: 'error' });
         })
 
         builder.addCase(loadMatchRequest.pending, (state) => {
-            state.loading = true;
+            state.requestState = 'loading';
         })
         builder.addCase(loadMatchRequest.fulfilled, (state, action) => {
             state.selected = action.payload;
             state.changedScores = state.selected?.teams.map(t => { return {teamId: t.id, score: t.score}}) ?? []
-            state.loading = false;
+            state.requestState = 'ok';
         })
         builder.addCase(loadMatchRequest.rejected, (state, action) => {
-            state.loading = false;
-            state.selected = {
-                id: action.meta.arg,
-                type: -1,
-                teams: [],
-                created: 0
-            };
+            state.requestState = 'error';
+            state.selected = null;
             enqueueSnackbar(`failed to load match ${action.meta.arg}: ${action.error.message}`, { variant: 'error' });
         })
 
-        builder.addCase(setMatchScoresRequest.pending, (state) => {state.loading = true;});
-        builder.addCase(setMatchScoresRequest.fulfilled, (state) => {state.loading = false;});
+        builder.addCase(setMatchScoresRequest.pending, (state) => {state.requestState = 'loading';});
+        builder.addCase(setMatchScoresRequest.fulfilled, (state) => {state.requestState = 'ok';});
         builder.addCase(setMatchScoresRequest.rejected, (state, action) => {
-            state.loading = false;
+            state.requestState = 'error';
             enqueueSnackbar(`failed to set scores for match ${action.meta.arg.matchId}: ${action.error.message}`, { variant: 'error' });
         });
 
-        builder.addCase(deleteMatchRequest.pending, (state) => {state.loading = true;});
-        builder.addCase(deleteMatchRequest.fulfilled, (state) => {state.loading = false;});
-        builder.addCase(deleteMatchRequest.rejected, (state) => {state.loading = false;});
+        builder.addCase(deleteMatchRequest.pending, (state) => {state.requestState = 'loading';});
+        builder.addCase(deleteMatchRequest.fulfilled, (state) => {state.requestState = 'ok';});
+        builder.addCase(deleteMatchRequest.rejected, (state) => {state.requestState = 'error';});
     }
 })
 

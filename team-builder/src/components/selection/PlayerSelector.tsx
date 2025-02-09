@@ -11,7 +11,7 @@ import { FilterAction } from "../layout/FilterAction";
 export const PlayerSelector: FunctionComponent = () => {
     const dispatch = useAppDispatch();
     const playerState = useAppSelector((state) => state.players);
-    const loading = playerState.players === null || playerState.loading;
+    const loading = playerState.players === null || playerState.requestState === 'loading';
 
     const availablePlayers = () => playerState.players?.items
         .filter(p => playerState.selected.find(s => p.id === s.id) === undefined) ?? []

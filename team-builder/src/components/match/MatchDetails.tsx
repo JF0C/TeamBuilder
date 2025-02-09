@@ -33,7 +33,7 @@ export const MatchDetails: FunctionComponent = () => {
         dispatch(loadMatchRequest(matchId))
     }
 
-    if (!match || matchState.loading) {
+    if (!match || matchState.requestState === 'loading') {
         return <LoadingSpinner />
     }
 

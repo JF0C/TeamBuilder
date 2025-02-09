@@ -52,7 +52,7 @@ export const Login: FunctionComponent = () => {
         </div>
     }
     if (authorizationCode && loginState && !authState.loginFailed) {
-        if (!authState.loading) {
+        if (authState.requestState !== 'loading') {
             dispatch(codeAuthorizationRequest({
                 authProvider: loginState.authProvider,
                 code: authorizationCode

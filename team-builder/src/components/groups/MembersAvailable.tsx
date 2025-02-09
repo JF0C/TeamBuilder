@@ -30,7 +30,7 @@ export const MembersAvailable: FunctionComponent<{ availableMembers: PlayerDto[]
                     <PlayerNameFilter onFilterChange={onFilterChange} />
                 </div>
                 {
-                    group && !playerState.loading ?
+                    group && playerState.requestState !== 'loading' ?
                     availableMembers.map(p => <MemberItem key={p.id} player={p} group={group} />)
                     : <LoadingSpinner />
                 }

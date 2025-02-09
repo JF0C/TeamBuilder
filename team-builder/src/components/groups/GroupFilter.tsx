@@ -12,7 +12,7 @@ export const GroupFilter: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players)
     const groupState = useAppSelector((state) => state.groups)
 
-    if (groupState.groups === null || groupState.loading) {
+    if (groupState.groups === null || groupState.requestState === 'loading') {
         return <LoadingSpinner />
     }
 

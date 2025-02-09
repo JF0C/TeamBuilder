@@ -14,7 +14,7 @@ export const Teams: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const matchState = useAppSelector((state) => state.match);
 
-    if (playerState.players === null || playerState.loading) {
+    if (playerState.players === null || playerState.requestState === 'loading') {
         return <LoadingSpinner />
     }
 

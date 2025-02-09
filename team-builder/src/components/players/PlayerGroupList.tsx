@@ -11,7 +11,7 @@ export const PlayerGroupList: FunctionComponent<{player: PlayerDto, onSelected: 
     const dispatch = useAppDispatch();
     const groupState = useAppSelector((state) => state.groups);
 
-    if (groupState.loading || groupState.groups === null) {
+    if (groupState.requestState === 'loading' || groupState.groups === null) {
         return <LoadingSpinner />
     }
 
