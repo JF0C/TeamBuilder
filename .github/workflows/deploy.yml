@@ -12,6 +12,7 @@ jobs:
       SFTP_HOST: 'site16695.siteasp.net'
       SFTP_USER: 'site16695'
       REMOTE_DIR: '/wwwroot'
+      STATIC_FILES_DIR: '/wwwroot/assets'
 
     runs-on: windows-latest
 
@@ -29,17 +30,32 @@ jobs:
     - name: Restore Solution
       run: dotnet restore
 
-    - name: Build
+    - name: Build Backend
       run: dotnet publish
 
-    - name: Upload Backend to SFTP Server
+    - name: Install Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Build Frontend
+      run: cd ./team-builder && npm run build
+
+    # - name: Set Maintenance Mode
+    #   uses: Dylan700/sftp-upload-action@latest
+    #   with:
+    #     server: ${{ env.SFTP_HOST }}
+    #     username: ${{ env.SFTP_USER }}
+    #     password: ${{ secrets.SFTP_PASS }}
+
+    - name: Deploy
       uses: Dylan700/sftp-upload-action@latest
       with:
         server: ${{ env.SFTP_HOST }}
         username: ${{ env.SFTP_USER }}
         password: ${{ secrets.SFTP_PASS }}
-        port: 22
         uploads: |
           ${{ env.BUILD_OUTPUT_DIR }} => ${{ env.REMOTE_DIR }}
-
+        delete: 'true'
     
