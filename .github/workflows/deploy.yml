@@ -40,7 +40,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
 
     - name: Build Frontend
-      run: cd ./team-builder && npm run build -i
+      run: cd ./team-builder && npm run build:job
 
     # - name: Set Maintenance Mode
     #   uses: Dylan700/sftp-upload-action@latest
@@ -52,8 +52,8 @@ jobs:
     - name: Deploy
       uses: Dylan700/sftp-upload-action@latest
       with:
-        server: ${{ env.SFTP_HOST }}
-        username: ${{ env.SFTP_USER }}
+        server: ${{ secrets.SFTP_HOST }}
+        username: ${{ secrets.SFTP_USER }}
         password: ${{ secrets.SFTP_PASS }}
         uploads: |
           ${{ env.BUILD_OUTPUT_DIR }} => ${{ env.REMOTE_DIR }}
