@@ -7,6 +7,11 @@ on:
 jobs:
   deploy:
 
+    env:
+      BUILD_OUTPUT_DIR: './TeamBuilder/bin/Release/net8.0/publish'
+      SFTP_HOST: 'site16695.siteasp.net'
+      REMOTE_DIR: '/wwwroot'
+
     runs-on: windows-latest
 
     steps:
@@ -25,5 +30,15 @@ jobs:
 
     - name: Build
       run: dotnet publish
+
+    - name: Upload Backend to SFTP Server
+      uses: Dylan700/sftp-upload-action@latest
+      with:
+        server: ${{ SFTP_HOST }}
+        username: ${{ secrets.SFTP_USER }}
+        password: ${{ secrets.SFTP_PASS }}
+        port: 22
+        uploads: |
+          ${{ BUILD_OUTPUT_DIR }} => ${{ REMOTE_DIR }}
 
     
