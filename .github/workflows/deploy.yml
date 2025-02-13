@@ -22,6 +22,15 @@ jobs:
       with:
         fetch-depth: 0
     
+    - name: Install Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Build Frontend
+      run: cd ./team-builder && npm run build:job
+
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
@@ -33,21 +42,13 @@ jobs:
     - name: Build Backend
       run: dotnet publish
 
-    - name: Install Node
-      uses: actions/setup-node@v4
+    - name: Set Maintenance Mode
+      uses: Dylan700/sftp-upload-action@latest
       with:
-        node-version: '20.x'
-        registry-url: 'https://registry.npmjs.org'
-
-    - name: Build Frontend
-      run: cd ./team-builder && npm run build:job
-
-    # - name: Set Maintenance Mode
-    #   uses: Dylan700/sftp-upload-action@latest
-    #   with:
-    #     server: ${{ env.SFTP_HOST }}
-    #     username: ${{ env.SFTP_USER }}
-    #     password: ${{ secrets.SFTP_PASS }}
+        server: ${{ env.SFTP_HOST }}
+        username: ${{ env.SFTP_USER }}
+        password: ${{ secrets.SFTP_PASS }}
+        uploads: ./app_offline.htm => /wwwroot/app_offline.htm
 
     - name: Deploy
       uses: Dylan700/sftp-upload-action@latest
