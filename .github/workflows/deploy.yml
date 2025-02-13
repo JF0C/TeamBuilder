@@ -35,8 +35,8 @@ jobs:
     - name: Upload Backend to SFTP Server
       uses: wangyucode/sftp-upload-action@v2.0.4
       with:
-        host: $env:SFTP_HOST
-        username: $env:SFTP_USER
+        host: site16695.siteasp.net
+        username: site16695
         password: ${{ secrets.SFTP_PASS }}
         localDir: $env:BUILD_OUTPUT_DIR
         remoteDir: $env:REMOTE_DIR
