@@ -33,12 +33,13 @@ jobs:
       run: dotnet publish
 
     - name: Upload Backend to SFTP Server
-      uses: wangyucode/sftp-upload-action@v2.0.4
+      uses: Dylan700/sftp-upload-action@latest
       with:
-        host: ${{ env.SFTP_HOST }}
+        server: ${{ env.SFTP_HOST }}
         username: ${{ env.SFTP_USER }}
         password: ${{ secrets.SFTP_PASS }}
-        localDir: ${{ env.BUILD_OUTPUT_DIR }}
-        remoteDir: ${{ env.REMOTE_DIR }}
+        port: 22
+        uploads: |
+          ${{ env.BUILD_OUTPUT_DIR }} => ${{ env.REMOTE_DIR }}
 
     
