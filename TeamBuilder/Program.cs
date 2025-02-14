@@ -13,6 +13,8 @@ builder.Services.AddTeamBuilderServices(builder.Configuration);
 
 builder.Services.AddMapper();
 
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddMemoryCache();
 
 builder.Services.AddCorsPolicies();
@@ -27,8 +29,11 @@ builder.Services.AddSpaRoot();
 
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 await app.EnsureMigration();
 
