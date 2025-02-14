@@ -19,6 +19,11 @@ public static class CorsExtensions
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
+
+                    policy.WithOrigins("http://0.0.0.0:5032")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 }
             );
             options.AddPolicy(name: ProductionCorsPolicy,

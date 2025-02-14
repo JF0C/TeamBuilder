@@ -4,7 +4,7 @@ export class ApiUrls {
     public static readonly MatchesEndpoint = 'Matches'
     public static readonly AuthenticationEndpoint = 'Authentication'
     public static get BaseUrl(): string {
-        if (location.href.includes('localhost')) {
+        if (location.href.includes('localhost') || location.href.includes('0.0.0.0')) {
             return 'http://localhost:5032/';
         }
         else {
