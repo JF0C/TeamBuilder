@@ -9,8 +9,6 @@ jobs:
 
     env:
       BUILD_OUTPUT_DIR: './TeamBuilder/bin/Release/net8.0/publish'
-      SFTP_HOST: 'site16695.siteasp.net'
-      SFTP_USER: 'site16695'
       REMOTE_DIR: '/wwwroot'
       STATIC_FILES_DIR: '/wwwroot/assets'
 
@@ -45,8 +43,8 @@ jobs:
     - name: Set Maintenance Mode
       uses: Dylan700/sftp-upload-action@latest
       with:
-        server: ${{ env.SFTP_HOST }}
-        username: ${{ env.SFTP_USER }}
+        server: ${{ secrets.SFTP_HOST }}
+        username: ${{ secrets.SFTP_USER }}
         password: ${{ secrets.SFTP_PASS }}
         uploads: ./app_offline.htm => /wwwroot/app_offline.htm
 
