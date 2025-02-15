@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Dtos.Groups;
 using TeamBuilder.Data.Interfaces;
+using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Shared;
 
 namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GroupsController(IGroupsRepository groupsRepository, IMemoryCache cache): BaseController(cache)
+public class GroupsController(IGroupsRepository groupsRepository, IAuthenticationService auth): BaseController(auth)
 {
     [HttpGet]
     public async Task<ActionResult<PagedResult<GroupDto>>> ListGroups(int page, int count)

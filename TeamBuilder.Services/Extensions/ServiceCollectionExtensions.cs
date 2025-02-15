@@ -4,7 +4,7 @@ using TeamBuilder.Core.Configuration;
 using TeamBuilder.Services.AuthenticationProviders;
 using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Services.Services;
-using AuthProviderNames = TeamBuilder.Core.Constants.AuthenticationProviders;
+using AuthProviderNames = TeamBuilder.Core.Constants.Authentication;
 
 namespace TeamBuilder.Services.Extensions;
 

@@ -10,7 +10,7 @@ namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthenticationController(IAuthenticationService authenticationService, IUserRepository userRepository, IMemoryCache cache): BaseController(cache)
+public class AuthenticationController(IAuthenticationService authenticationService, IUserRepository userRepository): BaseController(authenticationService)
 {
     [HttpPost]
     public async Task<ActionResult<LoginResponseDto>> Authenticate(CodeAuthorizationDto authorizationDto)

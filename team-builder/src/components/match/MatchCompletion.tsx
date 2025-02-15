@@ -7,6 +7,7 @@ import { MatchTypeRadio } from "../shared/MatchTypeRadio";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { createMatchRequest } from "../../thunks/matchThunk";
 import { NavBarLayout } from "../layout/NavbarLayout";
+import { reloadMatches } from "../../store/matchReducer";
 
 export const MatchCompletion: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -16,7 +17,11 @@ export const MatchCompletion: FunctionComponent = () => {
     const finishMatch = () => {
         dispatch(createMatchRequest(matchState.current))
             .unwrap()
-            .then(() => navigate(Paths.HomePath))
+            .then(() => 
+            {
+                dispatch(reloadMatches({}));
+                navigate(Paths.HomePath);
+            })
     }
 
     if (matchState.requestState === 'loading') {

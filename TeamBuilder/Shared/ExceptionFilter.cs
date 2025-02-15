@@ -15,7 +15,17 @@ public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IActionFilter, I
     public void OnActionExecuted(ActionExecutedContext context)
     {
         if ((context.HttpContext.Request.Path.ToString().Contains("Authentication") && context.Exception is not null)
-            || context.Exception is UnauthorizedAccessException)
+            || context.Exception is UnauthorizedAccessException or FailedAuthenticationException)
+        {
+            context.Result = new ObjectResult(null)
+            {
+                StatusCode = (int)HttpStatusCode.Forbidden
+            };
+            context.ExceptionHandled = true;
+            return;
+        }
+
+        if (context.Exception is SessionExpiredException)
         {
             context.Result = new ObjectResult(null)
             {

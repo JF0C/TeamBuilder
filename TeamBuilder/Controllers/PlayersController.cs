@@ -4,13 +4,14 @@ using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Data.Interfaces;
+using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Shared;
 
 namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PlayersController(IPlayersRepository playersRepository, IMemoryCache cache): BaseController(cache)
+public class PlayersController(IPlayersRepository playersRepository, IAuthenticationService auth): BaseController(auth)
 {
     [HttpGet]
     public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null, string? name = null, string? exclude = null)

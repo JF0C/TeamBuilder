@@ -15,8 +15,6 @@ builder.Services.AddMapper();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMemoryCache();
-
 builder.Services.AddCorsPolicies();
 
 builder.Services.AddControllers(x => x.Filters.Add<ExceptionFilter>())

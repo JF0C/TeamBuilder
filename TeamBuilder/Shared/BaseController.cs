@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
+using TeamBuilder.Services.Interfaces;
 
 namespace TeamBuilder.Shared;
-public class BaseController(IMemoryCache memoryCache) : ControllerBase
+public class BaseController(IAuthenticationService authenticationService) : ControllerBase
 {
-    public IMemoryCache Cache { get; } = memoryCache;
+    public IAuthenticationService AuthenticationService { get; } = authenticationService;
 }

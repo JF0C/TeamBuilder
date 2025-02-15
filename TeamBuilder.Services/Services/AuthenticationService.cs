@@ -1,15 +1,14 @@
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using TeamBuilder.Core.Dtos.Authentication;
 using TeamBuilder.Core.Exceptions;
 using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Services.Interfaces;
-using ProviderNames = TeamBuilder.Core.Constants.AuthenticationProviders;
+using AuthenticationConstants = TeamBuilder.Core.Constants.Authentication;
 
 namespace TeamBuilder.Services.Services;
 
-internal class AuthenticationService([FromKeyedServices(ProviderNames.Github)] IAuthenticationProvider githubProvider, 
-    IMemoryCache memoryCache,
+internal class AuthenticationService(
+    [FromKeyedServices(AuthenticationConstants.Github)] IAuthenticationProvider githubProvider, 
     IUserRepository userRepository) : IAuthenticationService
 {
     public async Task<LoginResponseDto> AuthenticateAsync(CodeAuthorizationDto authorizationDto)
@@ -25,9 +24,11 @@ internal class AuthenticationService([FromKeyedServices(ProviderNames.Github)] I
             throw new FailedAuthenticationException("could not retrieve user email");
         }
 
-        var user = await userRepository.GetAsync(userEmail);
-
-        memoryCache.Set(accessCodeResponse.AccessToken, user.Roles, TimeSpan.FromMinutes(120));
+        var user = await userRepository.AuthorizeAsync(
+            userEmail,
+            accessCodeResponse.AccessToken,
+            AuthenticationConstants.SessionTimeout
+        );
         
         return new LoginResponseDto
         {
@@ -40,11 +41,25 @@ internal class AuthenticationService([FromKeyedServices(ProviderNames.Github)] I
         };
     }
 
+    public async Task IsAuthorized(string token, IEnumerable<string> roles)
+    {
+        var user = await userRepository.GetByTokenAsync(token)
+            ?? throw new UnauthorizedAccessException();
+        if (user.ValidUntil < DateTime.UtcNow)
+        {
+            throw new SessionExpiredException();
+        }
+        if (roles.Any() && !user.Roles.Split(' ').Any(roles.Contains))
+        {
+            throw new UnauthorizedAccessException();
+        }
+    }
+
     private IAuthenticationProvider SelectAuthenticationProvider(string name)
     {
         return name switch
         {
-            ProviderNames.Github => githubProvider,
+            AuthenticationConstants.Github => githubProvider,
             _ => throw new NotSupportedException($"Authentication provider {name} not supported")
         };
     }

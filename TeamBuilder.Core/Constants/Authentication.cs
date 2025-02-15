@@ -1,8 +1,9 @@
 namespace TeamBuilder.Core.Constants;
 
-public static class AuthenticationProviders
+public static class Authentication
 {
     public const string Github = "github";
 
+    public static readonly TimeSpan SessionTimeout = TimeSpan.FromMinutes(60);
     public static List<string> All { get; } = [Github];
 }

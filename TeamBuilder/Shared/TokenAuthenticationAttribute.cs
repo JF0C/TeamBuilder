@@ -6,7 +6,7 @@ public class TokenAuthenticationAttribute(string roles = ""): ActionFilterAttrib
 {
     private const string AuthHeaderPrefix = "Bearer ";
     private readonly List<string> rolesToValidate = [.. roles.Split(' ').Where((r) => !string.IsNullOrEmpty(r))];
-    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    public override async Task OnActionExecutionAsync(ActionExecutingContext filterContext, ActionExecutionDelegate next)
     {
         var authHeader = filterContext.HttpContext.Request.Headers.Authorization
             .FirstOrDefault(x => x?.Contains(AuthHeaderPrefix) ?? false)
@@ -14,22 +14,12 @@ public class TokenAuthenticationAttribute(string roles = ""): ActionFilterAttrib
         var token = authHeader[AuthHeaderPrefix.Length..];
         if (filterContext.Controller is BaseController baseController)
         {
-            if (baseController.Cache.TryGetValue(token, out var roleCollection))
-            {
-                var userRoles = roleCollection?.ToString()?.Split(' ').Where(r => !string.IsNullOrEmpty(r)) ?? [];
-                if (rolesToValidate.Count > 0 && !userRoles.Any(rolesToValidate.Contains))
-                {
-                    throw new UnauthorizedAccessException("user does not have sufficient permissions");
-                }
-            }
-            else
-            {
-                throw new UnauthorizedAccessException("user not logged in");
-            }
+            await baseController.AuthenticationService.IsAuthorized(token, rolesToValidate);
         }
         else
         {
             throw new Exception($"{filterContext.Controller.GetType().Name} is not a BaseController and cannot be used with authorization");
         }
+        await base.OnActionExecutionAsync(filterContext, next);
     }
 }

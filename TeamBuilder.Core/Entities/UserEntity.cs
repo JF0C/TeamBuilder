@@ -10,4 +10,8 @@ public class UserEntity: EntityBase
     public string Roles { get; set; } = string.Empty;
 
     public PlayerEntity Player { get; set; } = null!;
+
+    [MaxLength(100)]
+    public string? Token { get; set; }
+    public DateTime ValidUntil { get; set; }
 }

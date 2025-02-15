@@ -5,13 +5,14 @@ using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Dtos.Matches;
 using TeamBuilder.Core.Dtos.Teams;
 using TeamBuilder.Data.Interfaces;
+using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Shared;
 
 namespace TeamBuilder.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MatchesController(IMatchRepository matchRepository, IMemoryCache cache): BaseController(cache)
+public class MatchesController(IMatchRepository matchRepository, IAuthenticationService auth): BaseController(auth)
 {
     [HttpGet("{id}")]
     public async Task<ActionResult<MatchDto>> Get(long id)

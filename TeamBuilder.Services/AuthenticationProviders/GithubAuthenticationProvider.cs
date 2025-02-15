@@ -5,7 +5,7 @@ using TeamBuilder.Core.Configuration;
 using TeamBuilder.Core.Dtos.Authentication;
 using TeamBuilder.Core.Exceptions;
 using TeamBuilder.Services.Interfaces;
-using ProviderNames = TeamBuilder.Core.Constants.AuthenticationProviders;
+using ProviderNames = TeamBuilder.Core.Constants.Authentication;
 
 namespace TeamBuilder.Services.AuthenticationProviders;
 

@@ -8,12 +8,6 @@ namespace TeamBuilder.Data.Repositories;
 
 internal class UserRepository(TeamBuilderDbContext context) : IUserRepository
 {
-    public async Task<UserEntity> GetAsync(string email)
-    {
-        return await context.Users.Include(u => u.Player).FirstOrDefaultAsync(u => u.Email == email)
-            ?? throw new ItemNotFoundException(email, typeof(UserEntity));
-    }
-
     public async Task AddRoleAsync(long id, string role)
     {
         var player = await context.Players.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id)
@@ -80,5 +74,22 @@ internal class UserRepository(TeamBuilderDbContext context) : IUserRepository
             user.Roles = string.Join(' ', user.Roles.Split(' ').Where(r => r != role));
             await context.SaveChangesAsync();
         }
+    }
+
+    public Task<UserEntity?> GetByTokenAsync(string token)
+    {
+        return context.Users.FirstOrDefaultAsync(u => u.Token == token);
+    }
+
+    public async Task<UserEntity> AuthorizeAsync(string email, string token, TimeSpan timeSpan)
+    {
+        var user = await context.Users.Include(u => u.Player).FirstOrDefaultAsync(u => u.Email == email)
+            ?? throw new ItemNotFoundException(email, typeof(UserEntity));
+        
+        user.Token = token;
+        user.ValidUntil = DateTime.UtcNow + timeSpan;
+
+        await context.SaveChangesAsync();
+        return user;
     }
 }
