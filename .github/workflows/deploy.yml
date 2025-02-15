@@ -40,21 +40,18 @@ jobs:
     - name: Build Backend
       run: dotnet publish
 
-    - name: Set Maintenance Mode
-      uses: Dylan700/sftp-upload-action@latest
+    - name: Setup Python
+      uses: actions/setup-python@v4
       with:
-        server: ${{ secrets.SFTP_HOST }}
-        username: ${{ secrets.SFTP_USER }}
-        password: ${{ secrets.SFTP_PASS }}
-        uploads: ./app_offline.htm => /wwwroot/app_offline.htm
+        python-version: '3.12'
 
-    - name: Deploy
-      uses: Dylan700/sftp-upload-action@latest
-      with:
-        server: ${{ secrets.SFTP_HOST }}
-        username: ${{ secrets.SFTP_USER }}
-        password: ${{ secrets.SFTP_PASS }}
-        uploads: |
-          ${{ env.BUILD_OUTPUT_DIR }} => ${{ env.REMOTE_DIR }}
-        delete: 'true'
-    
+    - name: Install Requirements
+      run: |
+        cd deployment
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Execute Deployment
+      run: |
+        cd deployment
+        python upload_app_pipeline.py ${{ secrets.SFTP_HOST }} ${{ secrets.SFTP_USER }} ${{ secrets.SFTP_PASS }} "${{ secrets.SFTP_HOST_KEY }}"

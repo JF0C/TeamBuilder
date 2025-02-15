@@ -1,0 +1,6 @@
+include
+lib
+pyvenv.cfg
+upload_app_local.py
+known_hosts
+__pycache__
