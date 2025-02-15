@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos.Authentication;
 using TeamBuilder.Data.Interfaces;

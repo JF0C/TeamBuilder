@@ -3,9 +3,13 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { loadPlayersRequest } from "../../thunks/playerThunk";
 import { loadGroupMembersRequest, loadGroupsRequest } from "../../thunks/groupThunk";
 import { loadMatchesRequest } from "../../thunks/matchThunk";
+import { AuthProperties } from "../../constants/AuthProperties";
+import { LoginResponseDto } from "../../dtos/auth/LoginResponseDto";
+import { restoreUser } from "../../store/authReducer";
 
 export const DataLoader: FunctionComponent = () => {
     const dispatch = useAppDispatch();
+    const authState = useAppSelector((state) => state.auth);
     const playerState = useAppSelector((state) => state.players);
     const groupState = useAppSelector((state) => state.groups);
     const matchState = useAppSelector((state) => state.match);
@@ -29,6 +33,22 @@ export const DataLoader: FunctionComponent = () => {
 
     const loadGroupMembers = () => {
         dispatch(loadGroupMembersRequest(groupMembersState.queryFilter))
+    }
+
+    if (!authState.userRestored) {
+        const storedUserData = localStorage.getItem(AuthProperties.LocalStorageUserKey);
+        try {
+            if (storedUserData) {
+                const user: LoginResponseDto = JSON.parse(storedUserData);
+                dispatch(restoreUser(user));
+            }
+            else {
+                dispatch(restoreUser(null));
+            }
+        }
+        catch {
+            dispatch(restoreUser(null));
+        }
     }
 
     if (playerState.requestState === 'initial') {

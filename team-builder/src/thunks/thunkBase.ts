@@ -1,14 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 import { AuthState } from "../store/authReducer";
+import { AuthenticationService } from "../services/authenticationService";
+import { AuthProperties } from "../constants/AuthProperties";
 
-export const createThrowingAsyncThunk = <Tout, Tin>(name: string,
+export const createAuthenticatedThrowingAsyncThunk = <Tout, Tin>(name: string,
     fetchFunction: (arg: Tin, state: AuthState, body?: string) => Promise<Response>,
     parseFunction: (response: Response, arg: Tin | undefined) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
     return createAsyncThunk(name, async (arg: Tin, { getState }) => {
         const state: RootState = getState() as RootState;
         const response = await fetchFunction(arg, state.auth, bodyFunction?.(arg) ?? JSON.stringify(arg));
+        if (response.status === 401 && state.auth.user) {
+            AuthenticationService.RedirectToAuthentication({
+                authProvider: AuthProperties.Providers.Github
+            })
+        }
         if (!response.ok) {
             throw new Error(await response.text());
         }
@@ -19,7 +26,7 @@ export const createThrowingAsyncThunk = <Tout, Tin>(name: string,
 export const createPostThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
+    return createAuthenticatedThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -32,7 +39,7 @@ export const createPostThunk = <Tout, Tin>(name: string, url: (arg: Tin) => stri
 
 export const createPutThunk = <Tin>(name: string, url: (arg: Tin) => string,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
+    return createAuthenticatedThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +53,7 @@ export const createPutThunk = <Tin>(name: string, url: (arg: Tin) => string,
 export const createResponsePutThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
+    return createAuthenticatedThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -59,7 +66,7 @@ export const createResponsePutThunk = <Tout, Tin>(name: string, url: (arg: Tin) 
 
 export const createGetThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState) => fetch(url(arg), {
+    return createAuthenticatedThrowingAsyncThunk(name, (arg: Tin, auth: AuthState) => fetch(url(arg), {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${auth.user?.accessToken}`}
@@ -68,7 +75,7 @@ export const createGetThunk = <Tout, Tin>(name: string, url: (arg: Tin) => strin
 
 export const createDeleteThunk = <Tin>(name: string, url: (arg: Tin) => string,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
+    return createAuthenticatedThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'DELETE',
         credentials: 'include',
         headers: {
@@ -82,7 +89,7 @@ export const createDeleteThunk = <Tin>(name: string, url: (arg: Tin) => string,
 export const createResponseDeleteThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
     parseFunction: (response: Response) => Promise<Tout>,
     bodyFunction?: (arg: Tin) => string) => {
-    return createThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
+    return createAuthenticatedThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'DELETE',
         credentials: 'include',
         headers: {

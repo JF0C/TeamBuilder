@@ -6,6 +6,7 @@ import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { LoginStateDto } from "../../dtos/auth/LoginStateDto";
 import { codeAuthorizationRequest } from "../../thunks/authThunk";
+import { AuthenticationService } from "../../services/authenticationService";
 
 export const Login: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -17,14 +18,9 @@ export const Login: FunctionComponent = () => {
     const loginState: LoginStateDto | null = loginStateParam ? JSON.parse(loginStateParam) : null
 
     const redirectToGithubLogin = () => {
-        const loginState: LoginStateDto = {
-            authProvider: 'github'
-        }
-        const url = `${AuthProperties.AuthorizationEndpoint}?client_id=${AuthProperties.ClientId}` +
-            `&redirect_uri=${encodeURIComponent(AuthProperties.RedirectUri + Paths.LoginPath.substring(1))}` +
-            `&state=${JSON.stringify(loginState)}` +
-            `&scope=user:email`;
-        window.location.href = url;
+        AuthenticationService.RedirectToAuthentication({
+            authProvider: AuthProperties.Providers.Github
+        });
     }
 
     if (authState.user) {
@@ -34,7 +30,7 @@ export const Login: FunctionComponent = () => {
                 if (document.location.href.includes(Paths.LoginPath)) {
                     navigate(Paths.HomePath);
                 }
-            }, 3000)
+            }, 1000)
             redirectMessage = 'Returning to home page...'
         }
         return <div className="size-full flex flex-col justify-center items-center">
@@ -56,7 +52,9 @@ export const Login: FunctionComponent = () => {
             dispatch(codeAuthorizationRequest({
                 authProvider: loginState.authProvider,
                 code: authorizationCode
-            }))
+            })).unwrap().then((loginResponse) => {
+                localStorage.setItem(AuthProperties.LocalStorageUserKey, JSON.stringify(loginResponse));
+            });
         }
         return <div className="size-full flex flex-col justify-center items-center">
             Logging in ...

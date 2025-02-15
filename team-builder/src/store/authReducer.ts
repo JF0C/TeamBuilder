@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { codeAuthorizationRequest } from "../thunks/authThunk"
 import { enqueueSnackbar } from "notistack"
 import { LoginResponseDto } from "../dtos/auth/LoginResponseDto"
@@ -8,12 +8,14 @@ export interface AuthState {
     requestState: RequestState
     user: LoginResponseDto | null
     loginFailed: boolean
+    userRestored: boolean
 }
 
 const initialState: AuthState = {
     requestState: 'initial',
     user: null,
-    loginFailed: false
+    loginFailed: false,
+    userRestored: false
 }
 
 const authSlice = createSlice({
@@ -22,6 +24,10 @@ const authSlice = createSlice({
     reducers: {
         logout(state) {
             state.user = null
+        },
+        restoreUser(state, action: PayloadAction<LoginResponseDto | null>) {
+            state.user = action.payload;
+            state.userRestored = true;
         }
     },
     extraReducers: (builder) => {
@@ -42,5 +48,6 @@ const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer;
 export const {
-    logout
+    logout,
+    restoreUser
 } = authSlice.actions;
