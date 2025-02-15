@@ -3,6 +3,7 @@ import { RootState } from "../store/store";
 import { AuthState } from "../store/authReducer";
 import { AuthenticationService } from "../services/authenticationService";
 import { AuthProperties } from "../constants/AuthProperties";
+import { PendingRequestService } from "../services/pendingRequestService";
 
 export const createAuthenticatedThrowingAsyncThunk = <Tout, Tin>(name: string,
     fetchFunction: (arg: Tin, state: AuthState, body?: string) => Promise<Response>,
@@ -12,9 +13,11 @@ export const createAuthenticatedThrowingAsyncThunk = <Tout, Tin>(name: string,
         const state: RootState = getState() as RootState;
         const response = await fetchFunction(arg, state.auth, bodyFunction?.(arg) ?? JSON.stringify(arg));
         if (response.status === 401 && state.auth.user) {
+            PendingRequestService.StorePendingRequest(name, JSON.stringify(arg));
+            localStorage.removeItem(AuthProperties.LocalStorageUserKey);
             AuthenticationService.RedirectToAuthentication({
                 authProvider: AuthProperties.Providers.Github
-            })
+            });
         }
         if (!response.ok) {
             throw new Error(await response.text());

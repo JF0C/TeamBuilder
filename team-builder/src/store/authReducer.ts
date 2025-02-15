@@ -3,6 +3,7 @@ import { codeAuthorizationRequest } from "../thunks/authThunk"
 import { enqueueSnackbar } from "notistack"
 import { LoginResponseDto } from "../dtos/auth/LoginResponseDto"
 import { RequestState } from "../data/RequestState"
+import { AuthProperties } from "../constants/AuthProperties"
 
 export interface AuthState {
     requestState: RequestState
@@ -23,7 +24,8 @@ const authSlice = createSlice({
     initialState: initialState,
     reducers: {
         logout(state) {
-            state.user = null
+            state.user = null;
+            localStorage.removeItem(AuthProperties.LocalStorageUserKey);
         },
         restoreUser(state, action: PayloadAction<LoginResponseDto | null>) {
             state.user = action.payload;

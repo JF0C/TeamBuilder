@@ -7,6 +7,7 @@ import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { LoginStateDto } from "../../dtos/auth/LoginStateDto";
 import { codeAuthorizationRequest } from "../../thunks/authThunk";
 import { AuthenticationService } from "../../services/authenticationService";
+import { PendingRequestService } from "../../services/pendingRequestService";
 
 export const Login: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -54,6 +55,7 @@ export const Login: FunctionComponent = () => {
                 code: authorizationCode
             })).unwrap().then((loginResponse) => {
                 localStorage.setItem(AuthProperties.LocalStorageUserKey, JSON.stringify(loginResponse));
+                PendingRequestService.ExecutePendingRequest();
             });
         }
         return <div className="size-full flex flex-col justify-center items-center">
