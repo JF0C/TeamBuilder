@@ -4,7 +4,7 @@ from time import *
 remote_base_directory = "/wwwroot/"
 local_base_directory = "../"
 maintenance_page_file = "app_offline.htm"
-build_output_directory = "TeamBuilder/bin/Release/net8.0/publish/"
+build_output_directory = "TeamBuilder.Api/bin/Release/net8.0/publish/"
 
 known_hosts_filename = "./known_hosts"
 
