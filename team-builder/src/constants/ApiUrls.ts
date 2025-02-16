@@ -4,6 +4,9 @@ export class ApiUrls {
     public static readonly MatchesEndpoint = 'Matches'
     public static readonly AuthenticationEndpoint = 'Authentication'
     public static get BaseUrl(): string {
+        if (location.href.includes('192.168.178.43')) {
+            return 'http://192.168.178.43:5032/';
+        }
         if (location.href.includes('localhost') || location.href.includes('0.0.0.0')) {
             return 'http://localhost:5032/';
         }

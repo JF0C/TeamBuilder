@@ -1,3 +1,6 @@
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+
 namespace TeamBuilder.Extensions;
 
 public static class CorsExtensions
@@ -6,24 +9,31 @@ public static class CorsExtensions
     private const string ProductionCorsPolicy = "productionPolicy";
     public static IServiceCollection AddCorsPolicies(this IServiceCollection services)
     {
+        var applicationNetworkAddresses = NetworkInterface.GetAllNetworkInterfaces()
+            .Select(i => i.GetIPProperties().UnicastAddresses)
+            .SelectMany(u => u)
+            .Where(u => u.Address.AddressFamily == AddressFamily.InterNetwork)
+            .Select(i => i.Address.ToString())
+            .Where(a => a != "127.0.0.1")
+            .ToList();
+        applicationNetworkAddresses.Add("localhost");
+        applicationNetworkAddresses.Add("0.0.0.0");
+
         services.AddCors(options => {
             options.AddPolicy(name: DevelopmentCorsPolicy,
                 policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-
-                    policy.WithOrigins("http://localhost:5173")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-
-                    policy.WithOrigins("http://0.0.0.0:5032")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                    foreach (var address in applicationNetworkAddresses)
+                    {
+                        policy.WithOrigins($"http://{address}:5173")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                        policy.WithOrigins($"http://{address}:5032")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                    }
                 }
             );
             options.AddPolicy(name: ProductionCorsPolicy,
