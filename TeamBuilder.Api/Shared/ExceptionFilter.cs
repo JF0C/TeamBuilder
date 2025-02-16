@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using TeamBuilder.Core.Exceptions;
 
-namespace TeamBuilder.Shared;
+namespace TeamBuilder.Api.Shared;
 
 public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IActionFilter, IOrderedFilter
 {

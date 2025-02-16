@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/TeamBuilder/TeamBuilder.csproj",
+                "${workspaceFolder}/TeamBuilder.Api/TeamBuilder.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/TeamBuilder/TeamBuilder.csproj",
+                "${workspaceFolder}/TeamBuilder.Api/TeamBuilder.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/TeamBuilder/TeamBuilder.csproj"
+                "${workspaceFolder}/TeamBuilder.Api/TeamBuilder.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

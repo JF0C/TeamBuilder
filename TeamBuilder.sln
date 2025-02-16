@@ -2,7 +2,7 @@
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamBuilder", "TeamBuilder\TeamBuilder.csproj", "{EDEEB37C-1D3D-46CC-3729-FCE9A2BDF8F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamBuilder.Api", "TeamBuilder.Api\TeamBuilder.Api.csproj", "{EDEEB37C-1D3D-46CC-3729-FCE9A2BDF8F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamBuilder.Core", "TeamBuilder.Core\TeamBuilder.Core.csproj", "{D7B8D419-E776-4BEF-ABBA-B1E2BC0E1713}"
 EndProject

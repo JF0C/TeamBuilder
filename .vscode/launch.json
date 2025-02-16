@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/TeamBuilder/bin/Debug/net8.0/TeamBuilder.dll",
+            "program": "${workspaceFolder}/TeamBuilder.Api/bin/Debug/net8.0/TeamBuilder.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/TeamBuilder",
+            "cwd": "${workspaceFolder}/TeamBuilder.Api",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {

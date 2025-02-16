@@ -1,7 +1,7 @@
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
-namespace TeamBuilder.Extensions;
+namespace TeamBuilder.Api.Extensions;
 
 public static class CorsExtensions
 {

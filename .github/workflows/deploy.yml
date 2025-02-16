@@ -27,7 +27,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
 
     - name: Build Frontend
-      run: cd ./team-builder && npm run build:job
+      run: cd ./TeamBuilder.UI && npm run build:job
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4

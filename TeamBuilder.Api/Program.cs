@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
-using TeamBuilder.Shared;
-using TeamBuilder.Extensions;
+using TeamBuilder.Api.Shared;
+using TeamBuilder.Api.Extensions;
 using TeamBuilder.Data.Extensions;
 using TeamBuilder.Core.Extensions;
 using TeamBuilder.Services.Extensions;

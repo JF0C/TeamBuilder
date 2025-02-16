@@ -1,13 +1,12 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Services.Interfaces;
-using TeamBuilder.Shared;
+using TeamBuilder.Api.Shared;
 
-namespace TeamBuilder.Controllers;
+namespace TeamBuilder.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]

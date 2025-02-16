@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 using TeamBuilder.Services.Interfaces;
-using TeamBuilder.Shared;
+using TeamBuilder.Api.Shared;
 
-namespace TeamBuilder.Controllers;
+namespace TeamBuilder.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]

@@ -1,4 +1,4 @@
-namespace TeamBuilder.Extensions;
+namespace TeamBuilder.Api.Extensions;
 
 public static class SpaExtensions
 {

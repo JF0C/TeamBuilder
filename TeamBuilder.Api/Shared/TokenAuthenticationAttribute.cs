@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace TeamBuilder.Shared;
+namespace TeamBuilder.Api.Shared;
 
 public class TokenAuthenticationAttribute(string roles = ""): ActionFilterAttribute
 {
