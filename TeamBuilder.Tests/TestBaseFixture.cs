@@ -5,6 +5,7 @@ using Moq;
 using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Constants;
+using TeamBuilder.Data.Interfaces;
 
 namespace TeamBuilder.Tests;
 
@@ -34,6 +35,7 @@ public abstract class TestBaseFixture
             {
                 services.AddSingleton((serviceProvider) => Context);
                 services.AddScoped((services) => AuthService.Object);
+                services.AddSingleton<IDbInitializer, TestDbInitializer>();
             });
         });
         Client = factory.CreateClient();
