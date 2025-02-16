@@ -8,7 +8,7 @@ jobs:
   deploy:
 
     env:
-      BUILD_OUTPUT_DIR: './TeamBuilder/bin/Release/net8.0/publish'
+      BUILD_OUTPUT_DIR: './TeamBuilder.Api/bin/Release/net8.0/publish'
       REMOTE_DIR: '/wwwroot'
       STATIC_FILES_DIR: '/wwwroot/assets'
 
