@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   build: {
-    outDir: '../TeamBuilder/wwwroot',
+    outDir: '../TeamBuilder.Api/wwwroot',
     emptyOutDir: true
   },
   plugins: [react(), tailwindcss()],
