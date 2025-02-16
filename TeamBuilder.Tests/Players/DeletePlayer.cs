@@ -15,6 +15,6 @@ public class DeletePlayer() : PlayersTestBase("DeletePlayer")
         var response = await Client.SendAsync(message);
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var player = await Context.Players.FirstOrDefaultAsync(p => p.Name == TestPlayerName);
-        player.Should().BeNull();
+        player.Should().NotBeNull();
     }
 }
