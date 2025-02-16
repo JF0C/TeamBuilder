@@ -7,9 +7,9 @@ import { MatchTeamTable } from "./MatchTeamTable";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { matchTypeToString } from "../../mapping/matchTypeMapper";
-import { deleteMatchRequest, loadMatchRequest, setMatchScoresRequest } from "../../thunks/matchThunk";
+import { deleteMatchRequest, setMatchScoresRequest } from "../../thunks/matchThunk";
 import { totalPlayers } from "../../mapping/matchStatistics";
-import { reloadMatches, selectMatch } from "../../store/matchReducer";
+import { setDetailedMatch } from "../../store/matchReducer";
 import { ConfirmModal } from "../shared/ConfirmModal";
 import { AuthenticatedElement } from "../auth/AuthenticatedElement";
 import { Roles } from "../../constants/Roles";
@@ -29,11 +29,11 @@ export const MatchDetails: FunctionComponent = () => {
         </div>
     }
 
-    if (matchId !== match?.id) {
-        dispatch(loadMatchRequest(matchId))
+    if (matchId !== matchState.detailedMatchId) {
+        dispatch(setDetailedMatch(matchId))
     }
 
-    if (!match || matchState.requestState === 'loading') {
+    if (!match || matchState.selectedRequestState === 'loading') {
         return <LoadingSpinner />
     }
 
@@ -42,13 +42,11 @@ export const MatchDetails: FunctionComponent = () => {
             setChangingScores(true)
         }
         else {
+            setChangingScores(false)
             dispatch(setMatchScoresRequest({
                 matchId: match.id,
                 scores: matchState.changedScores
-            })).unwrap().then(() => {
-                dispatch(loadMatchRequest(match.id))
-                setChangingScores(false)
-            })
+            }))
         }
     }
 
@@ -56,8 +54,6 @@ export const MatchDetails: FunctionComponent = () => {
         dispatch(deleteMatchRequest(match.id))
             .unwrap().then(() => {
                 navigate(Paths.MatchManagementPath);
-                dispatch(reloadMatches({}));
-                dispatch(selectMatch(null))
             })
     }
 

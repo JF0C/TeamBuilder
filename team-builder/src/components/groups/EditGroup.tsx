@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { reloadGroups, setEditingGroup } from "../../store/groupReducer";
+import { setEditingGroup } from "../../store/groupReducer";
 import { reloadGroupMembers } from "../../store/groupMembersReducer";
 import { deleteGroupRequest, renameGroupRequest } from "../../thunks/groupThunk";
 import { useNavigate } from "react-router";
@@ -30,12 +30,7 @@ export const EditGroup: FunctionComponent = () => {
     }
 
     const deleteGroup = () => {
-        dispatch(deleteGroupRequest({ id: editingGroup.id }))
-            .unwrap()
-            .then(() => {
-                dispatch(reloadGroups({}))
-                dispatch(setEditingGroup(null))
-            })
+        dispatch(deleteGroupRequest({ id: editingGroup.id }));
     }
 
     const editGroupMembers = () => {
@@ -48,7 +43,7 @@ export const EditGroup: FunctionComponent = () => {
         dispatch(renameGroupRequest({
             id: editingGroup.id,
             name: name
-        })).unwrap().then(() => dispatch(reloadGroups({})))
+        }));
     }
 
     return <DetailsLayout onClose={deselectGroup} title={editingGroup.name} id={editingGroup.id.toString()}>
@@ -59,7 +54,7 @@ export const EditGroup: FunctionComponent = () => {
         </AuthenticatedElement>
         <div className="flex flex-row flex-wrap gap-2">
             {
-                memberState.requestState === 'loading' ?
+                memberState.memberRequestState === 'loading' ?
                 <LoadingSpinner />
                 :
                 memberState.members?.items.map(p => <ListItem key={p.id}>{p.name}</ListItem>)

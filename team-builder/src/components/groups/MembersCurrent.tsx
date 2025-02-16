@@ -25,7 +25,7 @@ export const MembersCurrent: FunctionComponent<{ group: GroupDto | null }> = ({ 
                     Members of {group?.name}
                 </div>
                 {
-                    group && memberState.requestState === 'ok' ?
+                    group && memberState.memberRequestState === 'ok' ?
                     memberState.members.items.map(p => <MemberItem key={p.id} player={p} group={group} />)
                     : <LoadingSpinner/>
                 }

@@ -13,7 +13,7 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-    requestState: 'initial',
+    requestState: 'required',
     user: null,
     loginFailed: false,
     userRestored: false

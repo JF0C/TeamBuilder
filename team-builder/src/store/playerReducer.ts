@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PlayerDto } from "../dtos/players/PlayerDto";
-import { createPlayerRequest, loadPlayersRequest, renamePlayerRequest } from "../thunks/playerThunk";
+import { createPlayerRequest, deletePlayerRequest, loadPlayersRequest, renamePlayerRequest } from "../thunks/playerThunk";
 import { PagedResult } from "../dtos/base/PagedResult";
 import { GroupDto } from "../dtos/groups/GroupDto";
 import { enqueueSnackbar } from "notistack";
@@ -18,7 +18,7 @@ export interface PlayerState {
 }
 
 export const initialState: PlayerState = {
-    requestState: 'initial',
+    requestState: 'required',
     group: null,
     players: null,
     queryFilter: {
@@ -62,7 +62,7 @@ export const playerSlice = createSlice({
             if (action.payload.name !== undefined) {
                 state.queryFilter.name = action.payload.name
             }
-            state.requestState = 'initial';
+            state.requestState = 'required';
             state.players = null;
         }
     },
@@ -88,7 +88,8 @@ export const playerSlice = createSlice({
             state.requestState = 'loading';
         })
         builder.addCase(createPlayerRequest.fulfilled, (state) => {
-            state.requestState = 'ok';
+            state.requestState = 'required';
+            state.queryFilter.group = undefined;
         })
         builder.addCase(createPlayerRequest.rejected, (state) => {
             state.requestState = 'error';
@@ -99,11 +100,23 @@ export const playerSlice = createSlice({
             state.requestState = 'loading';
         })
         builder.addCase(renamePlayerRequest.fulfilled, (state) => {
-            state.requestState = 'ok';
+            state.requestState = 'required';
         })
         builder.addCase(renamePlayerRequest.rejected, (state, action) => {
             state.requestState = 'error';
             enqueueSnackbar(`failed to rename player: ${action.error.message}`, {variant: 'error'});
+        })
+
+        builder.addCase(deletePlayerRequest.pending, (state) => {
+            state.requestState = 'loading';
+        })
+        builder.addCase(deletePlayerRequest.fulfilled, (state) => {
+            state.requestState = 'required';
+            state.editingPlayer = null;
+        })
+        builder.addCase(deletePlayerRequest.rejected, (state, action) => {
+            state.requestState = 'error';
+            enqueueSnackbar(`failed to delete player: ${action.error.message}`, {variant: 'error'});
         })
     }
 })

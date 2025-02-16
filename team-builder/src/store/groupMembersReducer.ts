@@ -4,19 +4,31 @@ import { RequestState } from "../data/RequestState";
 import { PagedResult } from "../dtos/base/PagedResult";
 import { GroupPlayersRequestDto } from "../dtos/groups/GroupPlayersRequestDto";
 import { PlayerDto } from "../dtos/players/PlayerDto";
-import { addPlayerToGroupRequest, loadGroupMembersRequest, removePlayerFromGroupRequest } from "../thunks/groupThunk";
+import { addPlayerToGroupRequest, loadAvailableMembersRequest, loadGroupMembersRequest, removePlayerFromGroupRequest } from "../thunks/groupThunk";
 import { enqueueSnackbar } from "notistack";
+import { AvailableMembersRequestDto } from "../dtos/groups/AvailableMembersRequestDto";
 
 export interface GroupMembersState {
-    requestState: RequestState
+    availableRequestState: RequestState
+    availableFilter: AvailableMembersRequestDto
+    available: PagedResult<PlayerDto> | null
 
-    queryFilter: GroupPlayersRequestDto
+    memberRequestState: RequestState
+    memberFilter: GroupPlayersRequestDto
     members: PagedResult<PlayerDto> | null
 }
 
 const initialState: GroupMembersState = {
-    requestState: 'initial',
-    queryFilter: {
+    availableRequestState: 'required',
+    availableFilter: {
+        page: PaginationDefaults.Page,
+        count: PaginationDefaults.Count,
+        exclude: []
+    },
+    available: null,
+
+    memberRequestState: 'required',
+    memberFilter: {
         page: PaginationDefaults.Page,
         count: PaginationDefaults.Count,
         group: 0
@@ -30,37 +42,66 @@ export const groupMembersSlice= createSlice({
     reducers: {
         reloadGroupMembers(state, action: PayloadAction<{group?: number, page?: number}>) {
             if (action.payload.page !== undefined) {
-                state.queryFilter.page = action.payload.page;
+                state.memberFilter.page = action.payload.page;
             }
             if (action.payload.group !== undefined) {
-                state.queryFilter.group = action.payload.group;
+                state.memberFilter.group = action.payload.group;
             }
-            state.requestState = 'initial'
+            state.memberRequestState = 'required'
         },
+        reloadAvailableMembers(state, action: PayloadAction<{page?: number, name?: string}>) {
+            if (action.payload.page !== undefined) {
+                state.availableFilter.page = action.payload.page;
+            }
+            if (action.payload.name !== undefined) {
+                state.availableFilter.name = action.payload.name;
+            }
+            state.availableRequestState = 'required'
+        }
     },
     extraReducers: (builder) => {
-        builder.addCase(loadGroupMembersRequest.pending, (state) => { state.requestState = 'loading'; });
+        builder.addCase(loadGroupMembersRequest.pending, (state) => { state.memberRequestState = 'loading'; });
         builder.addCase(loadGroupMembersRequest.fulfilled, (state, action) => {
             state.members = action.payload;
-            state.requestState = 'ok';
+            state.availableFilter.exclude = state.members.items.map(p => p.id);
+            state.memberRequestState = 'ok';
         })
         builder.addCase(loadGroupMembersRequest.rejected, (state, action) => {
-            state.requestState = 'error';
+            state.memberRequestState = 'error';
             enqueueSnackbar(`failed to load members of group ${action.meta.arg.group}: ${action.error.message}`);
             state.members = null;
         })
 
-        builder.addCase(addPlayerToGroupRequest.pending, (state) => { state.requestState = 'loading'; })
-        builder.addCase(addPlayerToGroupRequest.fulfilled, (state) => { state.requestState = 'ok'; })
-        builder.addCase(addPlayerToGroupRequest.rejected, (state) => { state.requestState = 'error'; })
+        builder.addCase(loadAvailableMembersRequest.pending, (state) => { state.availableRequestState = 'loading' });
+        builder.addCase(loadAvailableMembersRequest.fulfilled, (state, action) => {
+            state.available = action.payload;
+            state.availableRequestState = 'ok';
+        })
+        builder.addCase(loadAvailableMembersRequest.rejected, (state, action) => {
+            state.availableRequestState = 'error';
+            enqueueSnackbar(`failed to load members available for group ${state.memberFilter.group}: ${action.error.message}`);
+            state.available = null;
+        })
 
-        builder.addCase(removePlayerFromGroupRequest.pending, (state) => { state.requestState = 'loading'; })
-        builder.addCase(removePlayerFromGroupRequest.fulfilled, (state) => { state.requestState = 'ok'; })
-        builder.addCase(removePlayerFromGroupRequest.rejected, (state) => { state.requestState = 'error'; })
+        for (const request of [addPlayerToGroupRequest, removePlayerFromGroupRequest]) {
+            builder.addCase(request.pending, (state) => {
+                state.memberRequestState = 'loading';
+                state.availableRequestState = 'loading';
+            })
+            builder.addCase(request.fulfilled, (state) => {
+                state.memberRequestState = 'required';
+                state.availableRequestState = 'required';
+            })
+            builder.addCase(request.rejected, (state) => {
+                state.memberRequestState = 'error';
+                state.availableRequestState = 'error';
+            })
+        }
     }
 })
 
 export const groupMembersReducer = groupMembersSlice.reducer;
 export const {
-    reloadGroupMembers
+    reloadGroupMembers,
+    reloadAvailableMembers
 } = groupMembersSlice.actions

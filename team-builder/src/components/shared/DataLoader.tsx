@@ -1,8 +1,8 @@
 import { FunctionComponent, ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { loadPlayersRequest } from "../../thunks/playerThunk";
-import { loadGroupMembersRequest, loadGroupsRequest } from "../../thunks/groupThunk";
-import { loadMatchesRequest } from "../../thunks/matchThunk";
+import { loadAvailableMembersRequest, loadGroupMembersRequest, loadGroupsRequest } from "../../thunks/groupThunk";
+import { loadMatchesRequest, loadMatchRequest } from "../../thunks/matchThunk";
 import { AuthProperties } from "../../constants/AuthProperties";
 import { LoginResponseDto } from "../../dtos/auth/LoginResponseDto";
 import { restoreUser } from "../../store/authReducer";
@@ -16,8 +16,10 @@ export const DataLoader: FunctionComponent = () => {
     const groupMembersState = useAppSelector((state) => state.groupMembers);
     const loading = playerState.requestState === 'loading'
         || groupState.requestState === 'loading'
-        || matchState.requestState === 'loading'
-        || groupMembersState.requestState === 'loading';
+        || matchState.matchesRequestState === 'loading'
+        || matchState.selectedRequestState === 'loading'
+        || groupMembersState.memberRequestState === 'loading'
+        || groupMembersState.availableRequestState === 'loading';
     
     const loadPlayers = () => {
         dispatch(loadPlayersRequest(playerState.queryFilter));
@@ -31,8 +33,19 @@ export const DataLoader: FunctionComponent = () => {
         dispatch(loadMatchesRequest(matchState.queryFilter));
     }
 
+    const loadMatch = () => {
+        if (matchState.detailedMatchId !== null) {
+            console.log('loading match')
+            dispatch(loadMatchRequest(matchState.detailedMatchId));
+        }
+    }
+
     const loadGroupMembers = () => {
-        dispatch(loadGroupMembersRequest(groupMembersState.queryFilter))
+        dispatch(loadGroupMembersRequest(groupMembersState.memberFilter));
+    }
+
+    const loadAvailableMembers = () => {
+        dispatch(loadAvailableMembersRequest(groupMembersState.availableFilter));
     }
 
     if (!authState.userRestored) {
@@ -51,32 +64,46 @@ export const DataLoader: FunctionComponent = () => {
         }
     }
 
-    if (playerState.requestState === 'initial') {
+    if (playerState.requestState === 'required') {
         if (!loading) {
             loadPlayers();
         }
         return <></>
     }
 
-    if (groupState.requestState === 'initial') {
+    if (groupState.requestState === 'required') {
         if (!loading) {
             loadGroups();
         }
         return <></>
     }
 
-    if (matchState.requestState === 'initial') {
+    if (matchState.matchesRequestState === 'required') {
         if (!loading) {
             loadMatches();
         }
         return <></>
     }
 
-    if (groupState.editingGroup !== null && groupMembersState.requestState === 'initial') {
+    if (matchState.selectedRequestState === 'required') {
         if (!loading) {
-            loadGroupMembers();
+            loadMatch();
         }
-        return <></>
+    }
+
+    if (groupState.editingGroup) {
+        if(groupMembersState.memberRequestState === 'required') {
+            if (!loading) {
+                loadGroupMembers();
+            }
+            return <></>
+        }
+        if (groupMembersState.availableRequestState === 'required') {
+            if (!loading) {
+                loadAvailableMembers();
+            }
+            return <></>
+        }
     }
 
     const elements: ReactNode[] = [];
@@ -97,7 +124,7 @@ export const DataLoader: FunctionComponent = () => {
         </div>)
     }
 
-    if (matchState.requestState === 'error') {
+    if (matchState.matchesRequestState === 'error') {
         elements.push(<div key="reload-matches" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadMatches} className="button">
                 Reload&nbsp;Matches
@@ -105,7 +132,7 @@ export const DataLoader: FunctionComponent = () => {
         </div>)
     }
 
-    if (groupMembersState.requestState === 'error') {
+    if (groupMembersState.memberRequestState === 'error') {
         elements.push(<div key="reload-group-members" className="size-full flex flex-row justify-center items-center">
             <div onClick={loadGroupMembers} className="button">
                 Reload&nbsp;Group&nbsp;Members

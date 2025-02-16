@@ -1,7 +1,6 @@
 import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { createPlayerRequest } from "../../thunks/playerThunk";
-import { reloadPlayers } from "../../store/playerReducer";
 
 export const CreatePlayerItem: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -9,14 +8,10 @@ export const CreatePlayerItem: FunctionComponent = () => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const createPlayer = () => {
-        dispatch(createPlayerRequest({name: name}))
-            .unwrap()
-            .then(() => {
-                dispatch(reloadPlayers({group: null}))
-                if (inputRef.current) {
-                    inputRef.current.value = '';
-                }
-            })
+        if (inputRef.current) {
+            inputRef.current.value = '';
+        }
+        dispatch(createPlayerRequest({ name: name }));
     }
 
     const onInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +26,7 @@ export const CreatePlayerItem: FunctionComponent = () => {
     }
 
     return <div className="flex flex-row gap-2 justify-center border-2 rounded-md px-2">
-        <input style={{width: '150px'}} ref={inputRef} 
+        <input style={{ width: '150px' }} ref={inputRef}
             placeholder="New Player" onKeyDown={createOnEnter} onChange={onInput} />
         <div className="button" onClick={createPlayer}>Create</div>
     </div>

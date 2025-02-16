@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PagedResult } from "../dtos/base/PagedResult";
 import { GroupDto } from "../dtos/groups/GroupDto";
 import { enqueueSnackbar } from "notistack";
-import { loadGroupsRequest, renameGroupRequest } from "../thunks/groupThunk";
+import { createGroupRequest, deleteGroupRequest, loadGroupsRequest, renameGroupRequest } from "../thunks/groupThunk";
 import { GroupsRequestDto } from "../dtos/groups/GroupsRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
 import { RequestState } from "../data/RequestState";
@@ -17,7 +17,7 @@ export interface GroupState {
 }
 
 const initialState: GroupState = {
-    requestState: 'initial',
+    requestState: 'required',
 
     groups: null,
     queryFilter: {
@@ -40,13 +40,17 @@ export const groupSlice = createSlice({
                 state.queryFilter.page = action.payload.page
             }
             state.groups = null;
-            state.requestState = 'initial';
+            state.requestState = 'required';
         }
     },
     extraReducers: (builder) => {
         builder.addCase(loadGroupsRequest.pending, (state) => { state.requestState = 'loading'; });
         builder.addCase(loadGroupsRequest.fulfilled, (state, action) => {
             state.groups = action.payload;
+            const changedEditingGroup = state.groups.items.find(x => x.id === state.editingGroup?.id);
+            if (changedEditingGroup && state.editingGroup) {
+                state.editingGroup = changedEditingGroup;
+            }
             state.requestState = 'ok';
         })
         builder.addCase(loadGroupsRequest.rejected, (state, action) => {
@@ -55,9 +59,15 @@ export const groupSlice = createSlice({
             enqueueSnackbar(`failed to load groups ${action.error.message}`, { variant: 'error' });
         })
 
-        builder.addCase(renameGroupRequest.pending, (state) => { state.requestState = 'loading'; })
-        builder.addCase(renameGroupRequest.fulfilled, (state) => { state.requestState = 'ok'; })
-        builder.addCase(renameGroupRequest.rejected, (state) => { state.requestState = 'error'; })
+        for (const request of [renameGroupRequest, createGroupRequest]) {
+            builder.addCase(request.pending, (state) => { state.requestState = 'loading'; })
+            builder.addCase(request.fulfilled, (state) => { state.requestState = 'required'; })
+            builder.addCase(request.rejected, (state) => { state.requestState = 'error'; })
+        }
+
+        builder.addCase(deleteGroupRequest.pending, (state) => { state.requestState = 'loading'; })
+        builder.addCase(deleteGroupRequest.fulfilled, (state) => { state.requestState = 'required'; state.editingGroup = null; })
+        builder.addCase(deleteGroupRequest.rejected, (state) => { state.requestState = 'error'; })
     }
 })
 

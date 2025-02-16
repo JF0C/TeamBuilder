@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { DetailsLayout } from "../layout/DetailsLayout";
 import { matchTypeToString } from "../../mapping/matchTypeMapper";
-import { selectMatch } from "../../store/matchReducer";
+import { selectMatch, setDetailedMatch } from "../../store/matchReducer";
 import { millisToDateTimeString } from "../../mapping/timestampMapper";
 import { MatchTeamTable } from "./MatchTeamTable";
 import { NavLink } from "react-router-dom";
@@ -34,7 +34,7 @@ export const MatchOverview: FunctionComponent = () => {
             </div>
             <MatchTeamTable match={match} />
             <div className="flex flex-row justify-center">
-                <NavLink to={`${Paths.MatchDetailPath}/${match.id}`}>
+                <NavLink onClick={() => dispatch(setDetailedMatch(match.id))} to={`${Paths.MatchDetailPath}/${match.id}`}>
                     Details
                 </NavLink>
             </div>

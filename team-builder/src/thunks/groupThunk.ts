@@ -7,6 +7,7 @@ import { PlayerDto } from "../dtos/players/PlayerDto";
 import { playerRequestToQuery } from "./playerThunk";
 import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } from "./thunkBase";
 import { RenameGroupDto } from "../dtos/groups/RenameGroupDto";
+import { AvailableMembersRequestDto } from "../dtos/groups/AvailableMembersRequestDto";
 
 export const loadGroupsRequest = createGetThunk<PagedResult<GroupDto>, GroupsRequestDto>(
     'load-groups',
@@ -17,10 +18,13 @@ export const loadGroupsRequest = createGetThunk<PagedResult<GroupDto>, GroupsReq
 export const loadGroupMembersRequest = createGetThunk<PagedResult<PlayerDto>, GroupPlayersRequestDto>(
     'load-group-members',
     (request) => playerRequestToQuery(request),
-    async (response) => {
-        const result = await response.json();
-        return result;
-    }
+    (response) => response.json()
+)
+
+export const loadAvailableMembersRequest = createGetThunk<PagedResult<PlayerDto>, AvailableMembersRequestDto>(
+    'load-available-members',
+    (request) => playerRequestToQuery(request),
+    (response) => response.json()
 )
 
 export const createGroupRequest = createPostThunk<number, {name: string}>(

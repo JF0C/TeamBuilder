@@ -55,7 +55,7 @@ export const Login: FunctionComponent = () => {
                 code: authorizationCode
             })).unwrap().then((loginResponse) => {
                 localStorage.setItem(AuthProperties.LocalStorageUserKey, JSON.stringify(loginResponse));
-                PendingRequestService.ExecutePendingRequest();
+                PendingRequestService.ExecutePendingRequest(dispatch);
             });
         }
         return <div className="size-full flex flex-col justify-center items-center">

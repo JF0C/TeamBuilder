@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { reloadPlayers, setEditingPlayer } from "../../store/playerReducer";
+import { setEditingPlayer } from "../../store/playerReducer";
 import { deletePlayerRequest, renamePlayerRequest } from "../../thunks/playerThunk";
 import { PlayerGroups } from "./PlayerGroups";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
@@ -21,21 +21,14 @@ export const PlayerDetails: FunctionComponent = () => {
     }
 
     const deletePlayer = () => {
-        dispatch(deletePlayerRequest({ id: editingPlayer.id }))
-            .unwrap()
-            .then(() => {
-                dispatch(reloadPlayers({}))
-                dispatch(setEditingPlayer(null))
-            })
+        dispatch(deletePlayerRequest({ id: editingPlayer.id }));
     }
 
     const renamePlayer = (name: string) => {
         dispatch(renamePlayerRequest({
             id: editingPlayer.id,
             name: name
-        })).unwrap().then(() => {
-            dispatch(reloadPlayers({}))
-        })
+        }));
     }
 
     return (

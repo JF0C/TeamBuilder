@@ -1,1 +1,1 @@
-export type RequestState = 'initial' | 'loading' | 'ok' | 'error'
+export type RequestState = 'required' | 'loading' | 'ok' | 'error'

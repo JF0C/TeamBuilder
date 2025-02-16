@@ -1,7 +1,6 @@
 import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
 import { useAppDispatch } from "../../store/store";
 import { createGroupRequest } from "../../thunks/groupThunk";
-import { reloadGroups } from "../../store/groupReducer";
 
 export const CreateGroupItem: FunctionComponent = () => {
      const dispatch = useAppDispatch();
@@ -12,7 +11,6 @@ export const CreateGroupItem: FunctionComponent = () => {
         dispatch(createGroupRequest({name: name}))
             .unwrap()
             .then(() => {
-                dispatch(reloadGroups({}));
                 if (inputRef.current) {
                     inputRef.current.value = '';
                 }
