@@ -10,7 +10,7 @@ public static class DatabaseExtensions
 {
     public static void AddTeamBuilderDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped((services) => TeamBuilderDbContextFactory.CreateDbContextMethod(configuration));
+        services.AddSingleton((services) => TeamBuilderDbContextFactory.CreateDbContextMethod(configuration));
         services.AddSingleton<TeamBuilderDbContextFactory>();
         services.AddSingleton<IDbInitializer, DbInitializer>();
         services.AddScoped<IPlayersRepository, PlayersRepository>();
