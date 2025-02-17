@@ -4,6 +4,7 @@ using TeamBuilder.Core.Dtos.Authentication;
 using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Api.Shared;
+using TeamBuilder.Core.Dtos;
 
 namespace TeamBuilder.Api.Controllers;
 
@@ -11,6 +12,13 @@ namespace TeamBuilder.Api.Controllers;
 [Route("[controller]")]
 public class AuthenticationController(IAuthenticationService auth, IUserRepository userRepository): BaseController(auth)
 {
+    [TokenAuthentication(Roles.Admin)]
+    [HttpGet("Users")]
+    public async Task<ActionResult<PagedResult<UserDto>>> ListUsers(int page, int count, int? group, string? name)
+    {
+        return Ok(await userRepository.ListAsync(page, count, group, name));
+    }
+
     [HttpPost]
     public async Task<ActionResult<LoginResponseDto>> Authenticate(CodeAuthorizationDto authorizationDto)
     {

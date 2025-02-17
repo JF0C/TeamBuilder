@@ -1,12 +1,16 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Constants;
+using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
+using TeamBuilder.Core.Extensions;
 using TeamBuilder.Data.Interfaces;
+using TeamBuilder.Database.Extensions;
 
 namespace TeamBuilder.Data.Repositories;
 
-internal class UserRepository(TeamBuilderDbContext context) : IUserRepository
+internal class UserRepository(TeamBuilderDbContext context, IMapper mapper) : IUserRepository
 {
     public async Task AddRoleAsync(long id, string role)
     {
@@ -91,5 +95,24 @@ internal class UserRepository(TeamBuilderDbContext context) : IUserRepository
 
         await context.SaveChangesAsync();
         return user;
+    }
+
+    public async Task<PagedResult<UserDto>> ListAsync(int page, int count, long? groupId = null, string? name = null)
+    {
+        IQueryable<PlayerEntity> query = context.Players
+            .Include(p => p.User)
+            .Include(p => p.Groups);
+        if (groupId is not null)
+        {
+            query = query.Where(p => p.Groups.Any(g => g.Id == groupId));
+        }
+        if (name is not null)
+        {
+            query = query.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+        }
+        return (await query
+            .OrderByDescending(p => p.Created)
+            .ToPagedResult(page, count))
+            .MapTo<UserDto, PlayerEntity>(mapper);
     }
 }

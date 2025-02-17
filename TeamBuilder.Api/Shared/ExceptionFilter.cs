@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using TeamBuilder.Core.Exceptions;
@@ -14,7 +15,7 @@ public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IActionFilter, I
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
-        if ((context.HttpContext.Request.Path.ToString().Contains("Authentication") && context.Exception is not null)
+        if ((context.HttpContext.Request.Path.ToString().Contains("Authentication") && context.Exception is ItemNotFoundException)
             || context.Exception is UnauthorizedAccessException or FailedAuthenticationException)
         {
             context.Result = new ObjectResult(null)
@@ -45,6 +46,7 @@ public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IActionFilter, I
         }
 
         if (context.Exception is InvalidPaginationException
+            or ValidationException
             or IndexOutOfRangeException
             or JsonException)
         {

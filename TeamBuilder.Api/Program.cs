@@ -11,6 +11,8 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddTeamBuilderDbContext(builder.Configuration);
 builder.Services.AddTeamBuilderServices(builder.Configuration);
 
+builder.Services.AddValidation();
+
 builder.Services.AddMapper();
 
 builder.Services.AddSwaggerGen();

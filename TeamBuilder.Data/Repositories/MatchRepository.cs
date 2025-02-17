@@ -7,7 +7,7 @@ using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
 using TeamBuilder.Core.Extensions;
 using TeamBuilder.Data.Interfaces;
-using TourViewer.Database.Extensions;
+using TeamBuilder.Database.Extensions;
 
 namespace TeamBuilder.Data.Repositories;
 

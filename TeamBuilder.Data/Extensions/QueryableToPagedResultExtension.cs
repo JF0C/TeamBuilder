@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Dtos;
 using TeamBuilder.Core.Exceptions;
 
-namespace TourViewer.Database.Extensions;
+namespace TeamBuilder.Database.Extensions;
 
 public static class QueryableToPagedResultExtension
 {

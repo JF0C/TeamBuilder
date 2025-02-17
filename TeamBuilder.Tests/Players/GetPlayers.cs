@@ -13,6 +13,16 @@ public class GetPlayers(): PlayersTestBase("Get")
         var response = await Client.GetAsync("/Players?page=1&count=10");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var players = await response.Content.ReadFromJsonAsync<PagedResult<PlayerDto>>();
+        players!.Items.Count.Should().BeGreaterOrEqualTo(2);
+    }
+
+    [Fact]
+    public async Task Get_FilterForGroup_Success()
+    {
+        var groupId = Context.Groups.First(g => g.Name == TestGroupName).Id;
+        var response = await Client.GetAsync($"/Players?page=1&count=10&group={groupId}");
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var players = await response.Content.ReadFromJsonAsync<PagedResult<PlayerDto>>();
         players!.Items.Count.Should().BeGreaterOrEqualTo(1);
     }
 }

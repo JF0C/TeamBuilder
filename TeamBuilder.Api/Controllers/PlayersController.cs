@@ -5,6 +5,7 @@ using TeamBuilder.Core.Dtos;
 using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Api.Shared;
+using TeamBuilder.Core.Validators;
 
 namespace TeamBuilder.Api.Controllers;
 
@@ -30,6 +31,7 @@ public class PlayersController(IPlayersRepository playersRepository, IAuthentica
     [HttpPost]
     public async Task<ActionResult<long>> CreatePlayer([FromBody] string name)
     {
+        PlayerNameValidator.Validate(name);
         return Ok(await playersRepository.CreateAsync(name));
     }
 
@@ -37,6 +39,7 @@ public class PlayersController(IPlayersRepository playersRepository, IAuthentica
     [HttpPut("{id}/Name/{name}")]
     public async Task<ActionResult> RenamePlayer(long id, string name)
     {
+        PlayerNameValidator.Validate(name);
         await playersRepository.RenameAsync(id, name);
         return Ok();
     }
