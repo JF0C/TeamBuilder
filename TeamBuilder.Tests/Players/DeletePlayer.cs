@@ -5,7 +5,7 @@ using TeamBuilder.Core.Entities;
 
 namespace TeamBuilder.Tests.Players;
 
-public class DeletePlayer() : PlayersTestBase("DeletePlayer")
+public class DeletePlayer() : PlayersTestBase(nameof(DeletePlayer))
 {
     [Fact]
     public async Task DeletePlayer_Success()

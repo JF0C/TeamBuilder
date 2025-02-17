@@ -6,7 +6,7 @@ using TeamBuilder.Core.Dtos;
 
 namespace TeamBuilder.Tests.Users;
 
-public class GetUsers(): UsersTestBase("GetUsers")
+public class GetUsers(): UsersTestBase(nameof(GetUsers))
 {
     [Fact]
     public async Task GetUsers_Success()

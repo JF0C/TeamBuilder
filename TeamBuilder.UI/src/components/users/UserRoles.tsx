@@ -24,19 +24,21 @@ export const UserRoles: FunctionComponent<{user: UserDto}> = ({user}) => {
         }))
     }
 
+    const capitalize = (word: string) => word.substring(0, 1).toUpperCase() + word.substring(1)
+
     const availableRoles = Roles.All.filter(r => !user.roles.includes(r))
     
     return <div className="flex flex-row flex-wrap gap-2">
         {
-            user.roles.map(r => <ConfirmModal key={`u-${user.id}-r-${r}`} onConfirm={() => removeRole(r)} buttonContent={r}>
-                Remove Role {r}?
+            user.roles.map(r => <ConfirmModal key={`u-${user.id}-r-${r}`} onConfirm={() => removeRole(r)} buttonContent={capitalize(r)}>
+                Remove Role {capitalize(r)}?
             </ConfirmModal>)
         }
         {
-            availableRoles ?
+            availableRoles.length > 0 ?
             <Modal buttonContent={`Add Role`}>
                 {
-                    availableRoles.map(r => <ListItem key={`available-role-${r}`} onSelected={() => addRole(r)}>{r}</ListItem>)
+                    availableRoles.map(r => <ListItem key={`available-role-${r}`} onSelected={() => addRole(r)}>{capitalize(r)}</ListItem>)
                 }
             </Modal>
             : <></>

@@ -9,7 +9,9 @@ public abstract class UsersTestBase : TestBaseFixture
         Name = "Registered User",
         User = new()
         {
-            Email = "registered.user@c11g.net"
+            Email = "registered.user@c11g.net",
+            Token = "registered-user-token",
+            ValidUntil = DateTime.UtcNow.Add(TimeSpan.FromDays(1))
         }
     };
 

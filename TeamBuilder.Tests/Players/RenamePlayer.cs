@@ -3,7 +3,7 @@ using FluentAssertions;
 
 namespace TeamBuilder.Tests.Players;
 
-public class RenamePlayer(): PlayersTestBase("RenamePlayer")
+public class RenamePlayer(): PlayersTestBase(nameof(RenamePlayer))
 {
     [Fact]
     public async Task RenamePlayer_Success()

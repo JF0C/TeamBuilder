@@ -34,7 +34,7 @@ public abstract class TestBaseFixture
             builder.ConfigureServices(services =>
             {
                 services.AddSingleton((serviceProvider) => Context);
-                services.AddScoped((services) => AuthService.Object);
+                // services.AddScoped((services) => AuthService.Object);
                 services.AddSingleton<IDbInitializer, TestDbInitializer>();
             });
         });

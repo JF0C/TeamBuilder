@@ -5,7 +5,7 @@ using TeamBuilder.Core.Dtos;
 
 namespace TeamBuilder.Tests.Players;
 
-public class GetPlayers(): PlayersTestBase("Get")
+public class GetPlayers(): PlayersTestBase(nameof(GetPlayers))
 {
     [Fact]
     public async Task Get_Success()
