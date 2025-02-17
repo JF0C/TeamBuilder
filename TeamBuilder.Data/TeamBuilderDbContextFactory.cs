@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TeamBuilder.Data;
 internal class TeamBuilderDbContextFactory(IConfiguration configuration) : 

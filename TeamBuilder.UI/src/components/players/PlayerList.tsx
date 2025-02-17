@@ -4,7 +4,7 @@ import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { PlayerListItem } from "./PlayerListItem";
 import { CreatePlayerItem } from "./CreatePlayerItem";
 import { reloadPlayers, setEditingPlayer } from "../../store/playerReducer";
-import { GroupFilter } from "../groups/GroupFilter";
+import { PlayerGroupFilter } from "../groups/PlayerGroupFilter";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";
 
 export const PlayerList: FunctionComponent = () => {
@@ -26,7 +26,7 @@ export const PlayerList: FunctionComponent = () => {
                     Players
                 </div>
                 <div className="w-full">
-                    <GroupFilter />
+                    <PlayerGroupFilter />
                 </div>
             </>
         }>

@@ -13,11 +13,11 @@ export const codeAuthorizationRequest = createPostThunk<LoginResponseDto, CodeAu
 
 export const registerUserRequest = createPutThunk<RegisterUserDto>(
     'register-user',
-    (request) => `${ApiUrls.BaseUrl + ApiUrls.AuthenticationEndpoint}/${request.playerId}/User/${request.email}`
+    (request) => `${ApiUrls.BaseUrl + ApiUrls.UsersEndpoint}/${request.playerId}/Email/${request.email}`
 )
 
 export const createUserRequest = createPostThunk<number, CreateUserDto>(
     'create-user',
-    () => `${ApiUrls.BaseUrl + ApiUrls.AuthenticationEndpoint}/User`,
+    () => `${ApiUrls.BaseUrl + ApiUrls.UsersEndpoint}`,
     (response) => response.json()
 )

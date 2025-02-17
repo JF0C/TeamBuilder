@@ -11,7 +11,7 @@ public class GetUsers(): AuthenticationTestBase("GetUsers")
     [Fact]
     public async Task GetUsers_Success()
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, "/Authentication/Users?page=1&count=10");
+        var request = new HttpRequestMessage(HttpMethod.Get, "/Users?page=1&count=10");
         AuthenticateMessage(request);
         var response = await Client.SendAsync(request);
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -19,5 +19,12 @@ public class GetUsers(): AuthenticationTestBase("GetUsers")
         players!.Items.Should().Contain(x => x.Name == RegisteredUser.Name);
         var admin = players.Items.First(p => p.Name == Admin.Name);
         admin.Roles.Should().Contain(Roles.Admin);
+    }
+
+    [Fact]
+    public async Task GetUsers_Fails_NotAllowed()
+    {
+        var response = await Client.GetAsync("/Users?page=1&count=10");
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 }

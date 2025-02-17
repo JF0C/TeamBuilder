@@ -6,6 +6,8 @@ import { loadMatchesRequest, loadMatchRequest } from "../../thunks/matchThunk";
 import { AuthProperties } from "../../constants/AuthProperties";
 import { LoginResponseDto } from "../../dtos/auth/LoginResponseDto";
 import { restoreUser } from "../../store/authReducer";
+import { loadUsersRequest } from "../../thunks/adminThunk";
+import { Roles } from "../../constants/Roles";
 
 export const DataLoader: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -13,13 +15,15 @@ export const DataLoader: FunctionComponent = () => {
     const playerState = useAppSelector((state) => state.players);
     const groupState = useAppSelector((state) => state.groups);
     const matchState = useAppSelector((state) => state.match);
+    const userState = useAppSelector((state) => state.users);
     const groupMembersState = useAppSelector((state) => state.groupMembers);
     const loading = playerState.requestState === 'loading'
         || groupState.requestState === 'loading'
         || matchState.matchesRequestState === 'loading'
         || matchState.selectedRequestState === 'loading'
         || groupMembersState.memberRequestState === 'loading'
-        || groupMembersState.availableRequestState === 'loading';
+        || groupMembersState.availableRequestState === 'loading'
+        || userState.requestState === 'loading';
     
     const loadPlayers = () => {
         dispatch(loadPlayersRequest(playerState.queryFilter));
@@ -48,6 +52,10 @@ export const DataLoader: FunctionComponent = () => {
         dispatch(loadAvailableMembersRequest(groupMembersState.availableFilter));
     }
 
+    const loadUsers = () => {
+        dispatch(loadUsersRequest(userState.queryFilter));
+    }
+
     if (!authState.userRestored) {
         const storedUserData = localStorage.getItem(AuthProperties.LocalStorageUserKey);
         try {
@@ -64,46 +72,35 @@ export const DataLoader: FunctionComponent = () => {
         }
     }
 
-    if (playerState.requestState === 'required') {
-        if (!loading) {
-            loadPlayers();
-        }
-        return <></>
+    if (playerState.requestState === 'required' && !loading) {
+        loadPlayers();
     }
 
-    if (groupState.requestState === 'required') {
-        if (!loading) {
-            loadGroups();
-        }
-        return <></>
+    if (groupState.requestState === 'required' && !loading) {
+        loadGroups();
     }
 
-    if (matchState.matchesRequestState === 'required') {
-        if (!loading) {
-            loadMatches();
-        }
-        return <></>
+    if (matchState.matchesRequestState === 'required' && !loading) {
+        loadMatches();
     }
 
-    if (matchState.selectedRequestState === 'required') {
-        if (!loading) {
-            loadMatch();
-        }
+    if (matchState.selectedRequestState === 'required' && !loading) {
+        loadMatch();
     }
 
     if (groupState.editingGroup) {
-        if(groupMembersState.memberRequestState === 'required') {
-            if (!loading) {
-                loadGroupMembers();
-            }
-            return <></>
+        if(groupMembersState.memberRequestState === 'required' && !loading) {
+            loadGroupMembers();
         }
-        if (groupMembersState.availableRequestState === 'required') {
-            if (!loading) {
-                loadAvailableMembers();
-            }
-            return <></>
+        if (groupMembersState.availableRequestState === 'required' && !loading) {
+            loadAvailableMembers();
         }
+    }
+
+    if (authState.user?.roles.includes(Roles.Admin)
+        && userState.requestState === 'required'
+        && !loading) {
+        loadUsers();
     }
 
     const elements: ReactNode[] = [];

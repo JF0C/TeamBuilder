@@ -1,5 +1,6 @@
 export class ApiUrls {
     public static readonly PlayersEndpoint = 'Players'
+    public static readonly UsersEndpoint = 'Users'
     public static readonly GroupsEndpoint = 'Groups'
     public static readonly MatchesEndpoint = 'Matches'
     public static readonly AuthenticationEndpoint = 'Authentication'

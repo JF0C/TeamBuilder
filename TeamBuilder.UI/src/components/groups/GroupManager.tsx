@@ -14,7 +14,7 @@ export const GroupManager: FunctionComponent = () => {
         details={<EditGroup />} 
         showDetails={showDetails}
         navigation={<div className="button">
-            <NavLink to={Paths.HomePath}>
+            <NavLink to={Paths.AdminMenuPath}>
                 Back
             </NavLink>
         </div>} />

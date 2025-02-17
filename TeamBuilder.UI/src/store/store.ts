@@ -5,6 +5,7 @@ import { groupReducer } from './groupReducer';
 import { matchReducer } from './matchReducer';
 import { authReducer } from './authReducer';
 import { groupMembersReducer } from './groupMembersReducer';
+import { userReducer } from './userReducer';
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         groups: groupReducer,
         groupMembers: groupMembersReducer,
         match: matchReducer,
-        auth: authReducer
+        auth: authReducer,
+        users: userReducer
     }
 });
 

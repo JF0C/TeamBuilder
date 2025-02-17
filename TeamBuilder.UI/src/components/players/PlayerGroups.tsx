@@ -8,6 +8,9 @@ import { ListItem } from "../shared/ListItem";
 import { Modal } from "../shared/Modal";
 import { PlayerGroupList } from "./PlayerGroupList";
 import { ConfirmModal } from "../shared/ConfirmModal";
+import { AuthenticatedElement } from "../auth/AuthenticatedElement";
+import { Roles } from "../../constants/Roles";
+import { UnauthenticatedElement } from "../auth/UnauthenticatedElement";
 
 export const PlayerGroups: FunctionComponent<{ player: PlayerDto }> = ({ player }) => {
     const dispatch = useAppDispatch();
@@ -35,18 +38,25 @@ export const PlayerGroups: FunctionComponent<{ player: PlayerDto }> = ({ player 
             Groups
         </div>
         <div className="flex flex-row flex-wrap gap-2">
-            {
-                player.groups.map(g =>
-                    <ConfirmModal key={`player-group-${g.id}`}
-                        buttonContent={<ListItem>{g.name}</ListItem>}
-                        onConfirm={() => removeGroup(g)}
-                    >
-                        Unassign {player.name} from {g.name}?
-                    </ConfirmModal>)
-            }
-            <Modal buttonContent={<ListItem>Assign Group</ListItem>}>
-                <PlayerGroupList player={player} onSelected={addGroup} />
-            </Modal>
+            <UnauthenticatedElement roles={[]}>
+                {
+                    player.groups.map(g => <ListItem>{g.name}</ListItem>)
+                }
+            </UnauthenticatedElement>
+            <AuthenticatedElement roles={[Roles.Admin]}>
+                {
+                    player.groups.map(g =>
+                        <ConfirmModal key={`player-group-${g.id}`}
+                            buttonContent={<ListItem>{g.name}</ListItem>}
+                            onConfirm={() => removeGroup(g)}
+                        >
+                            Unassign {player.name} from {g.name}?
+                        </ConfirmModal>)
+                }
+                <Modal buttonContent={<ListItem>Assign Group</ListItem>}>
+                    <PlayerGroupList player={player} onSelected={addGroup} />
+                </Modal>
+            </AuthenticatedElement>
         </div>
     </div>
 }

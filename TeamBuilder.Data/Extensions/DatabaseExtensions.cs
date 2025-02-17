@@ -10,13 +10,13 @@ public static class DatabaseExtensions
 {
     public static void AddTeamBuilderDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton((services) => TeamBuilderDbContextFactory.CreateDbContextMethod(configuration));
+        services.AddTransient((services) => TeamBuilderDbContextFactory.CreateDbContextMethod(configuration));
         services.AddSingleton<TeamBuilderDbContextFactory>();
         services.AddSingleton<IDbInitializer, DbInitializer>();
-        services.AddScoped<IPlayersRepository, PlayersRepository>();
-        services.AddScoped<IGroupsRepository, GroupsRepository>();
-        services.AddScoped<IMatchRepository, MatchRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddTransient<IPlayersRepository, PlayersRepository>();
+        services.AddTransient<IGroupsRepository, GroupsRepository>();
+        services.AddTransient<IMatchRepository, MatchRepository>();
+        services.AddTransient<IUserRepository, UserRepository>();
     }
     public static async Task EnsureMigration(this IApplicationBuilder app)
     {

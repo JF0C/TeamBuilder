@@ -14,6 +14,8 @@ import { MatchManager } from './components/match/MatchManager'
 import { MatchDetails } from './components/match/MatchDetails'
 import { Login } from './components/auth/Login'
 import { Register } from './components/auth/Register'
+import { AdminMenu } from './components/home/AdminMenu'
+import { UserManagement } from './components/users/UserManagement'
 
 function App() {
   return (
@@ -24,7 +26,9 @@ function App() {
         <Route path={''} element={<MainMenu />} />
         <Route path={Paths.SelectionPath} element={<PlayerSelection />} />
         <Route path={Paths.TeamPath} element={<Teams />} />
-        <Route path={Paths.PlayerManagementPath} element={<PlayerManagement />} />
+        <Route path={Paths.PlayersPath} element={<PlayerManagement />} />
+        <Route path={Paths.AdminMenuPath} element={<AdminMenu />} />
+        <Route path={Paths.UsersPath} element={<UserManagement />} />
         <Route path={Paths.GroupManagementPath} element={<GroupManager />} />
         <Route path={Paths.GroupMembersPath} element={<GroupMembers />} />
         <Route path={Paths.MatchCompletionPath} element={<MatchCompletion />} />

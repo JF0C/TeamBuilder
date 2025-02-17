@@ -16,25 +16,23 @@ export const MainMenu: FunctionComponent = () => {
                 Begin Match
             </NavLink>
         </div>
-        <AuthenticatedElement roles={[Roles.Admin]}>
-            <div>
-                <NavLink to={Paths.PlayerManagementPath}>
-                    Manage Players
-                </NavLink>
-            </div>
-        </AuthenticatedElement>
-        <AuthenticatedElement>
-            <div>
-                <NavLink to={Paths.GroupManagementPath}>
-                    Manage Groups
-                </NavLink>
-            </div>
-        </AuthenticatedElement>
+        <div>
+            <NavLink to={Paths.PlayersPath}>
+                Players
+            </NavLink>
+        </div>
         <div>
             <NavLink to={Paths.MatchManagementPath}>
                 Past Matches
             </NavLink>
         </div>
+        <AuthenticatedElement roles={[Roles.Admin]}>
+            <div>
+                <NavLink to={Paths.AdminMenuPath}>
+                    Admin
+                </NavLink>
+            </div>
+        </AuthenticatedElement>
         <AuthenticatedElement>
             <div className="button" onClick={() => dispatch(logout())}>
                 Logout

@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { PlayerItem } from "./PlayerItem";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
-import { GroupFilter } from "../groups/GroupFilter";
+import { PlayerGroupFilter } from "../groups/PlayerGroupFilter";
 import { reloadPlayers, selectPlayer } from "../../store/playerReducer";
 import { PaginatedListLayout } from "../layout/PaginatedListLayout";
 import { PlayerNameFilter } from "../players/PlayerNameFilter";
@@ -41,7 +41,7 @@ export const PlayerSelector: FunctionComponent = () => {
                         
                     </div>
                     <div className="w-full flex flex-row flex-wrap gap-2">
-                        <GroupFilter />
+                        <PlayerGroupFilter />
                         <PlayerNameFilter onFilterChange={onFilterChange} />
                     </div>
                 </>

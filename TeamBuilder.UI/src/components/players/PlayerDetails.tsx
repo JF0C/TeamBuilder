@@ -7,6 +7,8 @@ import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { DetailsLayout } from "../layout/DetailsLayout";
 import { ConfirmModal } from "../shared/ConfirmModal";
 import { EditableLabel } from "../shared/EditableLabel";
+import { AuthenticatedElement } from "../auth/AuthenticatedElement";
+import { Roles } from "../../constants/Roles";
 
 export const PlayerDetails: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -34,10 +36,12 @@ export const PlayerDetails: FunctionComponent = () => {
     return (
         <DetailsLayout onClose={deselectPlayer} title={editingPlayer.name} id={editingPlayer.id.toString()}>
             <PlayerGroups player={editingPlayer} />
-            <EditableLabel value={editingPlayer.name} onChange={renamePlayer}/>
-            <ConfirmModal buttonContent={<div className="button color-red">Delete</div>} onConfirm={deletePlayer}>
-                Delete Player {editingPlayer.name}?
-            </ConfirmModal>
+            <AuthenticatedElement roles={[Roles.Admin]}>
+                <EditableLabel value={editingPlayer.name} onChange={renamePlayer}/>
+                <ConfirmModal buttonContent={<div className="button color-red">Delete</div>} onConfirm={deletePlayer}>
+                    Delete Player {editingPlayer.name}?
+                </ConfirmModal>
+            </AuthenticatedElement>
         </DetailsLayout>
     )
 }

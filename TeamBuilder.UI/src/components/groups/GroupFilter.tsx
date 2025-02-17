@@ -1,37 +1,29 @@
 import { FunctionComponent } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppSelector } from "../../store/store";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { GroupListItem } from "./GroupListItem";
-import { reloadPlayers } from "../../store/playerReducer";
 import { GroupDto } from "../../dtos/groups/GroupDto";
 import { Modal } from "../shared/Modal";
 import { FilterAction } from "../layout/FilterAction";
 
-export const GroupFilter: FunctionComponent = () => {
-    const dispatch = useAppDispatch();
-    const playerState = useAppSelector((state) => state.players)
+export const GroupFilter: FunctionComponent<{selectedGroup?: string, onGroupSelected: (group: GroupDto | null) => void}> = ({selectedGroup, onGroupSelected}) => {
     const groupState = useAppSelector((state) => state.groups)
 
     if (groupState.groups === null || groupState.requestState === 'loading') {
         return <LoadingSpinner />
     }
 
-    const groupSelected = (group: GroupDto) => {
-        dispatch(reloadPlayers({group}))
-    }
-
-    const selectNoGroup = () => {
-        dispatch(reloadPlayers({group: null}))
-    }
-
-    return <Modal buttonContent={<FilterAction>{`Groupfilter${playerState.group?.name ? ': ' + playerState.group?.name: ''}`}</FilterAction>}>
+    return <Modal buttonContent={<FilterAction>{`Groupfilter${selectedGroup ? ': ' + selectedGroup: ''}`}</FilterAction>}>
         {
             groupState.groups.items.map(g => <GroupListItem key={g.id}
                 group={g}
-                onSelected={() => groupSelected(g)}
+                onSelected={() => onGroupSelected(g)}
                 isSelected={(state) => state.players.group?.id === g.id}    
             />)
         }
-        <GroupListItem group={{id: 0, name: '[all]'}} onSelected={selectNoGroup} isSelected={(state) => state.players.group === null} />
+        <GroupListItem
+            group={{id: 0, name: '[all]'}}
+            onSelected={() => onGroupSelected(null)}
+            isSelected={(state) => state.players.group === null} />
     </Modal>
 }

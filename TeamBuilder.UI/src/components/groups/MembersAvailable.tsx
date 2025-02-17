@@ -21,13 +21,16 @@ export const MembersAvailable: FunctionComponent<{ group: GroupDto | null }> = (
 
     return (
         <div className="size-full">
-            <PaginatedListLayout pageData={memberState.available} onPageChange={pageChange}>
-                <div className="w-full">
-                    Available
-                </div>
-                <div className="w-full">
-                    <PlayerNameFilter onFilterChange={onFilterChange} />
-                </div>
+            <PaginatedListLayout title={
+                <>
+                    <div className="w-full flex flex-row gap-2 justify-center items-center">
+                        <div>Available</div>
+                    </div>
+                    <div className="w-full flex flex-row flex-wrap gap-2">
+                        <PlayerNameFilter onFilterChange={onFilterChange} />
+                    </div>
+                </>
+            } pageData={memberState.available} onPageChange={pageChange}>
                 {
                     group && memberState.availableRequestState === 'ok' && memberState.available ?
                     memberState.available.items.map(p => <MemberItem key={p.id} player={p} group={group} />)

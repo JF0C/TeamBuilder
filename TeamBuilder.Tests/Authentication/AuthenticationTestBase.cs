@@ -17,8 +17,13 @@ public abstract class AuthenticationTestBase: TestBaseFixture
     {
         if (Context.Players.FirstOrDefault(p => p.Name == RegisteredUser.Name) is null)
         {
-            Context.Players.Add(RegisteredUser);
-            Context.SaveChanges();
+            try
+            {
+                Context.Players.Add(RegisteredUser);
+                Context.SaveChanges();
+            }
+            catch (ArgumentException)
+            {}
         }
     }
 }
