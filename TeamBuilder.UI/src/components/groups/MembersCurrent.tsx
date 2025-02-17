@@ -20,10 +20,7 @@ export const MembersCurrent: FunctionComponent<{ group: GroupDto | null }> = ({ 
 
     return (
         <div className="size-full">
-            <PaginatedListLayout pageData={memberState.members} onPageChange={pageChange}>
-                <div className="w-full">
-                    Members of {group?.name}
-                </div>
+            <PaginatedListLayout pageData={memberState.members} onPageChange={pageChange} title={`Members of ${group?.name}`}>
                 {
                     group && memberState.memberRequestState === 'ok' ?
                     memberState.members.items.map(p => <MemberItem key={p.id} player={p} group={group} />)

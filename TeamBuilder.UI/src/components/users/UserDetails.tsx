@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { DetailsLayout } from "../layout/DetailsLayout";
 import { setSelectedUser } from "../../store/userReducer";
-import { ListItem } from "../shared/ListItem";
+import { UserRoles } from "./UserRoles";
 
 export const UserDetails: FunctionComponent = () => {
     const dispatch = useAppDispatch();
@@ -14,9 +14,7 @@ export const UserDetails: FunctionComponent = () => {
 
     return (
         <DetailsLayout title={user.name} id={user.id.toString()} onClose={() => dispatch(setSelectedUser(null))}>
-            {
-                user.roles.map(r => <ListItem>{r}</ListItem>)
-            }
+            <UserRoles user={user} />
         </DetailsLayout>
     )
 }

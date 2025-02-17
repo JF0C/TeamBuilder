@@ -101,7 +101,8 @@ internal class UserRepository(TeamBuilderDbContext context, IMapper mapper) : IU
     {
         IQueryable<PlayerEntity> query = context.Players
             .Include(p => p.User)
-            .Include(p => p.Groups);
+            .Include(p => p.Groups)
+            .Where(p => p.User != null);
         if (groupId is not null)
         {
             query = query.Where(p => p.Groups.Any(g => g.Id == groupId));

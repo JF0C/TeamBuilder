@@ -4,9 +4,9 @@ using FluentAssertions;
 using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos;
 
-namespace TeamBuilder.Tests.Authentication;
+namespace TeamBuilder.Tests.Users;
 
-public class GetUsers(): AuthenticationTestBase("GetUsers")
+public class GetUsers(): UsersTestBase("GetUsers")
 {
     [Fact]
     public async Task GetUsers_Success()
@@ -17,6 +17,7 @@ public class GetUsers(): AuthenticationTestBase("GetUsers")
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var players = await response.Content.ReadFromJsonAsync<PagedResult<UserDto>>();
         players!.Items.Should().Contain(x => x.Name == RegisteredUser.Name);
+        players.Items.Should().NotContain(x => x.Name == UnregisteredPlayer.Name);
         var admin = players.Items.First(p => p.Name == Admin.Name);
         admin.Roles.Should().Contain(Roles.Admin);
     }

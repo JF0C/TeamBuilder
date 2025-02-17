@@ -28,7 +28,7 @@ export const UserList: FunctionComponent = () => {
             </div>
         </>}>
             {
-                userState.users?.items.map(u => <UserListItem user={u} />)
+                userState.users?.items.map(u => <UserListItem key={`user-${u.id}`} user={u} />)
             }
     </PaginatedListLayout>
 }
