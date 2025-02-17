@@ -16,7 +16,7 @@ export interface GroupState {
     editingGroup: GroupDto | null
 }
 
-const initialState: GroupState = {
+export const initialGroupState: GroupState = {
     requestState: 'required',
 
     groups: null,
@@ -30,7 +30,7 @@ const initialState: GroupState = {
 
 export const groupSlice = createSlice({
     name: 'groups',
-    initialState: initialState,
+    initialState: initialGroupState,
     reducers: {
         setEditingGroup(state, action: PayloadAction<GroupDto | null>) {
             state.editingGroup = action.payload;

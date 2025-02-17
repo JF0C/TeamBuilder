@@ -7,16 +7,25 @@ import { authReducer } from './authReducer';
 import { groupMembersReducer } from './groupMembersReducer';
 import { userReducer } from './userReducer';
 
+const reducers = {
+    players: playerReducer,
+    groups: groupReducer,
+    groupMembers: groupMembersReducer,
+    match: matchReducer,
+    auth: authReducer,
+    users: userReducer
+}
+
 export const store = configureStore({
-    reducer: {
-        players: playerReducer,
-        groups: groupReducer,
-        groupMembers: groupMembersReducer,
-        match: matchReducer,
-        auth: authReducer,
-        users: userReducer
-    }
+    reducer: reducers
 });
+
+export const setupStore = (preloadedState: RootState) => {
+    return configureStore({
+        reducer: reducers,
+        preloadedState: preloadedState
+    })
+}
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

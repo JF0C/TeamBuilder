@@ -12,7 +12,7 @@ export interface AuthState {
     userRestored: boolean
 }
 
-const initialState: AuthState = {
+export const initialAuthState: AuthState = {
     requestState: 'required',
     user: null,
     loginFailed: false,
@@ -21,7 +21,7 @@ const initialState: AuthState = {
 
 const authSlice = createSlice({
     name: 'auth',
-    initialState: initialState,
+    initialState: initialAuthState,
     reducers: {
         logout(state) {
             state.user = null;

@@ -31,7 +31,7 @@ const emptyTeam = (): TeamEntity => {
     }
 }
 
-const initialState: MatchState = {
+export const initialMatchState: MatchState = {
     matchesRequestState: 'required',
     current: {
         teams: [
@@ -53,7 +53,7 @@ const initialState: MatchState = {
 
 export const matchSlice = createSlice({
     name: 'match',
-    initialState: initialState,
+    initialState: initialMatchState,
     reducers: {
         setTeamCount(state, action: PayloadAction<number>) {
             while (state.current.teams.length < action.payload) {

@@ -17,7 +17,7 @@ export interface PlayerState {
     editingPlayer: PlayerDto | null
 }
 
-export const initialState: PlayerState = {
+export const initialPlayerState: PlayerState = {
     requestState: 'required',
     group: null,
     players: null,
@@ -31,7 +31,7 @@ export const initialState: PlayerState = {
 
 export const playerSlice = createSlice({
     name: 'players',
-    initialState: initialState,
+    initialState: initialPlayerState,
     reducers: {
         selectPlayer(state, action: PayloadAction<PlayerDto>) {
             if (state.selected.find(x => x.id === action.payload.id)) {

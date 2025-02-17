@@ -15,7 +15,7 @@ export interface UsersState {
     selected: UserDto | null
 }
 
-const initialState: UsersState = {
+export const initialUsersState: UsersState = {
     requestState: 'required',
     users: null,
     group: null,
@@ -28,7 +28,7 @@ const initialState: UsersState = {
 
 export const usersSlice = createSlice({
     name: 'users',
-    initialState: initialState,
+    initialState: initialUsersState,
     reducers: {
         setSelectedUser(state, action: PayloadAction<UserDto | null>) {
             state.selected = action.payload

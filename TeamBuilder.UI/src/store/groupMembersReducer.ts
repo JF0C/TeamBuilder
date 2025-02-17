@@ -18,7 +18,7 @@ export interface GroupMembersState {
     members: PagedResult<PlayerDto> | null
 }
 
-const initialState: GroupMembersState = {
+export const initialGroupMembersState: GroupMembersState = {
     availableRequestState: 'required',
     availableFilter: {
         page: PaginationDefaults.Page,
@@ -38,7 +38,7 @@ const initialState: GroupMembersState = {
 
 export const groupMembersSlice= createSlice({
     name: 'group-members',
-    initialState: initialState,
+    initialState: initialGroupMembersState,
     reducers: {
         reloadGroupMembers(state, action: PayloadAction<{group?: number, page?: number}>) {
             if (action.payload.page !== undefined) {
