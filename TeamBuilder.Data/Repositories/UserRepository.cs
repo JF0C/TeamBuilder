@@ -57,7 +57,7 @@ internal class UserRepository(TeamBuilderDbContext context, IMapper mapper) : IU
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsynd(long id)
+    public async Task DeleteAsync(long id)
     {
         var player = await context.Players.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == id)
             ?? throw new ItemNotFoundException(id.ToString(), typeof(PlayerEntity));

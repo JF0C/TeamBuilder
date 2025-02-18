@@ -10,7 +10,7 @@ public interface IUserRepository
     Task<long> CreateAsync(string email, string playerName);
     Task RegisterAsync(string email, long playerId);
     Task<UserEntity> AuthorizeAsync(string email, string token, TimeSpan timeSpan);
-    Task DeleteAsynd(long id);
+    Task DeleteAsync(long id);
     Task AddRoleAsync(long id, string role);
     Task RemoveRoleAsync(long id, string role);
 }
