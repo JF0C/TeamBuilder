@@ -30,10 +30,6 @@ jobs:
 
     needs: [test]
 
-    env:
-      REMOTE_DIR: '/wwwroot'
-      STATIC_FILES_DIR: '/wwwroot/assets'
-
     runs-on: ubuntu-22.04
 
     steps:
