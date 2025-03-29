@@ -14,20 +14,6 @@ services:
       - 1433:1433
     volumes:
       - team-builder-sql-volume:/var/opt/mssql
- 
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin4_container
-  #   restart: always
-  #   ports:
-  #     - "8888:80"
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: test@example.com
-  #     PGADMIN_DEFAULT_PASSWORD: test1234
-  #   volumes:
-  #     - pgadmin-data:/var/lib/pgadmin
 
 volumes:
   team-builder-sql-volume:
-  # local_pgdata:
-  # pgadmin-data:
