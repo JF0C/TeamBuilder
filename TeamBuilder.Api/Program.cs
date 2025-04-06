@@ -23,7 +23,6 @@ builder.Services.AddControllers(x => x.Filters.Add<ExceptionFilter>())
     .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddSpaRoot();
 
