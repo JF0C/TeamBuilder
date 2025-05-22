@@ -8,74 +8,85 @@ import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { TeamEntity } from "../../data/TeamEntity";
 import { setTeamName, setTeamPlayers } from "../../store/matchReducer";
 import { NavBarLayout } from "../layout/NavbarLayout";
+import { LinkBack } from "../shared/LinkBack";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDice } from "@fortawesome/free-solid-svg-icons";
 
 export const Teams: FunctionComponent = () => {
-    const dispatch = useAppDispatch();
-    const playerState = useAppSelector((state) => state.players);
-    const matchState = useAppSelector((state) => state.match);
+  const dispatch = useAppDispatch();
+  const playerState = useAppSelector((state) => state.players);
+  const matchState = useAppSelector((state) => state.match);
 
-    if (playerState.players === null || playerState.requestState === 'loading') {
-        return <LoadingSpinner />
+  if (playerState.players === null || playerState.requestState === "loading") {
+    return <LoadingSpinner />;
+  }
+
+  const selectedPlayers = [...playerState.selected];
+
+  const shuffle = (array: PlayerDto[]) => {
+    let currentIndex = array.length;
+
+    while (currentIndex != 0) {
+      const randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
     }
+  };
 
-    const selectedPlayers = [...playerState.selected];
+  const generateTeams = (selectedPlayers: PlayerDto[]) => {
+    shuffle(selectedPlayers);
 
-    const shuffle = (array: PlayerDto[]) => {
-        let currentIndex = array.length;
-
-        while (currentIndex != 0) {
-            const randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            [array[currentIndex], array[randomIndex]] = [
-                array[randomIndex], array[currentIndex]];
-        }
+    const teams: TeamEntity[] = [];
+    const selectedCount = selectedPlayers.length;
+    const teamSize = Math.ceil(selectedCount / matchState.current.teams.length);
+    for (let k = 0; k < matchState.current.teams.length; k++) {
+      const players = selectedPlayers.slice(
+        k * teamSize,
+        Math.min((k + 1) * teamSize, selectedCount)
+      );
+      dispatch(setTeamPlayers({ index: k, players: players }));
+      if (matchState.current.teams[k].name === "") {
+        dispatch(setTeamName({ index: k, name: `Team ${k + 1}` }));
+      }
     }
+    return teams;
+  };
 
-    const generateTeams = (selectedPlayers: PlayerDto[]) => {
-        shuffle(selectedPlayers);
+  if (matchState.current.teams.every((t) => t.players.length === 0)) {
+    generateTeams(selectedPlayers);
+  }
 
-        const teams: TeamEntity[] = [];
-        const selectedCount = selectedPlayers.length;
-        const teamSize = Math.ceil(selectedCount / matchState.current.teams.length);
-        for (let k = 0; k < matchState.current.teams.length; k++) {
-            const players = selectedPlayers.slice(k * teamSize, Math.min((k + 1) * teamSize, selectedCount));
-            dispatch(setTeamPlayers({ index: k, players: players }));
-            if (matchState.current.teams[k].name === '') {
-                dispatch(setTeamName({ index: k, name: `Team ${(k + 1)}` }))
-            }
-        }
-        return teams;
-    }
-
-    if (matchState.current.teams.every(t => t.players.length === 0)) {
-        generateTeams(selectedPlayers);
-    }
-
-    return (
-        <NavBarLayout navigation={
-            [
-                <div key='prev'>
-                    <NavLink to={Paths.SelectionPath}>
-                        Back
-                    </NavLink>
-                </div>,
-                <div key='shuffle' className="button" onClick={() => generateTeams(selectedPlayers)}>
-                    Shuffle
-                </div>,
-                <div key='next'>
-                    <NavLink to={Paths.MatchCompletionPath}>
-                        Play
-                    </NavLink>
-                </div>
-            ]
-        }>
-            {
-                matchState.current.teams.map((team, index) =>
-                    <TeamView key={`team-${index}`} index={index} name={team.name} players={team.players} />
-                )
-            }
-        </NavBarLayout>
-
-    )
-}
+  return (
+    <NavBarLayout
+      navigation={[
+        <div key="prev">
+          <LinkBack to={Paths.SelectionPath} />
+        </div>,
+        <button
+          key="shuffle"
+          className="flex flex-row items-center gap-2"
+          onClick={() => generateTeams(selectedPlayers)}
+        >
+          <FontAwesomeIcon icon={faDice} />
+          <span>Shuffle</span>
+        </button>,
+        <div key="next">
+          <NavLink to={Paths.MatchCompletionPath}>Play</NavLink>
+        </div>,
+      ]}
+    >
+      {matchState.current.teams.map((team, index) => (
+        <TeamView
+          key={`team-${index}`}
+          index={index}
+          name={team.name}
+          players={team.players}
+        />
+      ))}
+    </NavBarLayout>
+  );
+};

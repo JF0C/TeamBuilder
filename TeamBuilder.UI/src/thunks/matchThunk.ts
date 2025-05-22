@@ -12,6 +12,11 @@ export const createMatchRequest = createPostThunk<number, MatchEntity>(
     (response) => response.json()
 )
 
+export const updateMatchRequest = createPutThunk<MatchEntity>(
+    'update-match',
+    (request) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${request.id}` 
+)
+
 export const loadMatchesRequest = createGetThunk<PagedResult<MatchDto>, MatchesRequestDto>(
     'load-matches',
     (request) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}?page=${request.page}&count=${request.count}` +

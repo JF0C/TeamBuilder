@@ -34,6 +34,7 @@ const emptyTeam = (): TeamEntity => {
 export const initialMatchState: MatchState = {
     matchesRequestState: 'required',
     current: {
+        id: 0,
         teams: [
             emptyTeam(),
             emptyTeam()

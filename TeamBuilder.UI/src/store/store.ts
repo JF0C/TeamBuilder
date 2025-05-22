@@ -6,12 +6,14 @@ import { matchReducer } from './matchReducer';
 import { authReducer } from './authReducer';
 import { groupMembersReducer } from './groupMembersReducer';
 import { userReducer } from './userReducer';
+import { matchResumeReducer } from './matchResumeReducer';
 
 const reducers = {
     players: playerReducer,
     groups: groupReducer,
     groupMembers: groupMembersReducer,
     match: matchReducer,
+    matchResume: matchResumeReducer,
     auth: authReducer,
     users: userReducer
 }
