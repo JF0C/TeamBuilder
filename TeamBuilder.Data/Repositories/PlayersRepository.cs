@@ -1,6 +1,8 @@
+using System.Text.Json;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Players;
 using TeamBuilder.Core.Entities;
 using TeamBuilder.Core.Exceptions;
 using TeamBuilder.Core.Extensions;
@@ -31,26 +33,35 @@ internal class PlayersRepository(TeamBuilderDbContext context, IMapper mapper) :
         await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<PlayerDto>> ListAsync(int page, int count, long? groupId = null, string? name = null, List<long>? exclude = null)
+    public async Task<PagedResult<PlayerDto>> ListAsync(PlayersRequestDto request)
     {
+        var excludeList = JsonSerializer.Deserialize<List<long>>(request.Exclude ?? "[]");
         IQueryable<PlayerEntity> query = context.Players
             .Include(p => p.Groups);
-        if (groupId is not null)
+        if (request.Group is not null)
         {
-            query = query.Where(p => p.Groups.Any(g => g.Id == groupId));
+            query = query.Where(p => p.Groups.Any(g => g.Id == request.Group));
         }
-        if (name is not null)
+        if (request.Name is not null)
         {
-            query = query.Where(p => p.Name.ToLower().Contains(name.ToLower()));
+            query = query.Where(p => p.Name.ToLower().Contains(request.Name.ToLower()));
         }
-        if (exclude is not null && exclude.Count > 0)
+        if (excludeList is not null && excludeList.Count > 0)
         {
-            query = query.Where(p => !exclude.Contains(p.Id));
+            query = query.Where(p => !excludeList.Contains(p.Id));
+        }
+        if (request.OrderBy is not null)
+        {
+            query = request.OrderBy.ToLower() switch
+            {
+                "name" => query.OrderBy(x => x.Name),
+                "created" => query.OrderBy(x => x.Created),
+                _ => query.OrderByDescending(p => p.Created)
+            };
         }
         return (await query
-            .OrderByDescending(p => p.Created)
-            .ToPagedResult(page, count))
-            .MapTo<PlayerDto, PlayerEntity>(mapper);
+                .ToPagedResult(request.Page, request.Count))
+                .MapTo<PlayerDto, PlayerEntity>(mapper);
     }
 
     public async Task RenameAsync(long id, string name)

@@ -1,6 +1,6 @@
 using TeamBuilder.Core.Dtos.Groups;
 
-namespace TeamBuilder.Core.Dtos;
+namespace TeamBuilder.Core.Dtos.Players;
 
 public class PlayerDto
 {

@@ -3,7 +3,7 @@ using TeamBuilder.Data;
 
 namespace TeamBuilder.Tests;
 
-public class TestDatabaseFactory
+public static class TestDatabaseFactory
 {
     public static TeamBuilderDbContext CreateInMemoryDatabase(string databaseName)
     {

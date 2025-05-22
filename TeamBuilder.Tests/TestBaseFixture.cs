@@ -14,18 +14,18 @@ public abstract class TestBaseFixture
     protected readonly TeamBuilderDbContext Context;
     protected readonly HttpClient Client;
     protected readonly PlayerEntity Admin = new()
+    {
+        Name = "Admin",
+        User = new()
         {
-            Name = "Admin",
-            User = new()
-            {
-                Email = "admin@example.com",
-                Roles = Roles.Admin,
-                Token = "test-token",
-                ValidUntil = DateTime.Now + TimeSpan.FromDays(1)
-            }
-        };
+            Email = "admin@example.com",
+            Roles = Roles.Admin,
+            Token = "test-token",
+            ValidUntil = DateTime.Now + TimeSpan.FromDays(1)
+        }
+    };
     protected readonly Mock<IAuthenticationService> AuthService = new();
-    public TestBaseFixture(string databaseName)
+    protected TestBaseFixture(string databaseName)
     {
         Context = TestDatabaseFactory.CreateInMemoryDatabase($"TeamBuilder.{databaseName}");
         AddAdmin();

@@ -1,10 +1,11 @@
 using AutoMapper;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Players;
 using TeamBuilder.Core.Entities;
 
 namespace TeamBuilder.Core.Mappers;
 
-public class PlayerMapper: Profile
+public class PlayerMapper : Profile
 {
     public PlayerMapper()
     {

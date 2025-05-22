@@ -2,10 +2,11 @@ using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
 using TeamBuilder.Core.Dtos;
+using TeamBuilder.Core.Dtos.Players;
 
 namespace TeamBuilder.Tests.Players;
 
-public class GetPlayers(): PlayersTestBase(nameof(GetPlayers))
+public class GetPlayers() : PlayersTestBase(nameof(GetPlayers))
 {
     [Fact]
     public async Task Get_Success()

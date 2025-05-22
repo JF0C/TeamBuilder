@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using TeamBuilder.Core.Constants;
 using TeamBuilder.Core.Dtos;
@@ -6,18 +5,18 @@ using TeamBuilder.Data.Interfaces;
 using TeamBuilder.Services.Interfaces;
 using TeamBuilder.Api.Shared;
 using TeamBuilder.Core.Validators;
+using TeamBuilder.Core.Dtos.Players;
 
 namespace TeamBuilder.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PlayersController(IPlayersRepository playersRepository, IAuthenticationService auth): BaseController(auth)
+public class PlayersController(IPlayersRepository playersRepository, IAuthenticationService auth) : BaseController(auth)
 {
     [HttpGet]
-    public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(int page, int count, int? group = null, string? name = null, string? exclude = null)
+    public async Task<ActionResult<PagedResult<PlayerDto>>> ListPlayers(PlayersRequestDto request)
     {
-        var excludeList = JsonSerializer.Deserialize<List<long>>(exclude ?? "[]");
-        return Ok(await playersRepository.ListAsync(page, count, group, name, excludeList));
+        return Ok(await playersRepository.ListAsync(request));
     }
 
     [TokenAuthentication(Roles.Admin)]
