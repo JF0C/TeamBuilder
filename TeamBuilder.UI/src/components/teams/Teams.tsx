@@ -4,7 +4,11 @@ import { FunctionComponent } from "react";
 import { Paths } from "../../constants/Paths";
 import { TeamEntity } from "../../data/TeamEntity";
 import { PlayerDto } from "../../dtos/players/PlayerDto";
-import { setTeamName, setTeamPlayers } from "../../store/matchReducer";
+import {
+  reloadMatches,
+  setTeamName,
+  setTeamPlayers,
+} from "../../store/matchReducer";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
   createMatchRequest,
@@ -62,9 +66,13 @@ export const Teams: FunctionComponent = () => {
 
   const createMatch = () => {
     if (matchState.current.id === 0) {
-      dispatch(createMatchRequest(matchState.current));
+      dispatch(createMatchRequest(matchState.current)).then(() =>
+        dispatch(reloadMatches({}))
+      );
     } else {
-      dispatch(updateMatchRequest(matchState.current));
+      dispatch(updateMatchRequest(matchState.current)).then(() =>
+        dispatch(reloadMatches({}))
+      );
     }
   };
 

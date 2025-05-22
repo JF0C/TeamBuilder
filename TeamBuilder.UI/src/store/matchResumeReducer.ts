@@ -4,6 +4,7 @@ import { RequestState } from "../data/RequestState";
 import { PagedResult } from "../dtos/base/PagedResult";
 import { MatchDto } from "../dtos/matches/MatchDto";
 import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
+import { loadResumableMatchesRequest } from "../thunks/matchThunk";
 
 export interface MatchResumeState {
     requestState: RequestState
@@ -32,8 +33,17 @@ export const matchResumeSlice = createSlice({
             state.requestState = 'required'
         }
     },
-    extraReducers: () => {
-        
+    extraReducers: (builder) => {
+        builder.addCase(loadResumableMatchesRequest.pending, (state) => {
+            state.requestState = 'loading'
+        })
+        builder.addCase(loadResumableMatchesRequest.fulfilled, (state, action) => {
+            state.requestState = 'ok'
+            state.matches = action.payload
+        })
+        builder.addCase(loadResumableMatchesRequest.rejected, (state) => {
+            state.requestState = 'error'
+        })
     }
 })
 

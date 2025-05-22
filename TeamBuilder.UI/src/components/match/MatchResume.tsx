@@ -5,6 +5,8 @@ import { Paths } from "../../constants/Paths";
 import { LinkBack } from "../shared/LinkBack";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { reloadResumableMatches } from "../../store/matchResumeReducer";
+import { MatchDto } from "../../dtos/matches/MatchDto";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
 
 export const MatchResume: FunctionComponent = () => {
   const matchResumeState = useAppSelector((state) => state.matchResume);
@@ -14,6 +16,10 @@ export const MatchResume: FunctionComponent = () => {
     dispatch(reloadResumableMatches({ page }));
   };
 
+  if (!matchResumeState.matches) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <NavBarLayout navigation={<LinkBack to={Paths.HomePath} />}>
       <PaginatedListLayout
@@ -21,7 +27,11 @@ export const MatchResume: FunctionComponent = () => {
         pageData={matchResumeState.matches}
         title="Resume Matches"
       >
-        <div></div>
+        <div>
+          {matchResumeState.matches.items.map((m: MatchDto) => (
+            <div>{m.id}</div>
+          ))}
+        </div>
       </PaginatedListLayout>
     </NavBarLayout>
   );
