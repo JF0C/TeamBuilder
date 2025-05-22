@@ -11,5 +11,5 @@ public interface IMatchRepository
     Task<MatchDto> UpdateAsync(UpdateMatchDto match);
     Task DeleteAsync(long id);
     Task SetScoresAsync(long id, List<TeamScoreDto> scores);
-    Task<PagedResult<MatchDto>> ListAsync(int page, int count, MatchFilterDto filter);
+    Task<PagedResult<MatchDto>> ListAsync(MatchesRequestDto request);
 }

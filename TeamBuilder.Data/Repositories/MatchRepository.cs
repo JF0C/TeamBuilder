@@ -47,33 +47,37 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
         await context.SaveChangesAsync();
     }
 
-    public async Task<PagedResult<MatchDto>> ListAsync(int page, int count, MatchFilterDto filter)
+    public async Task<PagedResult<MatchDto>> ListAsync(MatchesRequestDto request)
     {
         IQueryable<MatchEntity> query = context.Matches
             .Include(m => m.Teams)
             .ThenInclude(t => t.Players);
-        if (filter.PlayerId is not null)
+        if (request.Player is not null)
         {
-            query = query.Where(m => m.Teams.Any(t => t.Players.Any(p => p.Id == filter.PlayerId)));
+            query = query.Where(m => m.Teams.Any(t => t.Players.Any(p => p.Id == request.Player)));
         }
-        if (filter.Type is not null)
+        if (request.Type is not null)
         {
-            query = query.Where(m => m.Type == filter.Type);
+            query = query.Where(m => m.Type == request.Type);
         }
-        if (filter.FromDate is not null)
+        if (request.From is not null)
         {
-            var fromDate = DateTime.UnixEpoch.AddMilliseconds((double)filter.FromDate);
+            var fromDate = DateTime.UnixEpoch.AddMilliseconds((double)request.From);
             query = query.Where(m => m.Created > fromDate);
         }
-        if (filter.ToDate is not null)
+        if (request.To is not null)
         {
-            var toDate = DateTime.UnixEpoch.AddMilliseconds((double)filter.ToDate);
+            var toDate = DateTime.UnixEpoch.AddMilliseconds((double)request.To);
             query = query.Where(m => m.Created < toDate);
         }
+        if (request.Resumable is true)
+        {
+            query = query.Where(m => m.Teams.All(t => t.Score == 0));
+        }
         return (await query
-            .OrderByDescending(m => m.Created)
-            .ToPagedResult(page, count))
-            .MapTo<MatchDto, MatchEntity>(mapper);
+                .OrderByDescending(m => m.Created)
+                .ToPagedResult(request.Page, request.Count))
+                .MapTo<MatchDto, MatchEntity>(mapper);
     }
 
     public async Task SetScoresAsync(long id, List<TeamScoreDto> scores)

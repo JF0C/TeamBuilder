@@ -1,12 +1,15 @@
 import { FunctionComponent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { Paths } from "../../constants/Paths";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { TeamResult } from "./TeamResult";
 import { MatchTypeRadio } from "../shared/MatchTypeRadio";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { updateMatchRequest } from "../../thunks/matchThunk";
 import { NavBarLayout } from "../layout/NavbarLayout";
+import { LinkBack } from "../shared/LinkBack";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
 
 export const MatchCompletion: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -28,11 +31,14 @@ export const MatchCompletion: FunctionComponent = () => {
   return (
     <NavBarLayout
       navigation={[
-        <div key="prev">
-          <NavLink to={Paths.TeamPath}>Back</NavLink>
-        </div>,
-        <button key="next" onClick={() => finishMatch()}>
-          Finish
+        <LinkBack key="prev" to={Paths.TeamPath} />,
+        <button
+          key="next"
+          className="flex flex-row items-center gap-2"
+          onClick={() => finishMatch()}
+        >
+          <span>Finish</span>
+          <FontAwesomeIcon icon={faCheck} />
         </button>,
       ]}
     >
