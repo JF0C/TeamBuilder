@@ -12,7 +12,7 @@ export const createMatchRequest = createPostThunk<number, MatchEntity>(
     (response) => response.json()
 )
 
-export const updateMatchRequest = createPutThunk<MatchEntity>(
+export const updateMatchRequest = createPutThunk<MatchEntity, MatchEntity>(
     'update-match',
     (request) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${request.id}` 
 )
@@ -33,7 +33,7 @@ export const loadMatchRequest = createGetThunk<MatchDto, number>(
     (response) => response.json()
 )
 
-export const setMatchScoresRequest = createPutThunk<{matchId: number, scores: TeamScoreDto[]}>(
+export const setMatchScoresRequest = createPutThunk<void, {matchId: number, scores: TeamScoreDto[]}>(
     'set-match-scores',
     ({matchId}) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${matchId}/Scores`,
     (request) => JSON.stringify(request.scores)

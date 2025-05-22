@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { TeamResult } from "./TeamResult";
 import { MatchTypeRadio } from "../shared/MatchTypeRadio";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
-import { createMatchRequest } from "../../thunks/matchThunk";
+import { updateMatchRequest } from "../../thunks/matchThunk";
 import { NavBarLayout } from "../layout/NavbarLayout";
 
 export const MatchCompletion: FunctionComponent = () => {
@@ -14,7 +14,7 @@ export const MatchCompletion: FunctionComponent = () => {
   const matchState = useAppSelector((state) => state.match);
 
   const finishMatch = () => {
-    dispatch(createMatchRequest(matchState.current))
+    dispatch(updateMatchRequest(matchState.current))
       .unwrap()
       .then(() => {
         navigate(Paths.HomePath);

@@ -4,7 +4,7 @@ import { PagedResult } from "../dtos/base/PagedResult";
 import { MatchEntity } from "../data/MatchEntity";
 import { TeamEntity } from "../data/TeamEntity";
 import { PlayerDto } from "../dtos/players/PlayerDto";
-import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, setMatchScoresRequest } from "../thunks/matchThunk";
+import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, setMatchScoresRequest, updateMatchRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
 import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
@@ -78,6 +78,13 @@ export const matchSlice = createSlice({
                 team.players = [];
             }
         },
+        resetCurrentMatch(state) {
+            state.current.id = 0
+            state.current.type = 0
+            for (const team of state.current.teams) {
+                team.players = [];
+            }
+        },
         setTeamScore(state, action: PayloadAction<{ index: number, score: number }>) {
             state.current.teams[action.payload.index].score = action.payload.score;
         },
@@ -118,9 +125,9 @@ export const matchSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(createMatchRequest.pending, (state) => { state.matchesRequestState = 'loading'; });
-        builder.addCase(createMatchRequest.fulfilled, (state) => {
-            enqueueSnackbar('Saved match!', { variant: 'success' })
+        builder.addCase(createMatchRequest.fulfilled, (state, action) => {
             state.matchesRequestState = 'required';
+            state.current.id = action.payload
         })
         builder.addCase(createMatchRequest.rejected, (state) => {
             enqueueSnackbar('Could not save match', { variant: 'error' })
@@ -157,6 +164,19 @@ export const matchSlice = createSlice({
             enqueueSnackbar(`failed to load match ${action.meta.arg}: ${action.error.message}`, { variant: 'error' });
         })
 
+        builder.addCase(updateMatchRequest.pending, (state) => {
+            state.selectedRequestState = 'loading'
+        })
+        builder.addCase(updateMatchRequest.fulfilled, (state, action) => {
+            enqueueSnackbar('Saved match!', { variant: 'success' })
+            state.selectedRequestState = 'ok'
+            state.current = action.payload
+        })
+        builder.addCase(updateMatchRequest.rejected, (state) => {
+            enqueueSnackbar('Could not save match', { variant: 'error' })
+            state.selectedRequestState = 'ok'
+        })
+
         builder.addCase(setMatchScoresRequest.pending, (state) => { state.selectedRequestState = 'loading'; });
         builder.addCase(setMatchScoresRequest.fulfilled, (state) => { 
             state.selectedRequestState = 'required';
@@ -188,5 +208,6 @@ export const {
     reloadMatches,
     selectMatch,
     changeTeamScore,
-    setDetailedMatch
+    setDetailedMatch,
+    resetCurrentMatch
 } = matchSlice.actions;

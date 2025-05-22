@@ -17,13 +17,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { MenuLink } from "../shared/MenuLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { resetCurrentMatch } from "../../store/matchReducer";
 
 export const MainMenu: FunctionComponent = () => {
   const dispatch = useAppDispatch();
 
   return (
     <div className="flex flex-col gap-2 justify-center items-center w-full">
-      <MenuLink to={Paths.SelectionPath} label="Begin Match" icon={faStar} />
+      <MenuLink
+        to={Paths.SelectionPath}
+        onClick={() => dispatch(resetCurrentMatch())}
+        label="Begin Match"
+        icon={faStar}
+      />
 
       <MenuLink
         to={Paths.MatchResumePath}

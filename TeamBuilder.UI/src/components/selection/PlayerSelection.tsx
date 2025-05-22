@@ -1,13 +1,13 @@
 import { FunctionComponent } from "react";
-import { PlayerSelector } from "./PlayerSelector";
-import { SelectedPlayers } from "./SelectedPlayers";
 import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
-import { useAppDispatch } from "../../store/store";
-import { MatchConfiguration } from "./MatchConfiguration";
 import { resetTeamPlayers } from "../../store/matchReducer";
+import { useAppDispatch } from "../../store/store";
 import { SplitLayout } from "../layout/SplitLayout";
 import { LinkBack } from "../shared/LinkBack";
+import { MatchConfiguration } from "./MatchConfiguration";
+import { PlayerSelector } from "./PlayerSelector";
+import { SelectedPlayers } from "./SelectedPlayers";
 
 export const PlayerSelection: FunctionComponent = () => {
   const dispatch = useAppDispatch();

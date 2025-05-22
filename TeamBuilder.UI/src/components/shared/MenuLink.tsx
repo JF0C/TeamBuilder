@@ -7,9 +7,17 @@ export const MenuLink: FunctionComponent<{
   to: string;
   label: string;
   icon?: IconProp;
-}> = ({ to, label, icon }) => {
+  iconRight?: boolean;
+  onClick?: () => void;
+}> = ({ to, label, icon, iconRight, onClick }) => {
   return (
-    <NavLink className="flex flex-row gap-2 items-center" to={to}>
+    <NavLink
+      onClick={onClick}
+      className={`flex ${
+        iconRight ? "flex-row-reverse" : "flex-row"
+      } gap-2 items-center`}
+      to={to}
+    >
       {icon !== undefined ? <FontAwesomeIcon icon={icon} /> : <></>}
       <span>{label}</span>
     </NavLink>

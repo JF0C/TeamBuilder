@@ -1,16 +1,20 @@
+import { faCaretRight, faDice } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FunctionComponent } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { PlayerDto } from "../../dtos/players/PlayerDto";
-import { TeamView } from "./TeamView";
-import { NavLink } from "react-router";
 import { Paths } from "../../constants/Paths";
-import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { TeamEntity } from "../../data/TeamEntity";
+import { PlayerDto } from "../../dtos/players/PlayerDto";
 import { setTeamName, setTeamPlayers } from "../../store/matchReducer";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import {
+  createMatchRequest,
+  updateMatchRequest,
+} from "../../thunks/matchThunk";
 import { NavBarLayout } from "../layout/NavbarLayout";
 import { LinkBack } from "../shared/LinkBack";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDice } from "@fortawesome/free-solid-svg-icons";
+import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { MenuLink } from "../shared/MenuLink";
+import { TeamView } from "./TeamView";
 
 export const Teams: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -56,6 +60,14 @@ export const Teams: FunctionComponent = () => {
     return teams;
   };
 
+  const createMatch = () => {
+    if (matchState.current.id === 0) {
+      dispatch(createMatchRequest(matchState.current));
+    } else {
+      dispatch(updateMatchRequest(matchState.current));
+    }
+  };
+
   if (matchState.current.teams.every((t) => t.players.length === 0)) {
     generateTeams(selectedPlayers);
   }
@@ -75,7 +87,13 @@ export const Teams: FunctionComponent = () => {
           <span>Shuffle</span>
         </button>,
         <div key="next">
-          <NavLink to={Paths.MatchCompletionPath}>Play</NavLink>
+          <MenuLink
+            to={Paths.MatchCompletionPath}
+            onClick={createMatch}
+            label="Play"
+            icon={faCaretRight}
+            iconRight
+          />
         </div>,
       ]}
     >

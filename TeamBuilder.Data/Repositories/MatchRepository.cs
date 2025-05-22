@@ -18,7 +18,7 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
         var match = await context.Matches
             .Include(m => m.Teams)
             .ThenInclude(t => t.Players)
-            .FirstOrDefaultAsync(m => m.Id == id) 
+            .FirstOrDefaultAsync(m => m.Id == id)
             ?? throw new ItemNotFoundException(id.ToString(), typeof(MatchEntity));
         return mapper.Map<MatchDto>(match);
     }
@@ -94,5 +94,22 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
             .Include(m => m.Teams)
             .FirstOrDefaultAsync(m => m.Id == id)
             ?? throw new ItemNotFoundException(string.Join(", ", id), typeof(MatchEntity));
+    }
+
+    public async Task<MatchDto> UpdateAsync(UpdateMatchDto match)
+    {
+        var matchEntity = await context.Matches
+            .Include(x => x.Teams)
+            .FirstOrDefaultAsync(x => x.Id == match.Id)
+            ?? throw new ItemNotFoundException(match.Id.ToString(), typeof(MatchEntity));
+
+        if (matchEntity.Teams.Any(t => t.Score != 0))
+        {
+            throw new MatchCompletedException();
+        }
+
+        await DeleteAsync(match.Id);
+        var id = await CreateAsync(match);
+        return await GetAsync(id);
     }
 }

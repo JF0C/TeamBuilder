@@ -11,7 +11,7 @@ namespace TeamBuilder.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MatchesController(IMatchRepository matchRepository, IAuthenticationService auth): BaseController(auth)
+public class MatchesController(IMatchRepository matchRepository, IAuthenticationService auth) : BaseController(auth)
 {
     [HttpGet("{id}")]
     public async Task<ActionResult<MatchDto>> Get(long id)
@@ -36,6 +36,13 @@ public class MatchesController(IMatchRepository matchRepository, IAuthentication
     public async Task<ActionResult<long>> CreateMatch(CreateMatchDto match)
     {
         return Ok(await matchRepository.CreateAsync(match));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<MatchDto>> UpdateMatch(long id, UpdateMatchDto match)
+    {
+        match.Id = id;
+        return Ok(await matchRepository.UpdateAsync(match));
     }
 
     [TokenAuthentication(Roles.Admin)]
