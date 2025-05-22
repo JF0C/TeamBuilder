@@ -55,7 +55,7 @@ export const createPostThunk = <Tout, Tin>(name: string, url: (arg: Tin) => stri
     }), parseFunction, bodyFunction);
 }
 
-export const createPutThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,
+export const createPutThunk = <Tin>(name: string, url: (arg: Tin) => string,
     bodyFunction?: (arg: Tin) => string) => {
     return createAuthenticatedThrowingAsyncThunk(name, (arg: Tin, auth: AuthState, body?: string) => fetch(url(arg), {
         method: 'PUT',
@@ -65,7 +65,7 @@ export const createPutThunk = <Tout, Tin>(name: string, url: (arg: Tin) => strin
         },
         credentials: 'include',
         body: body ?? JSON.stringify(arg)
-    }), async (response) => await response.json() as Tout, bodyFunction);
+    }), async () => {}, bodyFunction);
 }
 
 export const createResponsePutThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,

@@ -4,7 +4,7 @@ import { MatchDto } from "../dtos/matches/MatchDto";
 import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
 import { PagedResult } from "../dtos/base/PagedResult";
 import { TeamScoreDto } from "../dtos/teams/TeamScoreDto";
-import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk } from "./thunkBase";
+import { createDeleteThunk, createGetThunk, createPostThunk, createPutThunk, createResponsePutThunk } from "./thunkBase";
 
 export const createMatchRequest = createPostThunk<number, MatchEntity>(
     'create-match',
@@ -12,9 +12,10 @@ export const createMatchRequest = createPostThunk<number, MatchEntity>(
     (response) => response.json()
 )
 
-export const updateMatchRequest = createPutThunk<MatchEntity, MatchEntity>(
+export const updateMatchRequest = createResponsePutThunk<MatchEntity, MatchEntity>(
     'update-match',
-    (request) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${request.id}` 
+    (request) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${request.id}`,
+    (response) => response.json()
 )
 
 export const loadMatchesRequest = createGetThunk<PagedResult<MatchDto>, MatchesRequestDto>(
@@ -33,7 +34,7 @@ export const loadMatchRequest = createGetThunk<MatchDto, number>(
     (response) => response.json()
 )
 
-export const setMatchScoresRequest = createPutThunk<void, {matchId: number, scores: TeamScoreDto[]}>(
+export const setMatchScoresRequest = createPutThunk<{matchId: number, scores: TeamScoreDto[]}>(
     'set-match-scores',
     ({matchId}) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${matchId}/Scores`,
     (request) => JSON.stringify(request.scores)
