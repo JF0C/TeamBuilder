@@ -18,9 +18,9 @@ import { NavBarLayout } from "../layout/NavbarLayout";
 import { LinkBack } from "../shared/LinkBack";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { MenuLink } from "../shared/MenuLink";
-import { TeamView } from "./TeamView";
 import { Dice } from "../shared/Dice";
 import { TeamDto } from "../../dtos/teams/TeamDto";
+import { TeamsList } from "./TeamsList";
 
 export const Teams: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -123,14 +123,7 @@ export const Teams: FunctionComponent = () => {
           </div>,
         ]}
       >
-        {matchState.current.teams.map((team, index) => (
-          <TeamView
-            key={`team-${index}`}
-            index={index}
-            name={team.name}
-            players={team.players}
-          />
-        ))}
+        <TeamsList />
       </NavBarLayout>
     </>
   );
