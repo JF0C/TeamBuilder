@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { reloadResumableMatches } from "../../store/matchResumeReducer";
 import { MatchDto } from "../../dtos/matches/MatchDto";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
+import { MatchResumeItem } from "./MatchResumeItem";
 
 export const MatchResume: FunctionComponent = () => {
   const matchResumeState = useAppSelector((state) => state.matchResume);
@@ -27,9 +28,9 @@ export const MatchResume: FunctionComponent = () => {
         pageData={matchResumeState.matches}
         title="Resume Matches"
       >
-        <div>
+        <div className="flex flex-row gap-2">
           {matchResumeState.matches.items.map((m: MatchDto) => (
-            <div>{m.id}</div>
+            <MatchResumeItem key={m.id} match={m} />
           ))}
         </div>
       </PaginatedListLayout>

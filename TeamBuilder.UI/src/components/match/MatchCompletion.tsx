@@ -10,6 +10,8 @@ import { NavBarLayout } from "../layout/NavbarLayout";
 import { LinkBack } from "../shared/LinkBack";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import { reloadMatches } from "../../store/matchReducer";
+import { reloadResumableMatches } from "../../store/matchResumeReducer";
 
 export const MatchCompletion: FunctionComponent = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +23,8 @@ export const MatchCompletion: FunctionComponent = () => {
       .unwrap()
       .then(() => {
         navigate(Paths.HomePath);
+        dispatch(reloadMatches({}));
+        dispatch(reloadResumableMatches({}));
       });
   };
 

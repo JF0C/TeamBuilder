@@ -38,6 +38,12 @@ export const loadMatchRequest = createGetThunk<MatchDto, number>(
     (response) => response.json()
 )
 
+export const resumeMatchRequest = createGetThunk<MatchDto, number>(
+    'resume-match',
+    (id) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${id}`,
+    (response) => response.json()
+)
+
 export const setMatchScoresRequest = createPutThunk<{matchId: number, scores: TeamScoreDto[]}>(
     'set-match-scores',
     ({matchId}) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${matchId}/Scores`,

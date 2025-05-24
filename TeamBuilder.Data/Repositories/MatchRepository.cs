@@ -74,10 +74,14 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
         {
             query = query.Where(m => m.Teams.All(t => t.Score == 0));
         }
+        else
+        {
+            query = query.Where(m => !m.Teams.All(t => t.Score == 0));
+        }
         return (await query
-                .OrderByDescending(m => m.Created)
-                .ToPagedResult(request.Page, request.Count))
-                .MapTo<MatchDto, MatchEntity>(mapper);
+                    .OrderByDescending(m => m.Created)
+                    .ToPagedResult(request.Page, request.Count))
+                    .MapTo<MatchDto, MatchEntity>(mapper);
     }
 
     public async Task SetScoresAsync(long id, List<TeamScoreDto> scores)

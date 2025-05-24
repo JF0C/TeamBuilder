@@ -1,6 +1,6 @@
 import { faCaretRight, faDice } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Paths } from "../../constants/Paths";
 import { TeamEntity } from "../../data/TeamEntity";
 import { PlayerDto } from "../../dtos/players/PlayerDto";
@@ -19,11 +19,14 @@ import { LinkBack } from "../shared/LinkBack";
 import { LoadingSpinner } from "../shared/LoadingSpinner";
 import { MenuLink } from "../shared/MenuLink";
 import { TeamView } from "./TeamView";
+import { Dice } from "../shared/Dice";
+import { TeamDto } from "../../dtos/teams/TeamDto";
 
 export const Teams: FunctionComponent = () => {
   const dispatch = useAppDispatch();
   const playerState = useAppSelector((state) => state.players);
   const matchState = useAppSelector((state) => state.match);
+  const [showDice, setShowDice] = useState(false);
 
   if (playerState.players === null || playerState.requestState === "loading") {
     return <LoadingSpinner />;
@@ -57,10 +60,23 @@ export const Teams: FunctionComponent = () => {
         Math.min((k + 1) * teamSize, selectedCount)
       );
       dispatch(setTeamPlayers({ index: k, players: players }));
+      const team: TeamDto = {
+        id: 0,
+        players: players,
+        name: matchState.current.teams[k].name,
+        score: 0,
+      };
       if (matchState.current.teams[k].name === "") {
-        dispatch(setTeamName({ index: k, name: `Team ${k + 1}` }));
+        team.name = `Team ${k + 1}`;
+        dispatch(setTeamName({ index: k, name: team.name }));
       }
+      teams.push(team);
     }
+    setShowDice(true);
+    setTimeout(() => {
+      setShowDice(false);
+    }, 3000);
+    console.log(teams);
     return teams;
   };
 
@@ -81,38 +97,41 @@ export const Teams: FunctionComponent = () => {
   }
 
   return (
-    <NavBarLayout
-      navigation={[
-        <div key="prev">
-          <LinkBack to={Paths.SelectionPath} />
-        </div>,
-        <button
-          key="shuffle"
-          className="flex flex-row items-center gap-2"
-          onClick={() => generateTeams(selectedPlayers)}
-        >
-          <FontAwesomeIcon icon={faDice} />
-          <span>Shuffle</span>
-        </button>,
-        <div key="next">
-          <MenuLink
-            to={Paths.MatchCompletionPath}
-            onClick={createMatch}
-            label="Play"
-            icon={faCaretRight}
-            iconRight
+    <>
+      {showDice ? <Dice /> : <></>}
+      <NavBarLayout
+        navigation={[
+          <div key="prev">
+            <LinkBack to={Paths.SelectionPath} />
+          </div>,
+          <button
+            key="shuffle"
+            className="flex flex-row items-center gap-2"
+            onClick={() => generateTeams(selectedPlayers)}
+          >
+            <FontAwesomeIcon icon={faDice} />
+            <span>Shuffle</span>
+          </button>,
+          <div key="next">
+            <MenuLink
+              to={Paths.MatchCompletionPath}
+              onClick={createMatch}
+              label="Play"
+              icon={faCaretRight}
+              iconRight
+            />
+          </div>,
+        ]}
+      >
+        {matchState.current.teams.map((team, index) => (
+          <TeamView
+            key={`team-${index}`}
+            index={index}
+            name={team.name}
+            players={team.players}
           />
-        </div>,
-      ]}
-    >
-      {matchState.current.teams.map((team, index) => (
-        <TeamView
-          key={`team-${index}`}
-          index={index}
-          name={team.name}
-          players={team.players}
-        />
-      ))}
-    </NavBarLayout>
+        ))}
+      </NavBarLayout>
+    </>
   );
 };

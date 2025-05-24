@@ -4,7 +4,7 @@ import { PagedResult } from "../dtos/base/PagedResult";
 import { MatchEntity } from "../data/MatchEntity";
 import { TeamEntity } from "../data/TeamEntity";
 import { PlayerDto } from "../dtos/players/PlayerDto";
-import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, setMatchScoresRequest, updateMatchRequest } from "../thunks/matchThunk";
+import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, resumeMatchRequest, setMatchScoresRequest, updateMatchRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
 import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
@@ -174,6 +174,17 @@ export const matchSlice = createSlice({
         })
         builder.addCase(updateMatchRequest.rejected, (state) => {
             enqueueSnackbar('Could not save match', { variant: 'error' })
+            state.selectedRequestState = 'ok'
+        })
+
+        builder.addCase(resumeMatchRequest.pending, (state) => {
+            state.selectedRequestState = 'loading'
+        })
+        builder.addCase(resumeMatchRequest.fulfilled, (state, action) => {
+            state.selectedRequestState = 'ok'
+            state.current = action.payload
+        })
+        builder.addCase(resumeMatchRequest.rejected, (state) => {
             state.selectedRequestState = 'ok'
         })
 
