@@ -1,0 +1,95 @@
+.dice-container {
+    display: flex;
+    gap: 40px; /* Space between dice */
+    perspective: 1000px; /* For 3D effect */
+}
+
+.die {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    transform-style: preserve-3d;
+    animation: roll 3s infinite ease-in-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+    border-radius: 15px; /* Rounded corners for the die */
+}
+
+.die-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0; /* Light face color */
+    border: 2px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    color: #333;
+    border-radius: 10px; /* Rounded corners for faces */
+}
+
+/* Positioning the faces */
+.front  { transform: rotateY(0deg) translateZ(40px); }
+.back   { transform: rotateX(180deg) translateZ(40px); }
+.right  { transform: rotateY(90deg) translateZ(40px); }
+.left   { transform: rotateY(-90deg) translateZ(40px); }
+.top    { transform: rotateX(90deg) translateZ(40px); }
+.bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+/* Styling for the pips (dots) */
+.pip {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #333; /* Dark pip color */
+    border-radius: 50%;
+}
+
+/* Pip positions for each face */
+/* Face 1 */
+.front .pip.center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+/* Face 2 */
+.back .pip.top-left { top: 15px; left: 15px; }
+.back .pip.bottom-right { bottom: 15px; right: 15px; }
+
+/* Face 3 */
+.right .pip.top-left { top: 15px; left: 15px; }
+.right .pip.center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.right .pip.bottom-right { bottom: 15px; right: 15px; }
+
+/* Face 4 */
+.left .pip.top-left { top: 15px; left: 15px; }
+.left .pip.top-right { top: 15px; right: 15px; }
+.left .pip.bottom-left { bottom: 15px; left: 15px; }
+.left .pip.bottom-right { bottom: 15px; right: 15px; }
+
+/* Face 5 */
+.top .pip.top-left { top: 15px; left: 15px; }
+.top .pip.top-right { top: 15px; right: 15px; }
+.top .pip.center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.top .pip.bottom-left { bottom: 15px; left: 15px; }
+.top .pip.bottom-right { bottom: 15px; right: 15px; }
+
+/* Face 6 */
+.bottom .pip.top-left { top: 15px; left: 15px; }
+.bottom .pip.top-right { top: 15px; right: 15px; }
+.bottom .pip.middle-left { top: 50%; left: 15px; transform: translateY(-50%); }
+.bottom .pip.middle-right { top: 50%; right: 15px; transform: translateY(-50%); }
+.bottom .pip.bottom-left { bottom: 15px; left: 15px; }
+.bottom .pip.bottom-right { bottom: 15px; right: 15px; }
+
+
+/* Keyframe animation for rolling */
+@keyframes roll {
+    0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    25% { transform: rotateX(180deg) rotateY(90deg) rotateZ(45deg); }
+    50% { transform: rotateX(270deg) rotateY(180deg) rotateZ(90deg); }
+    75% { transform: rotateX(360deg) rotateY(270deg) rotateZ(135deg); }
+    100% { transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg); } /* More rotations for continuous effect */
+}
+
+/* Different animation delays for each die */
+.die:nth-child(1) { animation-delay: 0s; }
+.die:nth-child(2) { animation-delay: 0.5s; }
+.die:nth-child(3) { animation-delay: 1s; } /* Optional: add more dice if needed */

@@ -11,7 +11,7 @@ namespace TeamBuilder.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MatchesController(IMatchRepository matchRepository, IAuthenticationService auth): BaseController(auth)
+public class MatchesController(IMatchRepository matchRepository, IAuthenticationService auth) : BaseController(auth)
 {
     [HttpGet("{id}")]
     public async Task<ActionResult<MatchDto>> Get(long id)
@@ -20,22 +20,22 @@ public class MatchesController(IMatchRepository matchRepository, IAuthentication
     }
 
     [HttpGet]
-    public async Task<ActionResult<PagedResult<MatchDto>>> ListMatches(int page, int count, long? player, Core.Entities.MatchType? type, long? from, long? to)
+    public async Task<ActionResult<PagedResult<MatchDto>>> ListMatches(MatchesRequestDto request)
     {
-        var filter = new MatchFilterDto
-        {
-            PlayerId = player,
-            Type = type,
-            FromDate = from,
-            ToDate = to
-        };
-        return Ok(await matchRepository.ListAsync(page, count, filter));
+        return Ok(await matchRepository.ListAsync(request));
     }
 
     [HttpPost]
     public async Task<ActionResult<long>> CreateMatch(CreateMatchDto match)
     {
         return Ok(await matchRepository.CreateAsync(match));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<MatchDto>> UpdateMatch(long id, UpdateMatchDto match)
+    {
+        match.Id = id;
+        return Ok(await matchRepository.UpdateAsync(match));
     }
 
     [TokenAuthentication(Roles.Admin)]

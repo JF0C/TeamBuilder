@@ -65,7 +65,7 @@ export const createPutThunk = <Tin>(name: string, url: (arg: Tin) => string,
         },
         credentials: 'include',
         body: body ?? JSON.stringify(arg)
-    }), async () => { }, bodyFunction);
+    }), async () => {}, bodyFunction);
 }
 
 export const createResponsePutThunk = <Tout, Tin>(name: string, url: (arg: Tin) => string,

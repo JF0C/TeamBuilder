@@ -1,30 +1,50 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
+import { Paths } from "../../constants/Paths";
+import { resetTeamPlayers } from "../../store/matchReducer";
+import { useAppDispatch } from "../../store/store";
+import { SplitLayout } from "../layout/SplitLayout";
+import { LinkBack } from "../shared/LinkBack";
+import { MatchConfiguration } from "./MatchConfiguration";
 import { PlayerSelector } from "./PlayerSelector";
 import { SelectedPlayers } from "./SelectedPlayers";
-import { NavLink } from "react-router";
-import { Paths } from "../../constants/Paths";
-import { useAppDispatch } from "../../store/store";
-import { MatchConfiguration } from "./MatchConfiguration";
-import { resetTeamPlayers } from "../../store/matchReducer";
-import { SplitLayout } from "../layout/SplitLayout";
+import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { Dice } from "../shared/Dice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router";
 
 export const PlayerSelection: FunctionComponent = () => {
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [showDice, setShowDice] = useState(false);
 
-    return (
-        <SplitLayout
-            source={<PlayerSelector />}
-            selected={<SelectedPlayers />}
-            navigation={
-                [
-                    <NavLink to={Paths.HomePath} key='back'>
-                        Back
-                    </NavLink>,
-                    <MatchConfiguration key='match-config' />,
-                    <NavLink key='next' to={Paths.TeamPath} onClick={() => dispatch(resetTeamPlayers())}>
-                        Generate
-                    </NavLink>
-                ]
-            } />
-    )
-}
+  const startGame = () => {
+    setShowDice(true);
+    setTimeout(() => {
+      dispatch(resetTeamPlayers());
+      setShowDice(false);
+      navigate(Paths.TeamPath);
+    }, 3000);
+  };
+
+  return (
+    <>
+      <SplitLayout
+        source={<PlayerSelector />}
+        selected={<SelectedPlayers />}
+        navigation={[
+          <LinkBack key="back" to={Paths.HomePath} />,
+          <MatchConfiguration key="match-config" />,
+          <button
+            key="select-teams"
+            className="flex flex-row gap-2 items-center"
+            onClick={startGame}
+          >
+            <span>Generate</span>
+            <FontAwesomeIcon icon={faCaretRight} />
+          </button>,
+        ]}
+      />
+      {showDice ? <Dice /> : <></>}
+    </>
+  );
+};
