@@ -76,7 +76,6 @@ export const Teams: FunctionComponent = () => {
     setTimeout(() => {
       setShowDice(false);
     }, 3000);
-    console.log(teams);
     return teams;
   };
 
@@ -98,7 +97,7 @@ export const Teams: FunctionComponent = () => {
 
   return (
     <>
-      {showDice ? <Dice /> : <></>}
+      {showDice ? <Dice onClick={() => setShowDice(false)} /> : <></>}
       <NavBarLayout
         navigation={[
           <div key="prev">

@@ -11,7 +11,16 @@ export const TeamsList: FunctionComponent = () => {
     dispatch(
       setTeamPlayers({
         index: teamIndex,
-        players: matchState.current.teams[teamIndex].players,
+        players: matchState.current.teams[teamIndex].players.filter(
+          (p) => p.id !== player.id
+        ),
+      })
+    );
+    const nextTeamIndex = (teamIndex + 1) % matchState.current.teams.length;
+    dispatch(
+      setTeamPlayers({
+        index: nextTeamIndex,
+        players: matchState.current.teams[nextTeamIndex].players.concat(player),
       })
     );
   };
