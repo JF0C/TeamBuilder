@@ -44,7 +44,7 @@ export const PlayerSelection: FunctionComponent = () => {
           </button>,
         ]}
       />
-      {showDice ? <Dice /> : <></>}
+      {showDice ? <Dice onClick={() => setShowDice(false)} /> : <></>}
     </>
   );
 };
