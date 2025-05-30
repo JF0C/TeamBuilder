@@ -1,9 +1,14 @@
 import { FunctionComponent } from "react";
 import "./Dice.css";
 
-export const Dice: FunctionComponent = () => {
+export const Dice: FunctionComponent<{ onClick: () => void }> = ({
+  onClick,
+}) => {
   return (
-    <div className="dice-container absolute size-full flex flex-row justify-center items-center bg-black">
+    <div
+      onClick={onClick}
+      className="dice-container absolute size-full flex flex-row justify-center items-center bg-black"
+    >
       <div className="die">
         <div className="die-face front">
           <span className="pip center"></span>
