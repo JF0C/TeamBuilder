@@ -17,7 +17,9 @@ export const shortMonthName = (month: number) => {
         case 6: return 'Jun'
         case 7: return 'Jul'
         case 8: return 'Aug'
-        case 11: return 'Sep'
+        case 9: return 'Sep'
+        case 10: return 'Oct'
+        case 11: return 'Nov'
         case 12: return 'Dec'
         default: return 'Date Error'
     }
