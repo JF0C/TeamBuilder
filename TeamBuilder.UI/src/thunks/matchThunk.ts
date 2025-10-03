@@ -26,6 +26,11 @@ export const updateMatchRequest = createResponsePutThunk<MatchEntity, MatchEntit
     (response) => response.json()
 )
 
+export const updateMatchTypeRequest = createPutThunk<{matchId: number, type: number}>(
+    'update-match-type',
+    ({matchId, type}) => `${ApiUrls.BaseUrl + ApiUrls.MatchesEndpoint}/${matchId}/Type/${type}`
+)
+
 export const loadMatchesRequest = createGetThunk<PagedResult<MatchDto>, MatchesRequestDto>(
     'load-matches',
     (request) => buildMatchesRequestQuery(request),

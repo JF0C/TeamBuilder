@@ -21,9 +21,13 @@ export const PlayerSelection: FunctionComponent = () => {
     setShowDice(true);
     setTimeout(() => {
       dispatch(resetTeamPlayers());
-      setShowDice(false);
-      navigate(Paths.TeamPath);
+      gameStarted();
     }, 3000);
+  };
+
+  const gameStarted = () => {
+    setShowDice(false);
+    navigate(Paths.TeamPath);
   };
 
   return (
@@ -44,7 +48,7 @@ export const PlayerSelection: FunctionComponent = () => {
           </button>,
         ]}
       />
-      {showDice ? <Dice onClick={() => setShowDice(false)} /> : <></>}
+      {showDice ? <Dice onClick={gameStarted} /> : <></>}
     </>
   );
 };
