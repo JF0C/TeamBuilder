@@ -120,4 +120,11 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
         var id = await CreateAsync(match);
         return await GetAsync(id);
     }
+
+    public async Task ChangeMatchTypeAsync(long id, Core.Entities.MatchType type)
+    {
+        var match = await GetMatchById(id);
+        match.Type = type;
+        await context.SaveChangesAsync();
+    }
 }

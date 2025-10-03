@@ -53,4 +53,12 @@ public class MatchesController(IMatchRepository matchRepository, IAuthentication
         await matchRepository.SetScoresAsync(id, scores);
         return Ok();
     }
+
+    [TokenAuthentication()]
+    [HttpPut("{id}/Type/{type}")]
+    public async Task<ActionResult> ChangeMatchType(long id, Core.Entities.MatchType type)
+    {
+        await matchRepository.ChangeMatchTypeAsync(id, type);
+        return Ok();
+    }
 }

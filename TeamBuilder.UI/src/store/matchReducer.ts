@@ -4,7 +4,7 @@ import { PagedResult } from "../dtos/base/PagedResult";
 import { MatchEntity } from "../data/MatchEntity";
 import { TeamEntity } from "../data/TeamEntity";
 import { PlayerDto } from "../dtos/players/PlayerDto";
-import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, resumeMatchRequest, setMatchScoresRequest, updateMatchRequest } from "../thunks/matchThunk";
+import { createMatchRequest, deleteMatchRequest, loadMatchesRequest, loadMatchRequest, resumeMatchRequest, setMatchScoresRequest, updateMatchRequest, updateMatchTypeRequest } from "../thunks/matchThunk";
 import { enqueueSnackbar } from "notistack";
 import { MatchesRequestDto } from "../dtos/matches/MatchesRequestDto";
 import { PaginationDefaults } from "../constants/PaginationDefaults";
@@ -195,6 +195,15 @@ export const matchSlice = createSlice({
         builder.addCase(setMatchScoresRequest.rejected, (state, action) => {
             state.selectedRequestState = 'error';
             enqueueSnackbar(`failed to set scores for match ${action.meta.arg.matchId}: ${action.error.message}`, { variant: 'error' });
+        });
+
+        builder.addCase(updateMatchTypeRequest.pending, (state) => { state.selectedRequestState = 'loading'; });
+        builder.addCase(updateMatchTypeRequest.fulfilled, (state) => {
+            state.selectedRequestState = 'required';
+        });
+        builder.addCase(updateMatchTypeRequest.rejected, (state, action) => {
+            state.selectedRequestState = 'error';
+            enqueueSnackbar(`failed to change match type for match ${action.meta.arg.matchId}: ${action.error.message}`, { variant: 'error' });
         });
 
         builder.addCase(deleteMatchRequest.pending, (state) => { state.matchesRequestState = 'loading'; });
