@@ -111,6 +111,11 @@ internal class MatchRepository(TeamBuilderDbContext context, IMapper mapper) : I
             .FirstOrDefaultAsync(x => x.Id == match.Id)
             ?? throw new ItemNotFoundException(match.Id.ToString(), typeof(MatchEntity));
 
+        if (matchEntity.Teams.Any(t => t.Score != 0))
+        {
+            throw new MatchCompletedException();
+        }
+
         await DeleteAsync(match.Id);
         var id = await CreateAsync(match);
         return await GetAsync(id);
